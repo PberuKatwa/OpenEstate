@@ -4,8 +4,8 @@ function SideBar() {
   return (
     <aside>
       <nav>
-        <NavLink to="/manage">Manage</NavLink>
-        <NavLink to="/manage"></NavLink>
+        <NavLink to="/manage-properties">Manage Properties</NavLink>
+        <NavLink to="/blog">blog</NavLink>
       </nav>
     </aside>
   );
