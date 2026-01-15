@@ -6,7 +6,9 @@ function DashboardLayout() {
     <div className="dashboard">
 
       <SideBar />
-        <main className="content"></main>
+      <main className="content">
+        <Outlet/>
+      </main>
 
     </div>
   );
