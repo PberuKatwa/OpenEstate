@@ -3,7 +3,9 @@ import SideBar from "../components/SideBar";
 
 function DashboardLayout() {
   return (
+    <div className="dashboard">
 
+    </div>
   );
 }
 
