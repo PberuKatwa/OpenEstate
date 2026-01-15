@@ -7,7 +7,9 @@ function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route element={<DashboardLayout />}>
 
+        </Route>
       </Routes>
     </BrowserRouter>
   );
