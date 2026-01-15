@@ -5,7 +5,11 @@ import { Blog } from "../modules/blog/Blog";
 
 function AppRoutes() {
   return (
+    <BrowserRouter>
+      <Routes>
 
+      </Routes>
+    </BrowserRouter>
   );
 }
 
