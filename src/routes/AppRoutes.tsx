@@ -8,7 +8,8 @@ function AppRoutes() {
     <BrowserRouter>
       <Routes>
         <Route element={<DashboardLayout />}>
-          <Route path="/manage-properties" ></Route>
+          <Route path="/manage-properties" element={<ManageProperties />} ></Route>
+          <Route path="/blog" ></Route>
         </Route>
       </Routes>
     </BrowserRouter>
