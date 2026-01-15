@@ -3,7 +3,7 @@ function Blog() {
 
   return (
     <>
-      <h1>THISS ISS BLOGGG..</h1>
+      <h1>MANAGEE PROPERTIESSS</h1>
     </>
   )
 }
