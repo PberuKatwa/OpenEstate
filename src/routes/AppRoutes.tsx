@@ -4,7 +4,9 @@ import { ManageProperties } from "../modules/manageProperties/ManageProperties";
 import { Blog } from "../modules/blog/Blog";
 
 function AppRoutes() {
+  return (
 
+  )
 }
 
 export default AppRoutes;
