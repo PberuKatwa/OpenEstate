@@ -5,6 +5,9 @@ function DashboardLayout() {
   return (
     <div className="dashboard">
 
+      <SideBar />
+        <main></main>
+
     </div>
   );
 }
