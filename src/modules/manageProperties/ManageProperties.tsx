@@ -1,5 +1,5 @@
 
-function Blog() {
+function ManageProperties() {
 
   return (
     <>
@@ -8,4 +8,4 @@ function Blog() {
   )
 }
 
-export default Blog;
+export default ManageProperties;
