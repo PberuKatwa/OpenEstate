@@ -6,7 +6,7 @@ import { Blog } from "../modules/blog/Blog";
 function AppRoutes() {
   return (
 
-  )
+  );
 }
 
 export default AppRoutes;
