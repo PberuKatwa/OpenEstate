@@ -9,6 +9,11 @@ export const SignupForm = function () {
   const [email, setemail] = useState('');
   const [password, setPassword] = useState('');
 
+  const handleSubmit = function (event: React.FormEvent) {
+    event.preventDefault();
+    console.log("Form submitted fr",{email,password})
+  }
+
 
   return (
     <div className="auth-container">
@@ -17,7 +22,12 @@ export const SignupForm = function () {
 
         <div className="form-group">
           <label htmlFor="firstName" >First Name</label>
-          <input type="firstName" id="firstName" name="firstName" required></input>
+          <input
+            type="firstName"
+            id="firstName"
+            name="firstName"
+            required
+          ></input>
         </div>
 
         <div className="form-group">
