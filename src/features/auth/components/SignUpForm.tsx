@@ -57,7 +57,14 @@ export const SignupForm = function () {
 
         <div className="form-group">
           <label htmlFor="password">Password</label>
-          <input type="password" id="password" name="password"  required></input>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={password}
+            onChange={ (event) => setPassword(event.target.value) }
+            required
+          ></input>
         </div>
 
         <div className="form-group">
