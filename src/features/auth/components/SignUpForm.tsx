@@ -7,12 +7,27 @@ export const SignupForm = function () {
       <form>
 
         <div className="form-group">
+          <label htmlFor="firstName" >First Name</label>
+          <input type="firstName" id="firstName" name="firstName" required></input>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="lastName" >Last Name</label>
+          <input type="lastName" id="lastName" name="lastName" required></input>
+        </div>
+
+        <div className="form-group">
           <label htmlFor="email" >Email</label>
           <input type="email" id="email" name="email" required></input>
         </div>
 
         <div className="form-group">
           <label htmlFor="password">Password</label>
+          <input type="password" id="password" name="password"  required></input>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="password">Confirm Password</label>
           <input type="password" id="password" name="password"  required></input>
         </div>
 
