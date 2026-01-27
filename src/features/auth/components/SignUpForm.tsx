@@ -34,7 +34,13 @@ export const SignupForm = function () {
 
         <div className="form-group">
           <label htmlFor="lastName" >Last Name</label>
-          <input type="lastName" id="lastName" name="lastName" required></input>
+          <input
+            type="lastName"
+            id="lastName"
+            name="lastName"
+            value={lastName}
+            onChange={ (event) => setLastName(event.target.value) }
+            required></input>
         </div>
 
         <div className="form-group">
