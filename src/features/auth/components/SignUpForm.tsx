@@ -1,6 +1,15 @@
 // import "./SignUp.css"
 
+import { useState } from "react"
+
 export const SignupForm = function () {
+
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('');
+  const [email, setemail] = useState('');
+  const [password, setPassword] = useState('');
+
+
   return (
     <div className="auth-container">
       <h2>create an account</h2>
