@@ -6,7 +6,7 @@ export const SignupForm = function () {
 
   const [firstName, setFirstName] = useState('')
   const [lastName, setLastName] = useState('');
-  const [email, setemail] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = function (event: React.FormEvent) {
@@ -26,6 +26,8 @@ export const SignupForm = function () {
             type="firstName"
             id="firstName"
             name="firstName"
+            value={firstName}
+            onChange={ (event) => setFirstName(event.target.value) }
             required
           ></input>
         </div>
