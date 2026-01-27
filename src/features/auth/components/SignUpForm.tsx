@@ -9,6 +9,13 @@ export const SignupForm = function () {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const handleChange = function (event: React.ChangeEvent<HTMLInputElement>) {
+    const { name, value } = event.target;
+
+    setFormData(function () { });
+
+  }
+
   const handleSubmit = function (event: React.FormEvent) {
     event.preventDefault();
     console.log("Form submitted fr",{email,password})
