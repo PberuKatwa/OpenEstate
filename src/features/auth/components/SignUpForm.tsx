@@ -13,8 +13,10 @@ export const SignupForm = function () {
 
         <div className="form-group">
           <label htmlFor="password">Password</label>
+          <input type="password" id="password" name="password"  required></input>
         </div>
 
+        <button type="submit">Sign Up</button>
       </form>
     </div>
   )
