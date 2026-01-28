@@ -27,7 +27,27 @@ export const SignupForm = function () {
 
   const handleSubmit = function (event: React.FormEvent) {
     event.preventDefault();
-    console.log("Form submitted fr", formData)
+    setError(null);
+
+    try {
+
+      if (formData.password !== formData.confirmPassword) {
+        setError("Passwords do not match!");
+        return;
+      }
+
+      setIsLoading(true);
+      console.log("Form submitted to backend", formData)
+
+      alert(`Successfully signed up`)
+    } catch (error) {
+      console.error(`Error in handling submitting`, error)
+    } finally {
+      setIsLoading(false)
+    }
+
+
+
   }
 
 
