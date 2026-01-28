@@ -12,6 +12,9 @@ export const SignupForm = function () {
     confirmPassword: ''
   });
 
+  const [isLoading, setIsLoading] = useState(false);
+  const [error,setError]= useState< string | null >(null)
+
   const handleChange = function (event: React.ChangeEvent<HTMLInputElement>){
     const { name, value } = event.target;
 
