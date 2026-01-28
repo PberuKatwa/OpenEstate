@@ -19,18 +19,19 @@ export const SignupForm = function () {
       ...prevData,
       [name]: value,
     }));
+
   };
 
   const handleSubmit = function (event: React.FormEvent) {
     event.preventDefault();
-    console.log("Form submitted fr",formData)
+    console.log("Form submitted fr", formData)
   }
 
 
   return (
     <div className="auth-container">
       <h2>Create an Account</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
 
         <div className="form-group">
           <label htmlFor="firstName" >First Name</label>
@@ -91,7 +92,8 @@ export const SignupForm = function () {
           ></input>
         </div>
 
-        <button type="submit" onClick={handleSubmit}>Sign Up</button>
+        <button type="submit">Sign Up</button>
+
       </form>
     </div>
   )
