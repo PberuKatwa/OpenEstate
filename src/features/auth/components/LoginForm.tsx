@@ -25,6 +25,18 @@ const loginForm = function () {
     }
   }
 
+  const handleSubmit = function (event:React.FormEvent) {
+    event.preventDefault()
+    try {
+
+    } catch (error) {
+      console.error(`Error in handling submit`, error)
+      setError(`${error}`)
+    } finally {
+      isLoading(false)
+    }
+  }
+
 
   return (
     <div className="login-container">
