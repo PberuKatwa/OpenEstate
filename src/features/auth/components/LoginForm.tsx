@@ -6,11 +6,11 @@ const initialState = {
   password:''
 }
 
-const loginForm = function () {
+const LoginForm = function () {
 
   const [formData, setFormData] = useState(initialState);
   const [error, setError] = useState<string | null>(null);
-  const [loading, isLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = function (event:React.ChangeEvent<HTMLInputElement>) {
     try {
@@ -31,12 +31,7 @@ const loginForm = function () {
     setError(null);
     try {
 
-      if (formData.password !== formData.confirmPassword) {
-        setError("Passwords do not match!");
-        return;
-      }
-
-      isLoading(true)
+      setIsLoading(true)
 
       const response = await axios.post(
         `http://localhost:3636/auth/register`,
@@ -53,7 +48,7 @@ const loginForm = function () {
       console.error(`Error in handling submit`, error);
       setError(`${error}`);
     } finally {
-      isLoading(false)
+      setIsLoading(false)
     }
   }
 
