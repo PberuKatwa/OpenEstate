@@ -54,12 +54,15 @@ export const SignupForm = function () {
   return (
     <div className="auth-container">
       <h2>Create an Account</h2>
+
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+
       <form onSubmit={handleSubmit}>
 
         <div className="form-group">
           <label htmlFor="firstName" >First Name</label>
           <input
-            type="firstName"
+            type="text"
             id="firstName"
             name="firstName"
             value={formData.firstName}
@@ -71,7 +74,7 @@ export const SignupForm = function () {
         <div className="form-group">
           <label htmlFor="lastName" >Last Name</label>
           <input
-            type="lastName"
+            type="text"
             id="lastName"
             name="lastName"
             value={formData.lastName}
@@ -82,7 +85,7 @@ export const SignupForm = function () {
         <div className="form-group">
           <label htmlFor="email" >Email</label>
           <input
-            type="email"
+            type="text"
             id="email"
             name="email"
             value={formData.email}
@@ -115,7 +118,11 @@ export const SignupForm = function () {
           ></input>
         </div>
 
-        <button type="submit">Sign Up</button>
+        <button
+          type="submit"
+          disabled={isLoading}
+
+        >{ isLoading ? "Signinggg up ....." : "sign up" }</button>
 
       </form>
     </div>
