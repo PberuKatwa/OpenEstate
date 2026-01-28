@@ -60,9 +60,6 @@ export const SignupForm = function () {
     } finally {
       setIsLoading(false)
     }
-
-
-
   }
 
 
