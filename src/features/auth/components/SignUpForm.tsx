@@ -80,18 +80,18 @@ export const SignupForm = function () {
         </div>
 
         <div className="form-group">
-          <label htmlFor="password">Confirm Password</label>
+          <label htmlFor="confirmPassword">Confirm Password</label>
           <input
             type="password"
-            id="password"
-            name="password"
+            id="confirmPassword"
+            name="confirmPassword"
             value={formData.confirmPassword}
             onChange={handleChange}
             required
           ></input>
         </div>
 
-        <button type="submit">Sign Up</button>
+        <button type="submit" onClick={handleSubmit}>Sign Up</button>
       </form>
     </div>
   )
