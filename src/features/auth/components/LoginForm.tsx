@@ -11,6 +11,14 @@ const loginForm = function () {
   const [error, setError] = useState<string | null>(null);
   const [loading, isLoading] = useState(false);
 
+  const handleChange = function (event:React.ChangeEvent<HTMLInputElement>) {
+    try {
+
+    } catch (error) {
+      console.error(`Error in handling exent change`, error)
+    }
+  }
+
 
   return (
     <div className="login-container">
