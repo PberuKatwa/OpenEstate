@@ -1,8 +1,17 @@
 // import "./SignUp.css"
 
 import { useState } from "react"
+import axios from "axios";
 
 export const SignupForm = function () {
+
+  const initialState = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  }
 
   const [formData, setFormData] = useState({
     firstName: '',
@@ -25,7 +34,7 @@ export const SignupForm = function () {
 
   };
 
-  const handleSubmit = function (event: React.FormEvent) {
+  const handleSubmit = async function (event: React.FormEvent) {
     event.preventDefault();
     setError(null);
 
