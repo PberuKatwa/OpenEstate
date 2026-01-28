@@ -12,7 +12,7 @@ export const SignupForm = function () {
   const handleChange = function (event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target;
 
-    setFormData(function () {
+    setFormData(function (prevData) {
 
     });
 
