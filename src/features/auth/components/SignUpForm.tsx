@@ -38,8 +38,8 @@ export const SignupForm = function () {
             type="firstName"
             id="firstName"
             name="firstName"
-            value={firstName}
-            onChange={ (event) => setFirstName(event.target.value) }
+            value={formData.firstName}
+            onChange={handleChange}
             required
           ></input>
         </div>
@@ -50,7 +50,7 @@ export const SignupForm = function () {
             type="lastName"
             id="lastName"
             name="lastName"
-            value={lastName}
+            value={formData.lastName}
             onChange={ (event) => setLastName(event.target.value) }
             required></input>
         </div>
@@ -61,7 +61,7 @@ export const SignupForm = function () {
             type="email"
             id="email"
             name="email"
-            value={email}
+            value={formData.email}
             onChange={ (event) => setEmail(event.target.value) }
             required
           ></input>
@@ -73,7 +73,7 @@ export const SignupForm = function () {
             type="password"
             id="password"
             name="password"
-            value={password}
+            value={formData.password}
             onChange={ (event) => setPassword(event.target.value) }
             required
           ></input>
@@ -85,7 +85,7 @@ export const SignupForm = function () {
             type="password"
             id="password"
             name="password"
-            value={password}
+            value={formData.confirmPassword}
             onChange={ (event) => setPassword(event.target.value) }
             required
           ></input>
