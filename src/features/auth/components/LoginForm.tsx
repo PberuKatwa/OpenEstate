@@ -6,6 +6,12 @@ const initialState = {
 }
 
 const loginForm = function () {
+
+  const [formData, setFormData] = useState(initialState);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, isLoading] = useState(false);
+
+
   return (
     <div className="login-container">
       <h2>Create an Account</h2>
