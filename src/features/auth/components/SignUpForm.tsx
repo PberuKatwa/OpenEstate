@@ -4,17 +4,29 @@ import { useState } from "react"
 
 export const SignupForm = function () {
 
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  export const signUpForm = function () {
 
-  const handleChange = function (event: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = event.target;
+    const [formData, setFormData] = useState({
+      firstName:'',
+      lastName:'',
+      email:'',
+      password:'',
+      confirmPassword:''
+    })
 
-    setFormData(function (prevData) {
+  }
 
-    });
+  // 2. Generic Change Handler
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = event.target;
+
+      // We use the "Spread Operator" (...) to copy the existing state,
+      // then we use [name] to dynamically update only the field that changed.
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    };
 
   }
 
