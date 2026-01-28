@@ -3,23 +3,17 @@
 import { useState } from "react"
 import axios from "axios";
 
+const initialState = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  password: '',
+  confirmPassword: ''
+}
+
 export const SignupForm = function () {
 
-  const initialState = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  }
-
-  const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: ''
-  });
+  const [formData, setFormData] = useState(initialState);
 
   const [isLoading, setIsLoading] = useState(false);
   const [error,setError]= useState< string | null >(null)
@@ -46,11 +40,23 @@ export const SignupForm = function () {
       }
 
       setIsLoading(true);
-      console.log("Form submitted to backend", formData)
+
+      const response = await axios.post(
+        `http://localhost:3636/auth/register`,
+        {
+          firstName:formData.firstName,
+          lastName:formData.lastName,
+          password:formData.password,
+          email:formData.email
+        }
+      )
+
+      console.log("Form submitted to backend", response.data)
 
       alert(`Successfully signed up`)
     } catch (error) {
       console.error(`Error in handling submitting`, error)
+      setError(`${error}`)
     } finally {
       setIsLoading(false)
     }
