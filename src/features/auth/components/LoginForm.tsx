@@ -1,5 +1,10 @@
 import { useState } from "react";
 
+const initialState = {
+  email: '',
+  password:''
+}
+
 const loginForm = function () {
   return (
     <div className="login-container">
