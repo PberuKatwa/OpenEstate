@@ -5,30 +5,25 @@ import { useState } from "react"
 export const SignupForm = function () {
 
   const [formData, setFormData] = useState({
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      confirmPassword: '' // Added this since you have a confirm field!
-    });
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
 
-  // 2. Generic Change Handler
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = event.target;
+  const handleChange = function (event: React.ChangeEvent<HTMLInputElement>){
+    const { name, value } = event.target;
 
-      // We use the "Spread Operator" (...) to copy the existing state,
-      // then we use [name] to dynamically update only the field that changed.
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    };
-
-  }
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = function (event: React.FormEvent) {
     event.preventDefault();
-    console.log("Form submitted fr",{email,password})
+    console.log("Form submitted fr",formData)
   }
 
 
