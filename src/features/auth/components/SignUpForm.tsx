@@ -4,17 +4,13 @@ import { useState } from "react"
 
 export const SignupForm = function () {
 
-  export const signUpForm = function () {
-
-    const [formData, setFormData] = useState({
-      firstName:'',
-      lastName:'',
-      email:'',
-      password:'',
-      confirmPassword:''
-    })
-
-  }
+  const [formData, setFormData] = useState({
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      confirmPassword: '' // Added this since you have a confirm field!
+    });
 
   // 2. Generic Change Handler
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
