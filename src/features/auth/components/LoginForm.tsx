@@ -13,6 +13,12 @@ const loginForm = function () {
 
   const handleChange = function (event:React.ChangeEvent<HTMLInputElement>) {
     try {
+      const { name, value } = event.target;
+
+      setFormData((prevData) => ({
+        ...prevData,
+        [name]:value
+      }) )
 
     } catch (error) {
       console.error(`Error in handling exent change`, error)
