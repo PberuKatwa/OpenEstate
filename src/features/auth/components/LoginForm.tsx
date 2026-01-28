@@ -6,7 +6,7 @@ const initialState = {
   password:''
 }
 
-const LoginForm = function () {
+export const LoginForm = function () {
 
   const [formData, setFormData] = useState(initialState);
   const [error, setError] = useState<string | null>(null);
@@ -34,7 +34,7 @@ const LoginForm = function () {
       setIsLoading(true)
 
       const response = await axios.post(
-        `http://localhost:3636/auth/register`,
+        `http://localhost:3636/auth/login`,
         {
           email:formData.email,
           password:formData.password,
