@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 
 const initialState = {
@@ -25,13 +26,32 @@ const loginForm = function () {
     }
   }
 
-  const handleSubmit = function (event:React.FormEvent) {
-    event.preventDefault()
+  const handleSubmit = async function (event:React.FormEvent) {
+    event.preventDefault();
+    setError(null);
     try {
 
+      if (formData.password !== formData.confirmPassword) {
+        setError("Passwords do not match!");
+        return;
+      }
+
+      isLoading(true)
+
+      const response = await axios.post(
+        `http://localhost:3636/auth/register`,
+        {
+          email:formData.email,
+          password:formData.password,
+        }
+      )
+
+      console.log("login responseee", response.data);
+      alert(`Successfully logged in`)
+
     } catch (error) {
-      console.error(`Error in handling submit`, error)
-      setError(`${error}`)
+      console.error(`Error in handling submit`, error);
+      setError(`${error}`);
     } finally {
       isLoading(false)
     }
