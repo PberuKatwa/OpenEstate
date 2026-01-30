@@ -1,7 +1,6 @@
 // import "./SignUp.css"
 
 import { useState } from "react"
-import axios from "axios";
 import { authService } from "../../../services/authService";
 
 const initialState = {
@@ -42,7 +41,7 @@ export const SignupForm = function () {
 
       setIsLoading(true);
 
-      const response = await authService.signUp(formData.firstName, formData.lastName, formData.password, formData.email)
+      const response = await authService.signUp(formData.firstName, formData.lastName, formData.email, formData.password);
 
       console.log("Form submitted to backend", response)
 
