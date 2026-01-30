@@ -1,4 +1,4 @@
-import { apiClient } from "./apiClient";
+import { apiClient, authorizedApiClient } from "./apiClient";
 
 export const authService = {
 
@@ -28,7 +28,7 @@ export const authService = {
 
   async profile() {
     try {
-      const response = await apiClient.get("/auth/profile")
+      const response = await authorizedApiClient.get("/auth/profile")
       return response.data;
     } catch (error) {
       throw error;

@@ -6,7 +6,7 @@ export const ProductsModule: React.FC = () => {
   const testProfile = async function () {
     try {
       const response = await authService.profile()
-      console.log("responseeee")
+      console.log("responseeee",response)
       return response;
     } catch (error) {
       throw error;

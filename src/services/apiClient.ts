@@ -12,10 +12,12 @@ export const authorizedApiClient = axios.create({
   headers: { "Content-Type": "application/json" },
 });
 
+
 export const setAuthTokenInterceptor = (getToken: () => string | null) => {
   authorizedApiClient.interceptors.request.use(
     (config) => {
       const token = getToken();
+      console.log("Interceptor checking for token...", token);
       if (token) {
         config.headers["Authorization"] = `Bearer ${token}`;
       }
