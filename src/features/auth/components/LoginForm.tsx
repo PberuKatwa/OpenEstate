@@ -37,6 +37,8 @@ export const LoginForm = function () {
       const response = await authService.login(formData.email,formData.password)
 
       console.log("login responseee", response);
+
+      localStorage.setItem("token", response.data.access_token)
       alert(`Successfully logged in`)
 
     } catch (error) {
