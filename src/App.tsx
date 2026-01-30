@@ -22,5 +22,27 @@ import { LoginForm } from './features/auth/components/LoginForm';
 import { ProductsModule } from './features/Dashboard/components/ProductsModule';
 
 function AppContent() {
+
   const navigate = useNavigate();
+  useEffect(
+    function () { },
+    [navigate]
+  );
+
+  return (
+    <Routes>
+      <Route path="/sign-up" element={<SignupForm></SignupForm>}></Route>
+      <Route path="/login" element={<LoginForm></LoginForm>}></Route>
+      <Route path="/dashboard" element={ <ProductsModule></ProductsModule> }></Route>
+    </Routes>
+  )
+
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppContent></AppContent>
+    </BrowserRouter>
+  )
 }
