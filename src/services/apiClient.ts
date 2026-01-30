@@ -26,3 +26,11 @@ export const setAuthTokenInterceptor = (getToken: () => string | null) => {
     }
   );
 };
+
+export const initializeApiClient = function (getToken: () => string | null) {
+  try {
+    setAuthTokenInterceptor(getToken);
+  } catch (error) {
+    console.error(`Error in initializing api client`, error)
+  }
+};
