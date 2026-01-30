@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { authService } from '../../../services/authService';
 
 export const ProductsModule: React.FC = () => {
 
   const testProfile = async function () {
     try {
-
+      const response = await authService.profile()
+      console.log("responseeee")
+      return response;
     } catch (error) {
       throw error;
     }
   }
+
+  useEffect(
+    function () {
+      testProfile()
+    }, []
+  );
 
   return (
     <div className="container py-5">
