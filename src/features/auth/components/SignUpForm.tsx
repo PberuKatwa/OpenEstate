@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import axios from "axios";
+import { authService } from "../../../services/authService";
 
 const initialState = {
   firstName: '',
@@ -41,17 +42,9 @@ export const SignupForm = function () {
 
       setIsLoading(true);
 
-      const response = await axios.post(
-        `http://localhost:3636/auth/register`,
-        {
-          firstName:formData.firstName,
-          lastName:formData.lastName,
-          password:formData.password,
-          email:formData.email
-        }
-      )
+      const response = await authService.signUp(formData.firstName, formData.lastName, formData.password, formData.email)
 
-      console.log("Form submitted to backend", response.data)
+      console.log("Form submitted to backend", response)
 
       alert(`Successfully signed up`)
     } catch (error) {
