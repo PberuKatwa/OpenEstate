@@ -20,12 +20,16 @@ import { useEffect } from "react";
 import { SignupForm } from './features/auth/components/SignUpForm';
 import { LoginForm } from './features/auth/components/LoginForm';
 import { ProductsModule } from './features/Dashboard/components/ProductsModule';
+import { initializeApiClient } from "./services/apiClient";
 
 function AppContent() {
 
   const navigate = useNavigate();
   useEffect(
-    function () { },
+    function () {
+      const getToken = function () { return localStorage.getItem('token') };
+      initializeApiClient(getToken)
+    },
     [navigate]
   );
 
