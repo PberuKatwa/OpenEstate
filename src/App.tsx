@@ -28,6 +28,7 @@ function AppContent() {
   useEffect(
     function () {
       const getToken = function () { return localStorage.getItem('token') };
+      console.log("tokennnnnnn", getToken())
       initializeApiClient(getToken)
     },
     [navigate]
