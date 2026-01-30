@@ -1,6 +1,16 @@
 import React from 'react';
+import { authService } from '../../../services/authService';
 
 export const ProductsModule: React.FC = () => {
+
+  const testProfile = async function () {
+    try {
+
+    } catch (error) {
+      throw error;
+    }
+  }
+
   return (
     <div className="container py-5">
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
