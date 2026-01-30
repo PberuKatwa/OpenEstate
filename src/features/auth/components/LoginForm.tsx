@@ -38,7 +38,6 @@ export const LoginForm = function () {
 
       console.log("login responseee", response);
 
-      localStorage.setItem("token", response.data.access_token)
       alert(`Successfully logged in`)
 
     } catch (error) {

@@ -6,3 +6,23 @@ export const apiClient = axios.create({
   baseURL: API_URL,
   headers: { "Content-Type": "application/json" },
 });
+
+export const authorizedApiClient = axios.create({
+  baseURL: API_URL,
+  headers: { "Content-Type": "application/json" },
+});
+
+export const setAuthTokenInterceptor = (getToken: () => string | null) => {
+  authorizedApiClient.interceptors.request.use(
+    (config) => {
+      const token = getToken();
+      if (token) {
+        config.headers["Authorization"] = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+};
