@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { authService } from "../../../services/authService";
 import "./login.css"
 
 const initialState = {
@@ -34,15 +35,9 @@ export const LoginForm = function () {
 
       setIsLoading(true)
 
-      const response = await axios.post(
-        `http://localhost:3636/auth/login`,
-        {
-          email:formData.email,
-          password:formData.password,
-        }
-      )
+      const response = await authService.login(formData.email,formData.password)
 
-      console.log("login responseee", response.data);
+      console.log("login responseee", response);
       alert(`Successfully logged in`)
 
     } catch (error) {
