@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import "./login.css"
 
 const initialState = {
   email: '',
@@ -55,7 +56,7 @@ export const LoginForm = function () {
 
   return (
     <div className="login-container">
-      <h2>Create an Account</h2>
+      <h2>Login</h2>
 
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
@@ -89,7 +90,7 @@ export const LoginForm = function () {
         <button
           type="submit"
           disabled={isLoading}
-        >{ isLoading ? "Signinggg up ....." : "sign up" }</button>
+        >{ isLoading ? "logging in ....." : "log in" }</button>
 
       </form>
     </div>
