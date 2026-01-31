@@ -21,6 +21,7 @@ import { SignupForm } from './features/auth/components/SignUpForm';
 import { LoginForm } from './features/auth/components/LoginForm';
 import { ProductsModule } from './features/Dashboard/components/ProductsModule';
 import { initializeApiClient } from "./services/apiClient";
+import { DashboardLayout } from "./components/DashboardLayout";
 
 function AppContent() {
 
