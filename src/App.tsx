@@ -22,6 +22,10 @@ import { LoginForm } from './features/auth/components/LoginForm';
 import { ProductsModule } from './features/Dashboard/components/ProductsModule';
 import { initializeApiClient } from "./services/apiClient";
 import { DashboardLayout } from "./components/DashboardLayout";
+import { Blogs } from "./features/Dashboard/pages/Blogs";
+import { Home } from "./features/Dashboard/pages/Home";
+import { Properties } from "./features/Dashboard/pages/Properties";
+import { Profile } from "./features/Dashboard/pages/Profile";
 
 function AppContent() {
 
