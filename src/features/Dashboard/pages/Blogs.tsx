@@ -1,5 +1,5 @@
 export const Blogs = function () {
   return (
-    <h1>BLOGSSSSSSS</h1>
+    <h1>BLOGSSSSSSSss</h1>
   )
 }
