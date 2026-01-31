@@ -1,14 +1,15 @@
+// src/components/layout/DashboardLayout.tsx
 import { Outlet } from "react-router-dom";
 import { Sidebar } from "./Sidebar";
+import "./DashboardLayout.css";
 
-export const DashboardLayout = function () {
+export const DashboardLayout = () => {
   return (
-    <div style={{display:"flex",minHeight:"100vh"}}>
-      <Sidebar></Sidebar>
-
-      <main style={{ flex: 1, padding: "2rem", backgroundColor: "#f4f4f4" }}>
-        <Outlet/>
+    <div className="dashboard-container">
+      <Sidebar />
+      <main className="content-area">
+        <Outlet />
       </main>
     </div>
-  )
-}
+  );
+};

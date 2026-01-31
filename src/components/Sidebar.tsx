@@ -1,6 +1,8 @@
-import { NavLink } from "react-router-dom"
+// src/components/layout/Sidebar.tsx
+import { NavLink } from "react-router-dom";
+import "./Sidebar.css"; // We'll create this next
 
-export const Sidebar = function () {
+export const Sidebar = () => {
   const navItems = [
     { path: "/dashboard", label: "Home" },
     { path: "/dashboard/blogs", label: "Blogs" },
@@ -9,28 +11,22 @@ export const Sidebar = function () {
   ];
 
   return (
-    <aside style={{ width: "250px", background: "#2c3e50", color: "white", padding: "1rem" }}>
-      <h3>Open Estate Admin</h3>
-      <nav style={{ display: "flex", flexDirection: "column", gap: "1rem", marginTop: "2rem" }}>
-        {
-          navItems.map(
-            (item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                style={({ isActive }) => ({
-                  color: "white",
-                  textDecoration: isActive ? "underline" : "none",
-                  fontWeight: isActive ? "bold":"normal"
-                }) }
-              >
-                {item.label}
-              </NavLink>
-            )
-          )
-        }
+    <aside className="sidebar">
+      <div className="sidebar-logo">
+        <h3>Open Estate</h3>
+      </div>
+      <nav className="sidebar-nav">
+        {navItems.map((item) => (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            end={item.path === "/dashboard"} // Ensures 'Home' isn't always active
+            className={({ isActive }) => (isActive ? "nav-link active" : "nav-link")}
+          >
+            {item.label}
+          </NavLink>
+        ))}
       </nav>
-
     </aside>
-  )
-}
+  );
+};
