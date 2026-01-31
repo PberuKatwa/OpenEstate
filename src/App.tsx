@@ -15,7 +15,7 @@
 // export default App
 //
 
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import { useEffect } from "react";
 import { SignupForm } from './features/auth/components/SignUpForm';
 import { LoginForm } from './features/auth/components/LoginForm';
@@ -50,7 +50,7 @@ function AppContent() {
         <Route path="blogs" element={<Blogs />}></Route>
         <Route path="profile" element={<Profile/>}></Route>
       </Route>
-
+      <Route path="*" element={<Navigate to="/dashboard" />} />
     </Routes>
   )
 
