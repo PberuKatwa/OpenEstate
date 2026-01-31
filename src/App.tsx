@@ -42,7 +42,15 @@ function AppContent() {
     <Routes>
       <Route path="/sign-up" element={<SignupForm></SignupForm>}></Route>
       <Route path="/login" element={<LoginForm></LoginForm>}></Route>
-      <Route path="/dashboard" element={ <ProductsModule></ProductsModule> }></Route>
+      <Route path="/dashboard22" element={<ProductsModule></ProductsModule>}></Route>
+
+      <Route path="/dashboard" element={<DashboardLayout />}>
+        <Route index element={<Home />} ></Route>
+        <Route path="properties" element={<Properties />}></Route>
+        <Route path="blogs" element={<Blogs />}></Route>
+        <Route path="profile" element={<Profile/>}></Route>
+      </Route>
+
     </Routes>
   )
 
