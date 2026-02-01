@@ -21,7 +21,6 @@ export const Properties = function () {
   const [loading, setLoading] = useState(true);
 
   const [data, setData] = useState(initialState);
-  const formData = new FormData();
 
   const handleChange = function (event: React.ChangeEvent<HTMLInputElement| HTMLTextAreaElement>) {
     try {
@@ -208,6 +207,7 @@ export const Properties = function () {
                   <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Property Name</label>
                   <input
                     type="text"
+                    name="name"
                     value={data.name}
                     onChange={handleChange}
                     placeholder="e.g. Modern Sunset Villa"
@@ -219,6 +219,7 @@ export const Properties = function () {
                   <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Price</label>
                   <input
                     type="number"
+                    name="price"
                     value={data.price}
                     onChange={handleChange}
                     placeholder="e.g. 100,000"
@@ -230,6 +231,7 @@ export const Properties = function () {
                   <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Description</label>
                   <textarea
                     rows={3}
+                    name="description"
                     value={data.description}
                     onChange={handleChange}
                     placeholder="e.g. 5 bedroom, 4 bathrooms"
@@ -241,6 +243,7 @@ export const Properties = function () {
                   <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Location</label>
                   <input
                     type="text"
+                    name="location"
                     value={data.location}
                     onChange={handleChange}
                     placeholder="e.g. Modern Sunset Villa"

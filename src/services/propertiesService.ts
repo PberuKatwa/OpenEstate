@@ -15,6 +15,7 @@ export const propertiesService = {
   async createProperty(formData) {
     try {
       const response = await authorizedApiClient.post(
+        "/properties",
         formData,
         { headers: { "Content-Type": "multipart/form-data", }}
       )
