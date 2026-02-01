@@ -50,6 +50,24 @@ export const Properties = function () {
     }
   }
 
+  const handleChange = function (event: React.ChangeEvent<HTMLInputElement| HTMLTextAreaElement>) {
+    try {
+      const { name, value } = event.target;
+
+      setData(
+        function (prev) {
+          return {
+            ...prev,
+            [name]: type === "radio" ? value === "true" : value,
+          }
+        }
+      );
+
+    } catch (error) {
+      console.error("error in handling change event", error)
+    }
+  }
+
   const getAllProperties = async function (page:Number, limit:Number) {
     try {
       setLoading(true);
@@ -161,14 +179,16 @@ export const Properties = function () {
                     const file = e.target.files?.[0];
                     if (!file) return;
 
-                    setData((prev) => ({
-                      ...prev,
-                      image: file,
-                    }));
+                    setData(
+                      (prev) => {
+                        return {
+                          ...prev,
+                          image: file,
+                        }
+                      }
+                    );
                   }}
                 />
-
-                <input type="file" className="absolute inset-0 opacity-0 cursor-pointer" accept="image/*" />
                 <div className="bg-gray-50 p-4 rounded-full mb-3 group-hover:scale-110 transition-transform">
                   <FontAwesomeIcon icon={faImage} className="text-gray-400 text-xl group-hover:text-blue-500" />
                 </div>
@@ -178,23 +198,83 @@ export const Properties = function () {
 
               {/* Inputs */}
               <div className="space-y-4">
+
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Title</label>
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Property Name</label>
                   <input
                     type="text"
+                    value={data.name}
+                    onChange={handleChange}
                     placeholder="e.g. Modern Sunset Villa"
                     className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Description</label>
-                  <textarea
-                    rows={3}
-                    placeholder="What makes this property special?"
-                    className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300 resize-none"
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Price</label>
+                  <input
+                    type="number"
+                    value={data.price}
+                    onChange={handleChange}
+                    placeholder="e.g. 100,000"
+                    className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
                   />
                 </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Description</label>
+                  <input
+                    type="text"
+                    value={data.description}
+                    onChange={handleChange}
+                    placeholder="e.g. 5 bedroom, 4 bathrooms"
+                    className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Location</label>
+                  <input
+                    type="text"
+                    value={data.location}
+                    onChange={handleChange}
+                    placeholder="e.g. Modern Sunset Villa"
+                    className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                    Is Property A Rental
+                  </label>
+
+                  <div className="flex gap-4 mt-2">
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        name="isRental"
+                        value="true"
+                        checked={data.isRental === true}
+                        onChange={handleChange}
+                      />
+                      Yes
+                    </label>
+
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        name="isRental"
+                        value="false"
+                        checked={data.isRental === false}
+                        onChange={handleChange}
+                      />
+                      No
+                    </label>
+                  </div>
+                </div>
+
+
               </div>
 
               {/* FOOTER ACTIONS */}
