@@ -23,33 +23,6 @@ export const Properties = function () {
   const [data, setData] = useState(initialState);
   const formData = new FormData();
 
-  const uploadFile = async function createProperty(
-    event:React.ChangeEvent<HTMLInputElement>,
-    file: File,
-    name: string,
-    price,
-    location: string,
-    description: string,
-    isRental
-  ) {
-    try {
-      const formData = new FormData();
-      formData.append("image", file);
-      formData.append("name", name);
-      formData.append("price", price);
-      formData.append("location", location);
-      formData.append("description", description);
-      formData.append("isRental", isRental);
-
-      const response = await propertiesService.createProperty(formData)
-
-      console.log("createe prop",response)
-
-    } catch (error) {
-      console.error(`Error in file upload`, error)
-    }
-  }
-
   const handleChange = function (event: React.ChangeEvent<HTMLInputElement| HTMLTextAreaElement>) {
     try {
       const { name, value } = event.target;
@@ -58,7 +31,7 @@ export const Properties = function () {
         function (prev) {
           return {
             ...prev,
-            [name]: type === "radio" ? value === "true" : value,
+            [name]:value,
           }
         }
       );
@@ -67,6 +40,36 @@ export const Properties = function () {
       console.error("error in handling change event", error)
     }
   }
+
+  const handleSubmit = async () => {
+    if (!data.image) {
+      alert("Please select an image");
+      return;
+    }
+
+    try {
+      const formData = new FormData();
+
+      formData.append("image", data.image);
+      formData.append("name", data.name);
+      formData.append("price", String(data.price));
+      formData.append("location", data.location);
+      formData.append("description", data.description);
+      formData.append("isRental", String(data.isRental));
+
+      const response = await propertiesService.createProperty(formData);
+
+      console.log("Property created:", response);
+
+      setIsModalOpen(false);
+      setData(initialState);
+      getAllProperties(page, limit);
+
+    } catch (error) {
+      console.error("Failed to create property", error);
+    }
+  };
+
 
   const getAllProperties = async function (page:Number, limit:Number) {
     try {
@@ -223,8 +226,8 @@ export const Properties = function () {
 
                 <div className="space-y-1.5">
                   <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Description</label>
-                  <input
-                    type="text"
+                  <textarea
+                    rows={3}
                     value={data.description}
                     onChange={handleChange}
                     placeholder="e.g. 5 bedroom, 4 bathrooms"
