@@ -6,7 +6,7 @@ export const Properties = function () {
 
     <div className="bg-neutral-primary-soft block max-w-sm p-6 border border-default rounded-base shadow-xs">
         <a href="#">
-            <img className="rounded-base w-20" src={propertyImg} alt="" />
+            <img className="rounded-lg w-full h-48 object-cover" src={propertyImg} alt="" />
         </a>
         <a href="#">
             <h5 className="mt-6 mb-2 text-2xl font-semibold tracking-tight text-heading">Streamlining your design process today.</h5>
