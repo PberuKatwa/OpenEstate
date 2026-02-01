@@ -12,7 +12,7 @@ export const propertiesService = {
     }
   },
 
-  async createProperties(formData) {
+  async createProperty(formData) {
     try {
       const response = await authorizedApiClient.post(
         formData,

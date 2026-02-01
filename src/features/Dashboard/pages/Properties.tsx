@@ -13,8 +13,26 @@ export const Properties = function () {
   const [properties, setProperties] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
+  const uploadFile = async function uploadFile( file:File, name:string, price, location:string,description:string, isRental ) {
+    try {
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("name", name);
+      formData.append("price", price);
+      formData.append("location", location);
+      formData.append("description", description);
+      formData.append("isRental", isRental);
 
-  const getAllProperties = async function (page, limit) {
+      const response = await propertiesService.createProperty(formData)
+
+      console.log(response)
+
+    } catch (error) {
+      console.error(`Error in file upload`, error)
+    }
+  }
+
+  const getAllProperties = async function (page:Number, limit:Number) {
     try {
       setLoading(true);
       const response = await propertiesService.getAllProperties(page, limit)
