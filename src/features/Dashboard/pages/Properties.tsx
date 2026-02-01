@@ -13,7 +13,7 @@ export const Properties = function () {
         <button
           type="button"
           onClick={() => setIsModalOpen(true)}
-          className="inline-flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full hover:bg-gray-800 transition-all text-sm font-medium shadow-sm"
+          className="inline-flex items-center gap-2 text-white px-5 py-2.5 rounded-full hover:bg-gray-800 transition-all text-sm font-medium shadow-sm"
         >
           <FontAwesomeIcon icon={faPlus} />
           Create Property
