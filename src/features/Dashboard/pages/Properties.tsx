@@ -49,18 +49,48 @@ export const Properties = function () {
         </button>
       </div>
 
-      {/* PROPERTY CARD */}
-      <div className="bg-white max-w-sm border border-gray-100 rounded-2xl shadow-sm overflow-hidden transition-hover hover:shadow-md">
-        <img className="w-full h-52 object-cover" src={propertyImg} alt="Property" />
-        <div className="p-6">
-          <h5 className="mb-2 text-xl font-bold text-gray-900 leading-tight">
-            Streamlining your design process today.
-          </h5>
-          <p className="text-gray-500 text-sm leading-relaxed">
-            In today’s fast-paced digital landscape, fostering seamless collaboration.
-          </p>
+      {/* PROPERTIES GRID */}
+      {loading ? (
+        <p className="text-gray-400">Loading properties...</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {properties.map((property) => (
+            <div
+              key={property.id}
+              className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-all"
+            >
+              <img
+                src={property.url
+                  ? `${property.url}`
+                  : propertyImg
+                }
+                alt={property.name}
+                className="w-full h-52 object-cover"
+              />
+
+              <div className="p-6">
+                <h5 className="mb-1 text-lg font-bold text-gray-900">
+                  {property.name}
+                </h5>
+
+                <p className="text-sm text-gray-500 mb-3">
+                  {property.is_rental ? "Rental Property" : "For Sale"}
+                </p>
+
+                <p className="text-sm font-semibold text-gray-900">
+                  KES {Number(property.price).toLocaleString()}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
-      </div>
+      )}
+
+      {!loading && properties.length === 0 && (
+        <p className="text-gray-400">No properties found.</p>
+      )}
+
+
 
       {/* MODAL OVERLAY */}
       {isModalOpen && (
