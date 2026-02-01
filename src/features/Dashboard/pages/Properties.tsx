@@ -4,7 +4,14 @@ import { faPlus, faImage, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { propertiesService } from "../../../services/propertiesService";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
 
-
+const initialState = {
+  image: null as File | null,
+  name: "",
+  price: 0,
+  location: "",
+  description: "",
+  isRental:false
+}
 
 export const Properties = function () {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,7 +20,18 @@ export const Properties = function () {
   const [properties, setProperties] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
-  const uploadFile = async function uploadFile( file:File, name:string, price, location:string,description:string, isRental ) {
+  const [data, setData] = useState(initialState);
+  const formData = new FormData();
+
+  const uploadFile = async function createProperty(
+    event:React.ChangeEvent<HTMLInputElement>,
+    file: File,
+    name: string,
+    price,
+    location: string,
+    description: string,
+    isRental
+  ) {
     try {
       const formData = new FormData();
       formData.append("image", file);
@@ -25,7 +43,7 @@ export const Properties = function () {
 
       const response = await propertiesService.createProperty(formData)
 
-      console.log(response)
+      console.log("createe prop",response)
 
     } catch (error) {
       console.error(`Error in file upload`, error)
@@ -36,7 +54,7 @@ export const Properties = function () {
     try {
       setLoading(true);
       const response = await propertiesService.getAllProperties(page, limit)
-      console.log("responseeee", response)
+      console.log("all propertiws", response)
       setProperties(response.data.properties)
       return response;
     } catch (error) {
@@ -135,6 +153,21 @@ export const Properties = function () {
 
               {/* Upload Area */}
               <div className="group relative border-2 border-dashed border-gray-200 rounded-2xl p-8 transition-all hover:border-blue-500 hover:bg-blue-50/30 flex flex-col items-center justify-center cursor-pointer">
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  onChange={(e) => {
+                    const file = e.target.files?.[0];
+                    if (!file) return;
+
+                    setData((prev) => ({
+                      ...prev,
+                      image: file,
+                    }));
+                  }}
+                />
+
                 <input type="file" className="absolute inset-0 opacity-0 cursor-pointer" accept="image/*" />
                 <div className="bg-gray-50 p-4 rounded-full mb-3 group-hover:scale-110 transition-transform">
                   <FontAwesomeIcon icon={faImage} className="text-gray-400 text-xl group-hover:text-blue-500" />
