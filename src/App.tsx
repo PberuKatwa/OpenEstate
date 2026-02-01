@@ -26,6 +26,7 @@ import { Blogs } from "./features/Dashboard/pages/Blogs";
 import { Home } from "./features/Dashboard/pages/Home";
 import { Properties } from "./features/Dashboard/pages/Properties";
 import { Profile } from "./features/Dashboard/pages/Profile";
+import { Sidebar } from "./components/Sidebar";
 
 function AppContent() {
 
@@ -43,6 +44,7 @@ function AppContent() {
       <Route path="/sign-up" element={<SignupForm></SignupForm>}></Route>
       <Route path="/login" element={<LoginForm></LoginForm>}></Route>
       <Route path="/dashboard22" element={<ProductsModule></ProductsModule>}></Route>
+      <Route path="/sidebar" element={<Sidebar></Sidebar>}></Route>
 
       <Route path="/dashboard" element={<DashboardLayout />}>
         <Route index element={<Home />} ></Route>
