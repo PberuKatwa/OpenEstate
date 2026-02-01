@@ -10,7 +10,19 @@ export const propertiesService = {
     } catch (error) {
       throw error;
     }
+  },
 
+  async createProperties(formData) {
+    try {
+      const response = await authorizedApiClient.post(
+        formData,
+        { headers: { "Content-Type": "multipart/form-data", }}
+      )
+
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
   }
 
 }
