@@ -34,7 +34,6 @@ export const Properties = function () {
       </div>
 
       {/* MODAL OVERLAY */}
-      {/* MODAL OVERLAY */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-6">
           {/* MODAL CONTAINER - This is what adds the 'space' between edges */}
