@@ -35,7 +35,7 @@ export const Properties = function () {
 
       {/* MODAL */}
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/40">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-white/70">
           <div className="relative p-4 w-full max-w-md">
             <div className="bg-neutral-primary-soft border border-default rounded-base shadow-sm p-6">
 
