@@ -41,13 +41,15 @@ export const Properties = function () {
     }
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
     if (!data.image) {
       alert("Please select an image");
       return;
     }
 
     try {
+      setLoading(true)
       const formData = new FormData();
 
       formData.append("image", data.image);
@@ -67,6 +69,8 @@ export const Properties = function () {
 
     } catch (error) {
       console.error("Failed to create property", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -147,8 +151,6 @@ export const Properties = function () {
         <p className="text-gray-400">No properties found.</p>
       )}
 
-
-
       {/* MODAL OVERLAY */}
       {isModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-6">
@@ -170,7 +172,7 @@ export const Properties = function () {
             </div>
 
             {/* MODAL BODY */}
-            <form className="p-8 space-y-6" onSubmit={(e) => e.preventDefault()}>
+            <form className="p-8 space-y-6" onSubmit={handleSubmit}>
 
               {/* Upload Area */}
               <div className="group relative border-2 border-dashed border-gray-200 rounded-2xl p-8 transition-all hover:border-blue-500 hover:bg-blue-50/30 flex flex-col items-center justify-center cursor-pointer">
@@ -291,9 +293,10 @@ export const Properties = function () {
                 </button>
                 <button
                   type="submit"
+                   disabled={loading}
                   className="flex-[2] py-3.5 bg-black text-white text-sm font-bold rounded-xl hover:shadow-xl hover:shadow-black/20 active:scale-[0.98] transition-all"
                 >
-                  Publish Listing
+                  Publish Listing { loading ? "Publishingg ....." : "Publish Listing" }
                 </button>
               </div>
             </form>
