@@ -35,7 +35,6 @@ function AppContent() {
         <Route path="blogs" element={<Blogs />}></Route>
         <Route path="profile" element={<Profile/>}></Route>
       </Route>
-      <Route path="*" element={<Navigate to="/dashboard" />} />
     </Routes>
   )
 

@@ -1,10 +1,27 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faImage, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { propertiesService } from "../../../services/propertiesService";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
+
+
 
 export const Properties = function () {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+
+  const getAllProperties = async function (page, limit) {
+    const response = await propertiesService.getAllProperties(page, limit)
+    console.log("responseeee", response)
+    return response;
+  }
+
+  useEffect(
+    function () {
+      getAllProperties(page,limit)
+    }, []
+  )
 
   return (
     <div className="flex flex-col min-h-screen p-8 bg-gray-50">
