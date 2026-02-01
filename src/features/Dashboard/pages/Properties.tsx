@@ -10,17 +10,29 @@ export const Properties = function () {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const [properties, setProperties] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
 
   const getAllProperties = async function (page, limit) {
-    const response = await propertiesService.getAllProperties(page, limit)
-    console.log("responseeee", response)
-    return response;
+    try {
+      setLoading(true);
+      const response = await propertiesService.getAllProperties(page, limit)
+      console.log("responseeee", response)
+      setProperties(response.data.properties)
+      return response;
+    } catch (error) {
+      console.error("Failed to fetch properties", error);
+    }finally {
+      setLoading(false);
+    }
+
   }
 
   useEffect(
     function () {
       getAllProperties(page,limit)
-    }, []
+    }, [page, limit]
   )
 
   return (
