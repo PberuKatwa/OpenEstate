@@ -17,7 +17,7 @@ const navItems = [
 
 export const Sidebar = () => {
   return (
-    <aside className="h-screen bg-white border-r p-4">
+    <aside className="h-screen bg-white border-r p-2">
       <h2 className="text-xl font-semibold mb-6">Open Estate</h2>
       <nav className="space-y-1">
         {navItems.map((item) => (
