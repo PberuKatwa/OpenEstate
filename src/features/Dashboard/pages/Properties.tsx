@@ -18,8 +18,10 @@ const initialState = {
 
 export const Properties = function () {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [page, setPage] = useState(1);
+  // const [page, setPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
   const [properties, setProperties] = useState<Property[] | []>([]);
   const [loading, setLoading] = useState(true);
 
@@ -62,7 +64,7 @@ export const Properties = function () {
       toast.success(response.message)
       setIsModalOpen(false);
       setData(initialState);
-      getAllProperties(page, limit);
+      getAllProperties(currentPage, limit);
 
     } catch (error) {
       console.error("Failed to create property", error);
@@ -72,15 +74,17 @@ export const Properties = function () {
   };
 
 
-  const getAllProperties = async function (page:Number, limit:Number) {
+  const getAllProperties = async function (currentPage:Number, limit:Number) {
     try {
       setLoading(true);
-      const response: ApiResponse = await propertiesService.getAllProperties(page, limit)
+      const response: ApiResponse = await propertiesService.getAllProperties(currentPage, limit)
 
       const propertiesData: AllProperties = response.data;
       console.log("propp", propertiesData)
       toast.success(response.message)
-      setProperties(propertiesData.properties)
+      setProperties(propertiesData.properties);
+      setCurrentPage(propertiesData.currentPage);
+      setTotalPages(propertiesData.totalPages);
       return response;
     } catch (error) {
       console.error("Failed to fetch properties", error);
@@ -93,8 +97,8 @@ export const Properties = function () {
 
   useEffect(
     function () {
-      getAllProperties(page,limit)
-    }, [page, limit]
+      getAllProperties(currentPage,limit)
+    }, [currentPage, limit]
   )
 
   return (
@@ -145,6 +149,20 @@ export const Properties = function () {
               </div>
             </div>
           ))}
+          {Array.from({ length: totalPages }).map((_, i) => {
+            const page = i + 1;
+
+            return (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                disabled={page === currentPage}
+              >
+                {page}
+              </button>
+            );
+          })}
+
         </div>
       )}
 
