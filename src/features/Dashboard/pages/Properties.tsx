@@ -60,7 +60,6 @@ export const Properties = function () {
 
       const response:ApiResponse = await propertiesService.createProperty(formData);
 
-      console.log("Property created:", response);
       toast.success(response.message)
       setIsModalOpen(false);
       setData(initialState);
