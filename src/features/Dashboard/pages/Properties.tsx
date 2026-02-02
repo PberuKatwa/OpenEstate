@@ -59,15 +59,17 @@ export const Properties = function () {
       }
       formData.append("name", data.name);
       formData.append("price", String(data.price));
-      formData.append("location", data.location);
       formData.append("description", data.description);
-      formData.append("isRental", String(data.isRental));
+
 
       let response: ApiResponse;
 
       if (modalMode === "create") {
+        formData.append("location", data.location);
+        formData.append("isRental", String(data.isRental));
         response = await propertiesService.createProperty(formData);
       } else {
+        formData.append("id",String(data.id))
         response = await propertiesService.updateProperty(formData)
         toast.success(response.message);
         console.log("Update property ID:",response);
@@ -98,7 +100,7 @@ export const Properties = function () {
     setModalMode("update");
     setSelectedProperty(property);
     setData({
-      id:0,
+      id:property.id,
       image: null,
       name: property.name,
       price: property.price,
