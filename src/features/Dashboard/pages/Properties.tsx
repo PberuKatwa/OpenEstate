@@ -78,6 +78,7 @@ export const Properties = function () {
       const response: ApiResponse = await propertiesService.getAllProperties(page, limit)
 
       const propertiesData: AllProperties = response.data;
+      console.log("propp", propertiesData)
       toast.success(response.message)
       setProperties(propertiesData.properties)
       return response;
