@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import type { ApiResponse } from "../../../types/ApiTypes";
 import { propertiesService } from "../../../services/propertiesService";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
-import type { AllProperties, Property } from "../../../types/PropertyTypes";
+import type { AllProperties, Property, PropertyPayload } from "../../../types/PropertyTypes";
 
 const initialState = {
   image: null as File | null,
