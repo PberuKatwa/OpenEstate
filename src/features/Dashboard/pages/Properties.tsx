@@ -78,9 +78,8 @@ export const Properties = function () {
       const response: ApiResponse = await propertiesService.getAllProperties(page, limit)
 
       const propertiesData: AllProperties = response.data;
-      const propertiesAll: Property[] = propertiesData.properties;
       toast.success(response.message)
-      setProperties(propertiesAll)
+      setProperties(propertiesData.properties)
       return response;
     } catch (error) {
       console.error("Failed to fetch properties", error);
