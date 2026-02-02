@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faImage, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { toast } from "react-toastify";
+import type { ApiResponse } from "../../../types/ApiTypes";
 import { propertiesService } from "../../../services/propertiesService";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
 
@@ -27,12 +29,7 @@ export const Properties = function () {
       const { name, value } = event.target;
 
       setData(
-        function (prev) {
-          return {
-            ...prev,
-            [name]:value,
-          }
-        }
+        (prev) => ({ ...prev, [name]: value })
       );
 
     } catch (error) {
@@ -58,10 +55,10 @@ export const Properties = function () {
       formData.append("description", data.description);
       formData.append("isRental", String(data.isRental));
 
-      const response = await propertiesService.createProperty(formData);
+      const response:ApiResponse = await propertiesService.createProperty(formData);
 
       console.log("Property created:", response);
-
+      toast.success(response.message)
       setIsModalOpen(false);
       setData(initialState);
       getAllProperties(page, limit);
@@ -77,8 +74,9 @@ export const Properties = function () {
   const getAllProperties = async function (page:Number, limit:Number) {
     try {
       setLoading(true);
-      const response = await propertiesService.getAllProperties(page, limit)
+      const response:ApiResponse = await propertiesService.getAllProperties(page, limit)
       console.log("all propertiws", response)
+      toast.success(response.message)
       setProperties(response.data.properties)
       return response;
     } catch (error) {

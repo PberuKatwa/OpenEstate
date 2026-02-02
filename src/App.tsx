@@ -12,6 +12,7 @@ import { Profile } from "./features/Dashboard/pages/Profile";
 import { Sidebar } from "./components/Sidebar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 function AppContent() {
 
@@ -26,7 +27,19 @@ function AppContent() {
 
   return (
     <div>
-      <ToastContainer />
+
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+
      <Routes>
        <Route path="/sign-up" element={<SignupForm></SignupForm>}></Route>
        <Route path="/login" element={<LoginForm></LoginForm>}></Route>
@@ -47,6 +60,7 @@ function AppContent() {
 
 export default function App() {
   return (
+
     <BrowserRouter>
       <AppContent></AppContent>
     </BrowserRouter>
