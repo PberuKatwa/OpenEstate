@@ -21,7 +21,9 @@ export interface PropertyPayload {
 
 export interface AllProperties {
   properties: Property[];
-  totalCount: number;
-  currentPage: number;
-  totalPages: number;
+  pagination: {
+    totalCount: number;
+    currentPage: number;
+    totalPages: number;
+  }
 }

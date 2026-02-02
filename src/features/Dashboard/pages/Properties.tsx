@@ -83,8 +83,9 @@ export const Properties = function () {
       console.log("propp", propertiesData)
       toast.success(response.message)
       setProperties(propertiesData.properties);
-      setCurrentPage(propertiesData.currentPage);
-      setTotalPages(propertiesData.totalPages);
+      // setCurrentPage(propertiesData.currentPage);
+      setTotalPages(propertiesData.pagination.totalPages);
+      console.log("total pages",totalPages, "current", currentPage)
       return response;
     } catch (error) {
       console.error("Failed to fetch properties", error);
@@ -156,6 +157,68 @@ export const Properties = function () {
 
       {!loading && properties.length === 0 && (
         <p className="text-gray-400">No properties found.</p>
+      )}
+
+      {/* PAGINATION CONTROLS */}
+      {!loading && properties.length > 0 && (
+        <div className="mt-8 flex items-center justify-between">
+          <div className="text-sm text-gray-600">
+            Page <span className="font-semibold">{currentPage}</span> of <span className="font-semibold">{totalPages}</span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
+              disabled={currentPage === 1}
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50
+              disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            >
+              Previous
+            </button>
+
+            <div className="flex items-center gap-1">
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page)}
+                  className={`w-10 h-10 text-sm font-medium rounded-lg transition-all ${
+                    currentPage === page
+                      ? "bg-black text-white"
+                      : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+                  }`}
+                >
+                  {page}
+                </button>
+              ))}
+            </div>
+
+            <button
+              onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
+              disabled={currentPage === totalPages}
+              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg
+              hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+            >
+              Next
+            </button>
+          </div>
+
+          <div className="text-sm text-gray-600">
+            <select
+              value={limit}
+              onChange={(e) => {
+                setLimit(Number(e.target.value));
+                setCurrentPage(1);
+              }}
+              className="px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 text-sm font-medium hover:bg-gray-50 cursor-pointer"
+            >
+              <option value={5}>5 per page</option>
+              <option value={10}>10 per page</option>
+              <option value={20}>20 per page</option>
+              <option value={50}>50 per page</option>
+            </select>
+          </div>
+
+        </div>
       )}
 
       {/* MODAL OVERLAY */}
