@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import type { ApiResponse } from "../../../types/ApiTypes";
 import { propertiesService } from "../../../services/propertiesService";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
-import type { AllProperties, Property, PropertyPayload } from "../../../types/PropertyTypes";
+import type { AllProperties, Property } from "../../../types/PropertyTypes";
 
 const initialState = {
   image: null as File | null,
@@ -20,7 +20,7 @@ export const Properties = function () {
   const [isModalOpen, setIsModalOpen] = useState(false);
   // const [page, setPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [limit, setLimit] = useState(10);
+  const [limit, setLimit] = useState(5);
   const [totalPages, setTotalPages] = useState(1);
   const [properties, setProperties] = useState<Property[] | []>([]);
   const [loading, setLoading] = useState(true);
@@ -80,12 +80,10 @@ export const Properties = function () {
       const response: ApiResponse = await propertiesService.getAllProperties(currentPage, limit)
 
       const propertiesData: AllProperties = response.data;
-      console.log("propp", propertiesData)
       toast.success(response.message)
       setProperties(propertiesData.properties);
-      // setCurrentPage(propertiesData.currentPage);
+      setCurrentPage(propertiesData.pagination.currentPage);
       setTotalPages(propertiesData.pagination.totalPages);
-      console.log("total pages",totalPages, "current", currentPage)
       return response;
     } catch (error) {
       console.error("Failed to fetch properties", error);
