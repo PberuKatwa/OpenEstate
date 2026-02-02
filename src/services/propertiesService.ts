@@ -1,12 +1,14 @@
-import { authorizedApiClient} from "./apiClient";
+import { authorizedApiClient } from "./apiClient";
+import type { AllProperties } from "../types/PropertyTypes";
+import type { ApiResponse } from "../types/ApiTypes";
 
 export const propertiesService = {
 
-  async getAllProperties(page: Number= 1, limit: Number = 10) {
+  async getAllProperties(page: Number= 1, limit: Number = 10):Promise<ApiResponse> {
     try {
       const response = await authorizedApiClient.get(`properties/all/${page}/${limit}`)
-
-      return response.data;
+      const allProperties: ApiResponse = response.data;
+      return allProperties;
     } catch (error) {
       throw error;
     }

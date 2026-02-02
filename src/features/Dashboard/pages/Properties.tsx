@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import type { ApiResponse } from "../../../types/ApiTypes";
 import { propertiesService } from "../../../services/propertiesService";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
+import type { AllProperties, Property } from "../../../types/PropertyTypes";
 
 const initialState = {
   image: null as File | null,
@@ -19,7 +20,7 @@ export const Properties = function () {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
-  const [properties, setProperties] = useState<any[]>([]);
+  const [properties, setProperties] = useState<Property[] | []>([]);
   const [loading, setLoading] = useState(true);
 
   const [data, setData] = useState(initialState);
@@ -74,9 +75,12 @@ export const Properties = function () {
   const getAllProperties = async function (page:Number, limit:Number) {
     try {
       setLoading(true);
-      const response:ApiResponse = await propertiesService.getAllProperties(page, limit)
+      const response: ApiResponse = await propertiesService.getAllProperties(page, limit)
+
+      const propertiesData: AllProperties = response.data;
+      const propertiesAll: Property[] = propertiesData.properties;
       toast.success(response.message)
-      setProperties(response.data.properties)
+      setProperties(propertiesAll)
       return response;
     } catch (error) {
       console.error("Failed to fetch properties", error);
@@ -118,8 +122,8 @@ export const Properties = function () {
               className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-all"
             >
               <img
-                src={property.url
-                  ? `${property.url}`
+                src={property.signedUrl
+                  ? `${property.signedUrl}`
                   : propertyImg
                 }
                 alt={property.name}
@@ -132,7 +136,7 @@ export const Properties = function () {
                 </h5>
 
                 <p className="text-sm text-gray-500 mb-3">
-                  {property.is_rental ? "Rental Property" : "For Sale"}
+                  {property.isRental ? "Rental Property" : "For Sale"}
                 </p>
 
                 <p className="text-sm font-semibold text-gray-900">
