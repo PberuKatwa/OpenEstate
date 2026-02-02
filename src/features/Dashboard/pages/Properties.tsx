@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faImage, faXmark } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faImage, faXmark, faEye, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import type { ApiResponse } from "../../../types/ApiTypes";
 import { propertiesService } from "../../../services/propertiesService";
@@ -131,23 +131,41 @@ export const Properties = function () {
                 alt={property.name}
                 className="w-full h-52 object-cover"
               />
-
               <div className="p-6">
                 <h5 className="mb-1 text-lg font-bold text-gray-900">
                   {property.name}
                 </h5>
-
                 <p className="text-sm text-gray-500 mb-3">
                   {property.isRental ? "Rental Property" : "For Sale"}
                 </p>
-
-                <p className="text-sm font-semibold text-gray-900">
+                <p className="text-sm font-semibold text-gray-900 mb-4">
                   KES {Number(property.price).toLocaleString()}
                 </p>
+
+                {/* ACTION BUTTONS */}
+                <div className="flex gap-2 pt-3 border-t border-gray-100">
+                  <button
+                    className="flex-1 px-3 py-2 text-blue-600 hover:bg-blue-90 rounded-lg transition-colors bg-white/90"
+                    aria-label="View property"
+                  >
+                    <FontAwesomeIcon icon={faEye} className="text-lg" />
+                  </button>
+                  <button
+                    className="flex-1 px-3 py-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors bg-white/90"
+                    aria-label="Edit property"
+                  >
+                    <FontAwesomeIcon icon={faEdit} className="text-lg" />
+                  </button>
+                  <button
+                    className="flex-1 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors bg-white/90"
+                    aria-label="Delete property"
+                  >
+                    <FontAwesomeIcon icon={faTrash} className="text-lg" />
+                  </button>
+                </div>
               </div>
             </div>
           ))}
-
         </div>
       )}
 
