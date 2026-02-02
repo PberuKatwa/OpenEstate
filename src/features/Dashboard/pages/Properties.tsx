@@ -96,7 +96,7 @@ export const Properties = function () {
     try {
 
       const response: ApiResponse = await propertiesService.trashProperty(id);
-      console.log(`Respmoseeee`, response)
+      const data: Property = response.data;
 
       toast.success(response.message)
       getAllProperties(currentPage,limit)
@@ -149,7 +149,7 @@ export const Properties = function () {
                   {property.name}
                 </h5>
                 <p className="text-sm text-gray-500 mb-3">
-                  {property.isRental ? "Rental Property" : "For Sale"}
+                  {property.is_rental ? "Rental Property" : "For Sale"}
                 </p>
                 <p className="text-sm font-semibold text-gray-900 mb-4">
                   KES {Number(property.price).toLocaleString()}
