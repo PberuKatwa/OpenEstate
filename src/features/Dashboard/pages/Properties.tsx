@@ -75,12 +75,12 @@ export const Properties = function () {
     try {
       setLoading(true);
       const response:ApiResponse = await propertiesService.getAllProperties(page, limit)
-      console.log("all propertiws", response)
       toast.success(response.message)
       setProperties(response.data.properties)
       return response;
     } catch (error) {
       console.error("Failed to fetch properties", error);
+      toast.error(`${error}`)
     }finally {
       setLoading(false);
     }
