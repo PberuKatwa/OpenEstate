@@ -26,6 +26,20 @@ export const propertiesService = {
     } catch (error) {
       throw error;
     }
+  },
+
+  async trashProperty(id: number) {
+    try {
+      const response= await authorizedApiClient.post(
+        `/properties/trash/${id}`
+      )
+
+      const propertyRes: ApiResponse = response.data;
+      return propertyRes;
+    } catch (error) {
+      throw error;
+    }
   }
+
 
 }

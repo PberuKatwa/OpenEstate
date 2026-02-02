@@ -18,7 +18,6 @@ const initialState = {
 
 export const Properties = function () {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  // const [page, setPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(5);
   const [totalPages, setTotalPages] = useState(1);
