@@ -74,7 +74,7 @@ export const Properties = function () {
   };
 
 
-  const getAllProperties = async function (currentPage:Number, limit:Number) {
+  const getAllProperties = async function (currentPage:number, limit:number) {
     try {
       setLoading(true);
       const response: ApiResponse = await propertiesService.getAllProperties(currentPage, limit)
@@ -149,22 +149,10 @@ export const Properties = function () {
               </div>
             </div>
           ))}
-          {Array.from({ length: totalPages }).map((_, i) => {
-            const page = i + 1;
-
-            return (
-              <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                disabled={page === currentPage}
-              >
-                {page}
-              </button>
-            );
-          })}
 
         </div>
       )}
+
 
       {!loading && properties.length === 0 && (
         <p className="text-gray-400">No properties found.</p>
