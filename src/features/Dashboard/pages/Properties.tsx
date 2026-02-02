@@ -8,6 +8,7 @@ import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496
 import type { AllProperties, Property } from "../../../types/PropertyTypes";
 
 const initialState = {
+  id:0,
   image: null as File | null,
   name: "",
   price: 0,
@@ -18,6 +19,8 @@ const initialState = {
 
 export const Properties = function () {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalMode, setModalMode] = useState<"create" | "update">("create");
+  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(5);
   const [totalPages, setTotalPages] = useState(1);
@@ -41,7 +44,8 @@ export const Properties = function () {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!data.image) {
+
+    if (modalMode === "create" && !data.image) {
       alert("Please select an image");
       return;
     }
@@ -50,25 +54,59 @@ export const Properties = function () {
       setLoading(true)
       const formData = new FormData();
 
-      formData.append("image", data.image);
+      if (data.image) {
+        formData.append("image", data.image);
+      }
       formData.append("name", data.name);
       formData.append("price", String(data.price));
       formData.append("location", data.location);
       formData.append("description", data.description);
       formData.append("isRental", String(data.isRental));
 
-      const response:ApiResponse = await propertiesService.createProperty(formData);
+      let response: ApiResponse;
+
+      if (modalMode === "create") {
+        response = await propertiesService.createProperty(formData);
+      } else {
+        response = await propertiesService.updateProperty(formData)
+        toast.success(response.message);
+        console.log("Update property ID:",response);
+        return;
+      }
 
       toast.success(response.message)
       setIsModalOpen(false);
       setData(initialState);
+      setSelectedProperty(null);
       getAllProperties(currentPage, limit);
 
     } catch (error) {
-      console.error("Failed to create property", error);
+      console.error(`Failed to ${modalMode} property`, error);
     } finally {
       setLoading(false);
     }
+  };
+
+  const openCreateModal = () => {
+    setModalMode("create");
+    setData(initialState);
+    setSelectedProperty(null);
+    setIsModalOpen(true);
+  };
+
+  const openUpdateModal = (property: Property) => {
+    setModalMode("update");
+    setSelectedProperty(property);
+    setData({
+      id:0,
+      image: null,
+      name: property.name,
+      price: property.price,
+      location: property.location,
+      description: property.description,
+      isRental: property.is_rental
+    });
+    setIsModalOpen(true);
   };
 
 
@@ -118,8 +156,8 @@ export const Properties = function () {
       <div className="mb-6">
         <button
           type="button"
-          onClick={() => setIsModalOpen(true)}
-          className="inline-flex items-center gap-2 text-white px-5 py-2.5 rounded-full hover:bg-gray-800 transition-all text-sm font-medium shadow-sm"
+          onClick={openCreateModal}
+          className="inline-flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full hover:bg-gray-800 transition-all text-sm font-medium shadow-sm"
         >
           <FontAwesomeIcon icon={faPlus} />
           Create Property
@@ -164,6 +202,7 @@ export const Properties = function () {
                     <FontAwesomeIcon icon={faEye} className="text-lg" />
                   </button>
                   <button
+                    onClick={() => openUpdateModal(property)}
                     className="flex-1 px-3 py-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors bg-white/90"
                     aria-label="Edit property"
                   >
@@ -259,11 +298,19 @@ export const Properties = function () {
             {/* MODAL HEADER */}
             <div className="sticky top-0 bg-white/80 backdrop-blur-md z-10 flex items-center justify-between px-8 py-6 border-b border-gray-100">
               <div>
-                <h3 className="text-xl font-bold text-gray-900 tracking-tight">New Property</h3>
-                <p className="text-xs text-gray-500 mt-0.5">List your space in seconds.</p>
+                <h3 className="text-xl font-bold text-gray-900 tracking-tight">
+                  {modalMode === "create" ? "New Property" : "Update Property"}
+                </h3>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  {modalMode === "create" ? "List your space in seconds." : "Update property details."}
+                </p>
               </div>
               <button
-                onClick={() => setIsModalOpen(false)}
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setData(initialState);
+                  setSelectedProperty(null);
+                }}
                 className="text-gray-400 hover:text-black hover:bg-gray-100 rounded-full w-10 h-10 flex items-center justify-center transition-all"
               >
                 <FontAwesomeIcon icon={faXmark} className="text-lg" />
@@ -296,7 +343,9 @@ export const Properties = function () {
                 <div className="bg-gray-50 p-4 rounded-full mb-3 group-hover:scale-110 transition-transform">
                   <FontAwesomeIcon icon={faImage} className="text-gray-400 text-xl group-hover:text-blue-500" />
                 </div>
-                <p className="text-sm font-semibold text-gray-700">Drop your images here</p>
+                <p className="text-sm font-semibold text-gray-700">
+                  {data.image ? data.image.name : modalMode === "update" ? "Change image (optional)" : "Drop your images here"}
+                </p>
                 <p className="text-xs text-gray-400 mt-1">Supports JPG, PNG up to 10MB</p>
               </div>
 
@@ -389,17 +438,24 @@ export const Properties = function () {
               <div className="flex items-center gap-4 pt-4">
                 <button
                   type="button"
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    setData(initialState);
+                    setSelectedProperty(null);
+                  }}
                   className="flex-1 py-3.5 text-sm font-bold text-gray-500 hover:text-black hover:bg-gray-100 rounded-xl transition-all"
                 >
-                  Discard
+                  Cancel
                 </button>
                 <button
                   type="submit"
-                   disabled={loading}
-                  className="flex-[2] py-3.5 bg-black text-white text-sm font-bold rounded-xl hover:shadow-xl hover:shadow-black/20 active:scale-[0.98] transition-all"
+                  disabled={loading}
+                  className="flex-[2] py-3.5 bg-black text-white text-sm font-bold rounded-xl hover:shadow-xl hover:shadow-black/20 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  Publish Listing { loading ? "Publishingg ....." : "Publish Listing" }
+                  {loading
+                    ? (modalMode === "create" ? "Publishing..." : "Updating...")
+                    : (modalMode === "create" ? "Publish Listing" : "Update Property")
+                  }
                 </button>
               </div>
             </form>

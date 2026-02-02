@@ -39,6 +39,23 @@ export const propertiesService = {
     } catch (error) {
       throw error;
     }
+  },
+
+  async updateProperty(payload: FormData):Promise<ApiResponse> {
+    try {
+
+      const response = await authorizedApiClient.post(
+        "/properties/update",
+        payload,
+        { headers: { "Content-Type": "multipart/form-data", }}
+      )
+
+      const propertyRes: ApiResponse = response.data;
+      return propertyRes;
+
+    } catch (error) {
+      throw error;
+    }
   }
 
 
