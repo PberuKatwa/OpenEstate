@@ -10,6 +10,8 @@ import { Home } from "./features/Dashboard/pages/Home";
 import { Properties } from "./features/Dashboard/pages/Properties";
 import { Profile } from "./features/Dashboard/pages/Profile";
 import { Sidebar } from "./components/Sidebar";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function AppContent() {
 
@@ -23,19 +25,22 @@ function AppContent() {
   );
 
   return (
-    <Routes>
-      <Route path="/sign-up" element={<SignupForm></SignupForm>}></Route>
-      <Route path="/login" element={<LoginForm></LoginForm>}></Route>
-      <Route path="/dashboard22" element={<ProductsModule></ProductsModule>}></Route>
-      <Route path="/sidebar" element={<Sidebar></Sidebar>}></Route>
+    <div>
+      <ToastContainer />
+     <Routes>
+       <Route path="/sign-up" element={<SignupForm></SignupForm>}></Route>
+       <Route path="/login" element={<LoginForm></LoginForm>}></Route>
+       <Route path="/dashboard22" element={<ProductsModule></ProductsModule>}></Route>
+       <Route path="/sidebar" element={<Sidebar></Sidebar>}></Route>
 
-      <Route path="/dashboard" element={<DashboardLayout />}>
-        <Route index element={<Home />} ></Route>
-        <Route path="properties" element={<Properties />}></Route>
-        <Route path="blogs" element={<Blogs />}></Route>
-        <Route path="profile" element={<Profile/>}></Route>
-      </Route>
-    </Routes>
+       <Route path="/dashboard" element={<DashboardLayout />}>
+         <Route index element={<Home />} ></Route>
+         <Route path="properties" element={<Properties />}></Route>
+         <Route path="blogs" element={<Blogs />}></Route>
+         <Route path="profile" element={<Profile/>}></Route>
+       </Route>
+     </Routes>
+    </div>
   )
 
 }
