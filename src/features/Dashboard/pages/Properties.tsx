@@ -92,6 +92,20 @@ export const Properties = function () {
 
   }
 
+  const handleDelete = async function (id: number) {
+    try {
+
+      const response: ApiResponse = await propertiesService.trashProperty(id);
+      console.log(`Respmoseeee`, response)
+
+      toast.success(response.message)
+      getAllProperties(currentPage,limit)
+    } catch (error) {
+      toast.error(`${error}`)
+      console.error(`Error in handling delete`, error)
+    }
+  }
+
   useEffect(
     function () {
       getAllProperties(currentPage,limit)
@@ -156,6 +170,7 @@ export const Properties = function () {
                     <FontAwesomeIcon icon={faEdit} className="text-lg" />
                   </button>
                   <button
+                    onClick={()=> handleDelete(property.id)}
                     className="flex-1 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors bg-white/90"
                     aria-label="Delete property"
                   >
