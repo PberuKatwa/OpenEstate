@@ -52,6 +52,17 @@ export const Blogs = function () {
     setIsModalOpen(true);
   };
 
+  const openUpdateModal = (blog: Blog) => {
+    setModalMode("update");
+    setSelectedBlog(blog);
+    setPayloadData({
+      id:blog.id,
+      title: blog.title,
+      content:blog.content
+    });
+    setIsModalOpen(true);
+  };
+
   const handleChange = function (event: React.ChangeEvent<HTMLInputElement| HTMLTextAreaElement>) {
     try {
       const { name, value } = event.target;
