@@ -16,7 +16,7 @@ export const blogsService = {
     }
   },
 
-  async createBlog(payload:BlogPayload) {
+  async createBlog(payload:BlogPayload):Promise<SingleBlogApiResponse> {
     try {
       const response = await authorizedApiClient.post(
         `/blogs`,
@@ -34,7 +34,7 @@ export const blogsService = {
     };
   },
 
-  async trashProperty(id:number) {
+  async trashProperty(id:number): Promise<SingleBlogApiResponse> {
     try {
       const response = await authorizedApiClient.post(`/trash/${id}`)
 

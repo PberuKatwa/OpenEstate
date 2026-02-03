@@ -88,7 +88,24 @@ export const Blogs = function () {
     } finally {
       toast.success(false);
     }
+  }
 
+  const handleDelete = async function (id: number) {
+    try {
+
+      setIsLoading(true);
+
+      const response: SingleBlogApiResponse = await blogsService.trashProperty(id);
+      if (!response.data) throw new Error(`No blog response data`);
+      toast.success(response.message);
+      getAllBlogs(currentPage, limit);
+
+    } catch (error) {
+      console.error(`Error in handling delete`, error)
+      toast.error(`${error}`)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   useEffect(
