@@ -70,6 +70,19 @@ export const Blogs = function () {
     setIsModalOpen(true);
   };
 
+  const handleChange = function (event: React.ChangeEvent<HTMLInputElement| HTMLTextAreaElement>) {
+    try {
+      const { name, value } = event.target;
+
+      setPayloadData(
+        (prev) => ({ ...prev, [name]: value })
+      );
+
+    } catch (error) {
+      console.error("error in handling change event", error)
+    }
+  }
+
   useEffect(
     function () {
       getAllBlogs(currentPage,limit)
@@ -88,7 +101,7 @@ export const Blogs = function () {
           className="inline-flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full hover:bg-gray-800 transition-all text-sm font-medium shadow-sm"
         >
           <FontAwesomeIcon icon={faPlus} />
-          Create Property
+          Create Blog
         </button>
       </div>
 
