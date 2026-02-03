@@ -7,8 +7,6 @@ export const blogsService = {
     try {
 
       const response = await authorizedApiClient.get(`/blogs/all/${page}/${limit}`);
-      console.log("resp 11231243", response)
-
       const blogRes: AllBlogsApiResponse = response.data;
       return blogRes;
 

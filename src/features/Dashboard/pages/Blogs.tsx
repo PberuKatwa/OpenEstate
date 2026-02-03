@@ -27,7 +27,6 @@ export const Blogs = function () {
 
       setIsLoading(true);
       const response: AllBlogsApiResponse = await blogsService.getAllBlogs(page, limit);
-      console.log("ressssss",response)
       if (!response.data) throw new Error(`No blog response data`);
       setCurrentPage(response.data?.pagination.currentPage);
       setTotalPages(response.data.pagination.totalPages);
@@ -75,7 +74,7 @@ export const Blogs = function () {
                 <h5 className="mb-1 text-lg font-bold text-gray-900">
                   {blog.title}
                 </h5>
-                <p className="text-sm text-gray-500 mb-3">
+                <p className="text-sm text-gray-500 mb-3 line-clamp-3">
                   {blog.content}
                 </p>
 
