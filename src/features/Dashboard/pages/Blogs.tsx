@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import type { AllBlogsApiResponse, BlogPayload, Blog } from "../../../types/blog.types"
 import { toast } from "react-toastify";
 import { blogsService } from "../../../services/blogs.service";
@@ -39,6 +39,13 @@ export const Blogs = function () {
       setIsLoading(false);
     }
   }
+
+  useEffect(
+    function () {
+      getAllBlogs(currentPage,limit)
+    },
+    [currentPage,limit]
+  )
 
   return (
     <h1>BLOGSSSSSSSss</h1>
