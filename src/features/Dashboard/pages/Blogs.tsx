@@ -177,7 +177,7 @@ export const Blogs = function () {
                     <FontAwesomeIcon icon={faEye} className="text-lg" />
                   </button>
                   <button
-                    // onClick={() => openUpdateModal(property)}
+                    onClick={() => openUpdateModal(blog)}
                     className="flex-1 px-3 py-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors bg-white/90"
                     aria-label="Edit property"
                   >
