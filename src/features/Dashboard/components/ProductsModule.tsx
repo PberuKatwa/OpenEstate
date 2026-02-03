@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { authService } from '../../../services/authService';
+import { authService } from '../../../services/auth.service';
 
 export const ProductsModule: React.FC = () => {
 

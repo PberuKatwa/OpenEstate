@@ -1,7 +1,7 @@
 // import "./SignUp.css"
 
 import { useState } from "react"
-import { authService } from "../../../services/authService";
+import { authService } from "../../../services/auth.service";
 
 const initialState = {
   firstName: '',
