@@ -291,7 +291,7 @@ export const Blogs = function () {
                   <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Blog Title</label>
                   <input
                     type="text"
-                    name="name"
+                    name="title"
                     value={payloadData.title}
                     onChange={handleChange}
                     placeholder="e.g. New Property Law"
@@ -304,7 +304,7 @@ export const Blogs = function () {
                   <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Content</label>
                   <textarea
                     rows={4}
-                    name="description"
+                    name="content"
                     value={payloadData.content}
                     onChange={handleChange}
                     placeholder="e.g. This is a groundbreaking discovery"
