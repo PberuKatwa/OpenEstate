@@ -173,7 +173,7 @@ export const Blogs = function () {
                     <FontAwesomeIcon icon={faEdit} className="text-lg" />
                   </button>
                   <button
-                    // onClick={()=> handleDelete(property.id)}
+                    onClick={()=> handleDelete(blog.id)}
                     className="flex-1 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors bg-white/90"
                     aria-label="Delete property"
                   >

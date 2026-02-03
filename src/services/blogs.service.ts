@@ -36,7 +36,7 @@ export const blogsService = {
 
   async trashProperty(id:number): Promise<SingleBlogApiResponse> {
     try {
-      const response = await authorizedApiClient.post(`/trash/${id}`)
+      const response = await authorizedApiClient.post(`/blogs/trash/${id}`)
 
       const blogRes: SingleBlogApiResponse = response.data;
       return blogRes;
