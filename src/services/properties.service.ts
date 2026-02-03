@@ -1,5 +1,5 @@
 import { authorizedApiClient } from "./api.client";
-import type { ApiResponse } from "../types/ApiTypes";
+import type { ApiResponse } from "../types/api.types";
 
 export const propertiesService = {
 
