@@ -136,8 +136,6 @@ export const Properties = function () {
     try {
 
       const response: ApiResponse = await propertiesService.trashProperty(id);
-      const data: Property = response.data;
-
       toast.success(response.message)
       getAllProperties(currentPage,limit)
     } catch (error) {

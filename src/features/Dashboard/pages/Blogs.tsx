@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faImage, faXmark, faEye, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
-import type { AllBlogsApiResponse, BlogPayload, Blog } from "../../../types/blog.types"
+import type { AllBlogsApiResponse, BlogPayload, Blog, SingleBlogApiResponse } from "../../../types/blog.types"
 import { toast } from "react-toastify";
 import { blogsService } from "../../../services/blogs.service";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
@@ -21,6 +21,9 @@ export const Blogs = function () {
   const [limit, setLimit] = useState<number>(5);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [blogs, setBlogs] = useState<Blog[] | []>([]);
+  const [modalMode, setModalMode] = useState<"create" | "update">("create");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedBlogs, setSelectedBlog] = useState<Blog | null>(null);
 
   const getAllBlogs = async function (page: number, limit: number) {
     try {
@@ -42,6 +45,31 @@ export const Blogs = function () {
     }
   }
 
+  const createBlog = async function () {
+    try {
+
+      const payload: BlogPayload = {
+        title: payloadData.title,
+        content:payloadData.content
+      }
+      const response: SingleBlogApiResponse = await blogsService.createBlog(payload);
+      if (!response.data) throw new Error(`No blog response data`);
+      toast.success(response.message);
+      getAllBlogs(currentPage, limit);
+
+    } catch (error) {
+      console.error(`Error in creating blog`, error)
+      toast.error(`${error}`)
+    }
+  }
+
+  const openCreateModal = () => {
+    setModalMode("create");
+    setPayloadData(initialState);
+    setSelectedBlog(null);
+    setIsModalOpen(true);
+  };
+
   useEffect(
     function () {
       getAllBlogs(currentPage,limit)
@@ -51,6 +79,19 @@ export const Blogs = function () {
 
   return (
     <div className="flex flex-col min-h-screen p-8 bg-gray-50">
+
+      {/* ACTION BUTTONS */}
+      <div className="mb-6">
+        <button
+          type="button"
+          onClick={openCreateModal}
+          className="inline-flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full hover:bg-gray-800 transition-all text-sm font-medium shadow-sm"
+        >
+          <FontAwesomeIcon icon={faPlus} />
+          Create Property
+        </button>
+      </div>
+
 
       {/* PROPERTIES GRID */}
       {isLoading ? (
