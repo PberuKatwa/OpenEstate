@@ -45,24 +45,6 @@ export const Blogs = function () {
     }
   }
 
-  const createBlog = async function () {
-    try {
-
-      const payload: BlogPayload = {
-        title: payloadData.title,
-        content:payloadData.content
-      }
-      const response: SingleBlogApiResponse = await blogsService.createBlog(payload);
-      if (!response.data) throw new Error(`No blog response data`);
-      toast.success(response.message);
-      getAllBlogs(currentPage, limit);
-
-    } catch (error) {
-      console.error(`Error in creating blog`, error)
-      toast.error(`${error}`)
-    }
-  }
-
   const openCreateModal = () => {
     setModalMode("create");
     setPayloadData(initialState);
@@ -98,6 +80,7 @@ export const Blogs = function () {
       if (!response.data) throw new Error(`No blog response data`);
       toast.success(response.message);
       getAllBlogs(currentPage, limit);
+      setIsModalOpen(false);
 
     } catch (error) {
       console.error(`Error in handling submit`, error);
