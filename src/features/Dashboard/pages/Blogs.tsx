@@ -263,17 +263,17 @@ export const Blogs = function () {
             <div className="sticky top-0 bg-white/80 backdrop-blur-md z-10 flex items-center justify-between px-8 py-6 border-b border-gray-100">
               <div>
                 <h3 className="text-xl font-bold text-gray-900 tracking-tight">
-                  {modalMode === "create" ? "New Property" : "Update Property"}
+                  {modalMode === "create" ? "New Blog" : "Update Blog"}
                 </h3>
                 <p className="text-xs text-gray-500 mt-0.5">
-                  {modalMode === "create" ? "List your space in seconds." : "Update property details."}
+                  {modalMode === "create" ? "Write your blog in seconds." : "Update blog details."}
                 </p>
               </div>
               <button
                 onClick={() => {
                   setIsModalOpen(false);
-                  setData(initialState);
-                  setSelectedProperty(null);
+                  setPayloadData(initialState);
+                  setSelectedBlog(null);
                 }}
                 className="text-gray-400 hover:text-black hover:bg-gray-100 rounded-full w-10 h-10 flex items-center justify-center transition-all"
               >
@@ -288,84 +288,30 @@ export const Blogs = function () {
               <div className="space-y-4">
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Property Name</label>
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Blog Title</label>
                   <input
                     type="text"
                     name="name"
-                    value={data.name}
+                    value={payloadData.title}
                     onChange={handleChange}
-                    placeholder="e.g. Modern Sunset Villa"
-                    className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
+                    placeholder="e.g. New Property Law"
+                    className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white
+                    focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
                   />
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Price</label>
-                  <input
-                    type="number"
-                    name="price"
-                    value={data.price}
-                    onChange={handleChange}
-                    placeholder="e.g. 100,000"
-                    className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Description</label>
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Content</label>
                   <textarea
-                    rows={3}
+                    rows={4}
                     name="description"
-                    value={data.description}
+                    value={payloadData.content}
                     onChange={handleChange}
-                    placeholder="e.g. 5 bedroom, 4 bathrooms"
-                    className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
+                    placeholder="e.g. This is a groundbreaking discovery"
+                    className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white
+                    focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
                   />
                 </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Location</label>
-                  <input
-                    type="text"
-                    name="location"
-                    value={data.location}
-                    onChange={handleChange}
-                    placeholder="e.g. Modern Sunset Villa"
-                    className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
-                    Is Property A Rental
-                  </label>
-
-                  <div className="flex gap-4 mt-2">
-                    <label className="flex items-center gap-2">
-                      <input
-                        type="radio"
-                        name="isRental"
-                        value="true"
-                        checked={data.isRental === true}
-                        onChange={handleChange}
-                      />
-                      Yes
-                    </label>
-
-                    <label className="flex items-center gap-2">
-                      <input
-                        type="radio"
-                        name="isRental"
-                        value="false"
-                        checked={data.isRental === false}
-                        onChange={handleChange}
-                      />
-                      No
-                    </label>
-                  </div>
-                </div>
-
 
               </div>
 
@@ -375,8 +321,8 @@ export const Blogs = function () {
                   type="button"
                   onClick={() => {
                     setIsModalOpen(false);
-                    setData(initialState);
-                    setSelectedProperty(null);
+                    setPayloadData(initialState);
+                    setSelectedBlog(null);
                   }}
                   className="flex-1 py-3.5 text-sm font-bold text-gray-500 hover:text-black hover:bg-gray-100 rounded-xl transition-all"
                 >
@@ -384,11 +330,12 @@ export const Blogs = function () {
                 </button>
                 <button
                   type="submit"
-                  disabled={loading}
-                  className="flex-[2] py-3.5 bg-black text-white text-sm font-bold rounded-xl hover:shadow-xl hover:shadow-black/20 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                  disabled={isLoading}
+                  className="flex-[2] py-3.5 bg-black text-white text-sm font-bold rounded-xl hover:shadow-xl
+                  hover:shadow-black/20 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {loading
-                    ? (modalMode === "create" ? "Publishing..." : "Updating...")
+                  {isLoading
+                    ? (modalMode === "create" ? "Publishing Blog..." : "Updating Blog...")
                     : (modalMode === "create" ? "Publish Listing" : "Update Property")
                   }
                 </button>
