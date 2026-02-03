@@ -27,7 +27,7 @@ export const Blogs = function () {
 
       setIsLoading(true);
       const response: AllBlogsApiResponse = await blogsService.getAllBlogs(page, limit);
-
+      console.log("ressssss",response)
       if (!response.data) throw new Error(`No blog response data`);
       setCurrentPage(response.data?.pagination.currentPage);
       setTotalPages(response.data.pagination.totalPages);
@@ -55,7 +55,7 @@ export const Blogs = function () {
 
       {/* PROPERTIES GRID */}
       {isLoading ? (
-        <p className="text-gray-400">Loading properties...</p>
+        <p className="text-gray-400">Loading Blogs...</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {blogs.map((blog) => (
@@ -110,7 +110,7 @@ export const Blogs = function () {
 
 
       {!isLoading && blogs.length === 0 && (
-        <p className="text-gray-400">No properties found.</p>
+        <p className="text-gray-400">No blogs found.</p>
       )}
 
       {/* PAGINATION CONTROLS */}
