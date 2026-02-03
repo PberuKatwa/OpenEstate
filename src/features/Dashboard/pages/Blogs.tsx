@@ -1,5 +1,7 @@
 import { useState } from "react"
-import type { BlogPayload } from "../../../types/blog.types"
+import type { AllBlogsApiResponse, BlogPayload } from "../../../types/blog.types"
+import { toast } from "react-toastify";
+import { blogsService } from "../../../services/blogs.service";
 
 const initialState:BlogPayload = {
   id: null,
@@ -10,10 +12,31 @@ const initialState:BlogPayload = {
 
 export const Blogs = function () {
 
-  const [data, setData] = useState();
-  const [currentPage, setCurrentPage] = useState();
-  const [totalPages, setTotalPages] = useState();
-  const [limit, setLimit] = useState();
+  const [data, setData] = useState<BlogPayload>(initialState);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [totalPages, setTotalPages] = useState<number>(1);
+  const [limit, setLimit] = useState<number>(5);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const getAllBlogs = async function (page: number, limit: number) {
+    try {
+
+      setIsLoading(true);
+      const response: AllBlogsApiResponse = await blogsService.getAllBlogs(page, limit);
+
+      if (!response.data) throw new Error(`No blog response data`);
+      setCurrentPage(response.data?.pagination.currentPage);
+      setTotalPages(response.data.pagination.totalPages);
+      setLimit(limit);
+      toast.success(response.message);
+
+    } catch (error) {
+      console.error(`Error in fetching all blogs`, error);
+      toast.error(`${error}`)
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   return (
     <h1>BLOGSSSSSSSss</h1>
