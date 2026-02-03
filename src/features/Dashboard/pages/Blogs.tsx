@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faImage, faXmark, faEye, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 import type { AllBlogsApiResponse, BlogPayload, Blog, SingleBlogApiResponse } from "../../../types/blog.types"
@@ -81,6 +81,31 @@ export const Blogs = function () {
     } catch (error) {
       console.error("error in handling change event", error)
     }
+  }
+
+  const handleSubmit = async function (event: React.FormEvent) {
+    try {
+
+      event.preventDefault();
+      setIsLoading(true);
+
+      const payload: BlogPayload = {
+        title: payloadData.title,
+        content:payloadData.content
+      }
+
+      const response: SingleBlogApiResponse = await blogsService.createBlog(payload);
+      if (!response.data) throw new Error(`No blog response data`);
+      toast.success(response.message);
+      getAllBlogs(currentPage, limit);
+
+    } catch (error) {
+      console.error(`Error in handling submit`, error);
+      toast.error(`${error}`);
+    } finally {
+      toast.success(false);
+    }
+
   }
 
   useEffect(
@@ -228,6 +253,151 @@ export const Blogs = function () {
         </div>
       )}
 
+      {/* MODAL OVERLAY */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-6">
+          {/* MODAL CONTAINER - This is what adds the 'space' between edges */}
+          <div className="bg-white w-full max-w-lg max-h-[90vh] rounded-3xl shadow-2xl overflow-y-auto animate-in fade-in zoom-in duration-300">
+
+            {/* MODAL HEADER */}
+            <div className="sticky top-0 bg-white/80 backdrop-blur-md z-10 flex items-center justify-between px-8 py-6 border-b border-gray-100">
+              <div>
+                <h3 className="text-xl font-bold text-gray-900 tracking-tight">
+                  {modalMode === "create" ? "New Property" : "Update Property"}
+                </h3>
+                <p className="text-xs text-gray-500 mt-0.5">
+                  {modalMode === "create" ? "List your space in seconds." : "Update property details."}
+                </p>
+              </div>
+              <button
+                onClick={() => {
+                  setIsModalOpen(false);
+                  setData(initialState);
+                  setSelectedProperty(null);
+                }}
+                className="text-gray-400 hover:text-black hover:bg-gray-100 rounded-full w-10 h-10 flex items-center justify-center transition-all"
+              >
+                <FontAwesomeIcon icon={faXmark} className="text-lg" />
+              </button>
+            </div>
+
+            {/* MODAL BODY */}
+            <form className="p-8 space-y-6" onSubmit={handleSubmit}>
+
+              {/* Inputs */}
+              <div className="space-y-4">
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Property Name</label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={data.name}
+                    onChange={handleChange}
+                    placeholder="e.g. Modern Sunset Villa"
+                    className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Price</label>
+                  <input
+                    type="number"
+                    name="price"
+                    value={data.price}
+                    onChange={handleChange}
+                    placeholder="e.g. 100,000"
+                    className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Description</label>
+                  <textarea
+                    rows={3}
+                    name="description"
+                    value={data.description}
+                    onChange={handleChange}
+                    placeholder="e.g. 5 bedroom, 4 bathrooms"
+                    className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Location</label>
+                  <input
+                    type="text"
+                    name="location"
+                    value={data.location}
+                    onChange={handleChange}
+                    placeholder="e.g. Modern Sunset Villa"
+                    className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
+                  />
+                </div>
+
+                <div className="space-y-1.5">
+
+                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+                    Is Property A Rental
+                  </label>
+
+                  <div className="flex gap-4 mt-2">
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        name="isRental"
+                        value="true"
+                        checked={data.isRental === true}
+                        onChange={handleChange}
+                      />
+                      Yes
+                    </label>
+
+                    <label className="flex items-center gap-2">
+                      <input
+                        type="radio"
+                        name="isRental"
+                        value="false"
+                        checked={data.isRental === false}
+                        onChange={handleChange}
+                      />
+                      No
+                    </label>
+                  </div>
+                </div>
+
+
+              </div>
+
+              {/* FOOTER ACTIONS */}
+              <div className="flex items-center gap-4 pt-4">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    setData(initialState);
+                    setSelectedProperty(null);
+                  }}
+                  className="flex-1 py-3.5 text-sm font-bold text-gray-500 hover:text-black hover:bg-gray-100 rounded-xl transition-all"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="flex-[2] py-3.5 bg-black text-white text-sm font-bold rounded-xl hover:shadow-xl hover:shadow-black/20 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {loading
+                    ? (modalMode === "create" ? "Publishing..." : "Updating...")
+                    : (modalMode === "create" ? "Publish Listing" : "Update Property")
+                  }
+                </button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      )}
 
     </div>
   )
