@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import type { AllBlogsApiResponse, BlogPayload, SingleBlogApiResponse } from "../types/blog.types";
 import { authorizedApiClient } from "./api.client";
 
@@ -31,6 +32,19 @@ export const blogsService = {
     } catch (error) {
       throw error;
     };
+  },
+
+  async trashProperty(id:number) {
+    try {
+      const response = await authorizedApiClient.post(`/trash/${id}`)
+
+      const blogRes: SingleBlogApiResponse = response.data;
+      return blogRes;
+
+    }catch(error){
+      throw error;
+    }
+
   }
 
 }
