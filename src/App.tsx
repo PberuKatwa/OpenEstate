@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, useNavigate, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { SignupForm } from './features/auth/components/SignUpForm';
 import { LoginForm } from './features/auth/components/LoginForm';
