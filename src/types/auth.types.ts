@@ -7,13 +7,13 @@ export interface User {
   email: string;
 }
 
+export type LoginUser = (email: string, password: string) => Promise<ApiResponse>;
+
 export interface AuthContextType {
   user: User | null;
   token: string | null;
   isAuthenticated: boolean;
   loading: boolean;
-  login: (credentials: { email: string; password: string }) => Promise<ApiResponse>;
+  login: LoginUser;
   logout: () => void;
 }
-
-export type LoginUser = (email: string, password: string) => Promise<ApiResponse>;
