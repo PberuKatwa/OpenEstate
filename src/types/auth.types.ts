@@ -15,3 +15,5 @@ export interface AuthContextType {
   login: (credentials: { email: string; password: string }) => Promise<ApiResponse>;
   logout: () => void;
 }
+
+export type LoginUser = (email: string, password: string) => Promise<ApiResponse>;
