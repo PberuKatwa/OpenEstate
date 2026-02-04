@@ -1,12 +1,16 @@
 import type { ApiResponse } from "./api.types";
 
 export interface User {
-  firstName: string;
-  lastName: string;
-  signedUrl?: string;
+  id: number;
+  first_name: string;
+  last_name: string;
   email: string;
+  access_token?: string;
+  image_url?: string;
+  signedUrl?: string;
 }
 
+export interface LoginUserResponse extends ApiResponse<User> { };
 export type LoginUser = (email: string, password: string) => Promise<ApiResponse>;
 
 export interface AuthContextType {
