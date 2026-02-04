@@ -1,4 +1,3 @@
-import { toast } from "react-toastify";
 import type { AllBlogsApiResponse, BlogPayload, SingleBlogApiResponse } from "../types/blog.types";
 import { authorizedApiClient } from "./api.client";
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faImage, faXmark, faEye, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faPlus,faXmark, faEye, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 import type { AllBlogsApiResponse, BlogPayload, Blog, SingleBlogApiResponse } from "../../../types/blog.types"
 import { toast } from "react-toastify";
 import { blogsService } from "../../../services/blogs.service";
