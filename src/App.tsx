@@ -12,7 +12,7 @@ import { Profile } from "./features/Dashboard/pages/Profile";
 import { Sidebar } from "./components/Sidebar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
+import { AuthProvider } from "./context/AuthContext";
 
 function AppContent() {
 
@@ -60,9 +60,10 @@ function AppContent() {
 
 export default function App() {
   return (
-
+    <AuthProvider>
     <BrowserRouter>
       <AppContent></AppContent>
     </BrowserRouter>
+    </AuthProvider>
   )
 }
