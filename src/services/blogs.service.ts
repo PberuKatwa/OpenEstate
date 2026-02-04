@@ -46,8 +46,13 @@ export const blogsService = {
     }
   },
 
-  async updateBlog(id: number, title: string, content: string) {
+  async updateBlog(payload:BlogPayload):Promise<SingleBlogApiResponse> {
     try {
+
+      const { id, title, content } = payload;
+      const response = await authorizedApiClient.post("/blogs/update", { id, title, content })
+      const blogRes: SingleBlogApiResponse = response.data;
+      return blogRes;
 
     } catch (error) {
       throw error;
