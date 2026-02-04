@@ -44,7 +44,14 @@ export const blogsService = {
     }catch(error){
       throw error;
     }
+  },
 
+  async updateBlog(id: number, title: string, content: string) {
+    try {
+
+    } catch (error) {
+      throw error;
+    }
   }
 
 }

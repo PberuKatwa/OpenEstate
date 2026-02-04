@@ -76,7 +76,7 @@ export const Blogs = function () {
     }
   }
 
-  const handleSubmit = async function (event: React.FormEvent) {
+  const handleCreatePost = async function (event: React.FormEvent) {
     try {
 
       event.preventDefault();
@@ -293,7 +293,7 @@ export const Blogs = function () {
             </div>
 
             {/* MODAL BODY */}
-            <form className="p-8 space-y-6" onSubmit={handleSubmit}>
+            <form className="p-8 space-y-6" onSubmit={handleCreatePost}>
 
               {/* Inputs */}
               <div className="space-y-4">
