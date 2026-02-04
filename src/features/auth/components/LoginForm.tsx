@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 import { authService } from "../../../services/auth.service";
 import "./login.css"
 
@@ -14,6 +15,8 @@ export const LoginForm = function () {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const { login } = useAuth();
+
 
   const handleChange = function (event:React.ChangeEvent<HTMLInputElement>) {
     try {
@@ -36,7 +39,8 @@ export const LoginForm = function () {
 
       setIsLoading(true)
 
-      const response = await authService.login(formData.email,formData.password)
+      const response = await authService.login(formData.email, formData.password)
+      // const response = await login(formData.email, formData.password)
 
       console.log("login responseee", response);
 

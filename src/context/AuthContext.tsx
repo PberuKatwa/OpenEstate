@@ -25,9 +25,9 @@ export const AuthProvider = function ({ children }: { children: ReactNode }) {
         } catch (error) {
           console.error(`Error in parsing user`,error)
         }
-        setIsLoading(false);
-      }
 
+      }
+       setIsLoading(false);
     },
     []
   )
