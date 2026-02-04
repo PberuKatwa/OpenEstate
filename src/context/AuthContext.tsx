@@ -32,7 +32,7 @@ export const AuthProvider = function ({ children }: { children: ReactNode }) {
     []
   )
 
-  const loginUser: LoginUser = async function (email:string,password:string):Promise<ApiResponse> {
+  const login: AuthContextType['login'] = async function (email:string,password:string):Promise<ApiResponse> {
     try {
 
       const response: LoginUserResponse = await authService.login(email, password);
@@ -61,5 +61,21 @@ export const AuthProvider = function ({ children }: { children: ReactNode }) {
       }
     }
   }
+
+  const logout = function () {
+    setUser(null);
+    setToken(null);
+    localStorage.removeItem('authData');
+    window.location.href = '/login';
+  };
+
+  const value: AuthContextType = {
+    user,
+    token,
+    isAuthenticated: !!token,
+    login,
+    logout,
+    isLoading
+  };
 
 }
