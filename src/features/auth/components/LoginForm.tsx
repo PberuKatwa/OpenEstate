@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { authService } from "../../../services/auth.service";
 import "./login.css"
 
@@ -12,6 +13,7 @@ export const LoginForm = function () {
   const [formData, setFormData] = useState(initialState);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = function (event:React.ChangeEvent<HTMLInputElement>) {
     try {
@@ -39,6 +41,7 @@ export const LoginForm = function () {
       console.log("login responseee", response);
 
       alert(`Successfully logged in`)
+      navigate("/dashboard")
 
     } catch (error) {
       console.error(`Error in handling submit`, error);
