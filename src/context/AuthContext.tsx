@@ -78,4 +78,10 @@ export const AuthProvider = function ({ children }: { children: ReactNode }) {
     isLoading
   };
 
+  return (
+      <AuthContext.Provider value={value}>
+        {!isLoading && children}
+      </AuthContext.Provider>
+    );
+
 }
