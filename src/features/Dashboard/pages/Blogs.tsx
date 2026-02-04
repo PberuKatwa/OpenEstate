@@ -319,7 +319,7 @@ export const Blogs = function () {
             </div>
 
             {/* MODAL BODY */}
-            <form className="p-8 space-y-6" onSubmit={handleCreateBlog}>
+            <form className="p-8 space-y-6" onSubmit={ modalMode === "create"? handleCreateBlog : handleUpdateBlog}>
 
               {/* Inputs */}
               <div className="space-y-4">
