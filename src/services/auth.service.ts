@@ -1,3 +1,4 @@
+import type { LoginUserResponse } from "../types/auth.types";
 import { apiClient, authorizedApiClient } from "./api.client";
 
 export const authService = {
@@ -18,8 +19,10 @@ export const authService = {
     try {
 
       const response = await apiClient.post("/auth/login", { email, password })
-      localStorage.setItem("token", response.data.data.access_token)
-      return response.data;
+      const loginRes: LoginUserResponse = response.data;
+      if (!loginRes.data?.access_token) throw new Error(`Invalid login, try agin`);
+      localStorage.setItem("token", loginRes.data.access_token)
+      return loginRes;
 
     } catch (error) {
       throw error;
