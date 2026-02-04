@@ -23,7 +23,6 @@ export const Blogs = function () {
   const [blogs, setBlogs] = useState<Blog[] | []>([]);
   const [modalMode, setModalMode] = useState<"create" | "update">("create");
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedBlogs, setSelectedBlog] = useState<Blog | null>(null);
 
   const getAllBlogs = async function (page: number, limit: number) {
     try {
@@ -48,13 +47,11 @@ export const Blogs = function () {
   const openCreateModal = () => {
     setModalMode("create");
     setPayloadData(initialState);
-    setSelectedBlog(null);
     setIsModalOpen(true);
   };
 
   const openUpdateModal = (blog: Blog) => {
     setModalMode("update");
-    setSelectedBlog(blog);
     setPayloadData({
       id:blog.id,
       title: blog.title,
@@ -310,7 +307,6 @@ export const Blogs = function () {
                 onClick={() => {
                   setIsModalOpen(false);
                   setPayloadData(initialState);
-                  setSelectedBlog(null);
                 }}
                 className="text-gray-400 hover:text-black hover:bg-gray-100 rounded-full w-10 h-10 flex items-center justify-center transition-all"
               >
@@ -359,7 +355,6 @@ export const Blogs = function () {
                   onClick={() => {
                     setIsModalOpen(false);
                     setPayloadData(initialState);
-                    setSelectedBlog(null);
                   }}
                   className="flex-1 py-3.5 text-sm font-bold text-gray-500 hover:text-black hover:bg-gray-100 rounded-xl transition-all"
                 >
