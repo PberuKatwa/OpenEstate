@@ -76,7 +76,7 @@ export const Blogs = function () {
     }
   }
 
-  const handleCreatePost = async function (event: React.FormEvent) {
+  const handleCreateBlog = async function (event: React.FormEvent) {
     try {
 
       event.preventDefault();
@@ -98,6 +98,32 @@ export const Blogs = function () {
       toast.error(`${error}`);
     } finally {
       toast.success(false);
+    }
+  }
+
+  const handleUpdateBlog = async function (event:React.FormEvent) {
+    try {
+
+      event.preventDefault();
+      setIsLoading(true);
+
+      const payload: BlogPayload = {
+        id: payloadData.id,
+        title: payloadData.title,
+        content: payloadData.content
+      }
+
+      const response = await blogsService.updateBlog(payload);
+      if (!response.data) throw new Error(`Error in handling blog update`);
+      toast.success(response.message);
+      getAllBlogs(currentPage, limit);
+      setIsModalOpen(false);
+
+    } catch (error) {
+      console.error(`Error in handling update blog`, error)
+      toast.error(`${error}`)
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -293,7 +319,7 @@ export const Blogs = function () {
             </div>
 
             {/* MODAL BODY */}
-            <form className="p-8 space-y-6" onSubmit={handleCreatePost}>
+            <form className="p-8 space-y-6" onSubmit={handleCreateBlog}>
 
               {/* Inputs */}
               <div className="space-y-4">
