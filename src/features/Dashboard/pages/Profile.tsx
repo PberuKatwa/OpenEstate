@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faEnvelope, faEdit } from "@fortawesome/free-solid-svg-icons";
 import type { User } from "../../../types/auth.types";
 import { useAuth } from "../../../context/AuthContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
 const mockUser: User = {
@@ -16,23 +16,7 @@ const mockUser: User = {
 export const Profile = function () {
   const { user } = useAuth();
   console.log("userrr", user)
-
-  const [userData, setUserData ] = useState<User>(mockUser);
-
-  const fetchUserData = function () {
-    try {
-      if (!user?.id) throw new Error(`Error in fetching user profile`);
-      if (!user?.first_name) throw new Error(`Error in fetching user profile`);
-      if (!user?.last_name) throw new Error(`Error in fetching user profile`);
-      if (!user?.email) throw new Error(`Error in fetching user profile`);
-
-      setUserData(user);
-    } catch (error) {
-      console.error(`Error in fetching user data`, error);
-      toast.error(`${error}`)
-    }
-  }
-
+  const [userData, setUserData ] = useState<User>(user ? user : mockUser);
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
