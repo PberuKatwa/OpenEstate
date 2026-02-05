@@ -3,20 +3,36 @@ import { faUser, faEnvelope, faEdit } from "@fortawesome/free-solid-svg-icons";
 import type { User } from "../../../types/auth.types";
 import { useAuth } from "../../../context/AuthContext";
 import { useState } from "react";
+import { toast } from "react-toastify";
+
+const mockUser: User = {
+  id: 1,
+  first_name: "John",
+  last_name: "Doe",
+  email: "john.doe@example.com",
+  image_url: "https://via.placeholder.com/150",
+}
 
 export const Profile = function () {
   const { user } = useAuth();
   console.log("userrr", user)
 
-  const { userDat, setUserData } = useState();
-  // Mock user data - replace with actual data later
-  const userData: User = {
-    id: user?.id ? user.id : 1,
-    first_name: user?.first_name ? user.first_name : "John",
-    last_name: user?.last_name ? user.last_name : "Smith",
-    email: user?.email ? user.email : "email@example.com",
-    image_url: "https://via.placeholder.com/150",
-  };
+  const [userData, setUserData ] = useState<User>(mockUser);
+
+  const fetchUserData = function () {
+    try {
+      if (!user?.id) throw new Error(`Error in fetching user profile`);
+      if (!user?.first_name) throw new Error(`Error in fetching user profile`);
+      if (!user?.last_name) throw new Error(`Error in fetching user profile`);
+      if (!user?.email) throw new Error(`Error in fetching user profile`);
+
+      setUserData(user);
+    } catch (error) {
+      console.error(`Error in fetching user data`, error);
+      toast.error(`${error}`)
+    }
+  }
+
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
