@@ -29,6 +29,7 @@ export const Blogs = function () {
 
       setIsLoading(true);
       const response: AllBlogsApiResponse = await blogsService.getAllBlogs(page, limit);
+      console.log("respnseeee", response)
       if (!response.data) throw new Error(`No blog response data`);
       setCurrentPage(response.data?.pagination.currentPage);
       setTotalPages(response.data.pagination.totalPages);
