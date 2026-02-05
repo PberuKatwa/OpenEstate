@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
-import { authService } from "../../../services/auth.service";
 import "./login.css"
 
 const initialState = {
@@ -38,12 +37,7 @@ export const LoginForm = function () {
     try {
 
       setIsLoading(true)
-
-      const response = await authService.login(formData.email, formData.password)
-      // const response = await login(formData.email, formData.password)
-
-      console.log("login responseee", response);
-
+      const response = await login(formData.email, formData.password)
       alert(`Successfully logged in`)
       navigate("/dashboard")
 

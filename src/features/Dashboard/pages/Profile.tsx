@@ -1,14 +1,20 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faEnvelope, faEdit } from "@fortawesome/free-solid-svg-icons";
 import type { User } from "../../../types/auth.types";
+import { useAuth } from "../../../context/AuthContext";
+import { useState } from "react";
 
 export const Profile = function () {
+  const { user } = useAuth();
+  console.log("userrr", user)
+
+  const { userDat, setUserData } = useState();
   // Mock user data - replace with actual data later
-  const user: User = {
-    id: 1,
-    first_name: "John",
-    last_name: "Doe",
-    email: "john.doe@example.com",
+  const userData: User = {
+    id: user?.id ? user.id : 1,
+    first_name: user?.first_name ? user.first_name : "John",
+    last_name: user?.last_name ? user.last_name : "Smith",
+    email: user?.email ? user.email : "email@example.com",
     image_url: "https://via.placeholder.com/150",
   };
 
@@ -24,10 +30,10 @@ export const Profile = function () {
             {/* Profile Image */}
             <div className="flex justify-center -mt-16 mb-4">
               <div className="relative">
-                {user.image_url || user.signedUrl ? (
+                {userData.image_url || userData.signedUrl ? (
                   <img
-                    src={user.signedUrl || user.image_url}
-                    alt={`${user.first_name} ${user.last_name}`}
+                    src={userData.signedUrl || userData.image_url}
+                    alt={`${userData.first_name} ${userData.last_name}`}
                     className="w-32 h-32 rounded-full border-4 border-white object-cover shadow-lg"
                   />
                 ) : (
@@ -42,7 +48,7 @@ export const Profile = function () {
             <div className="text-center mb-6">
               <div className="flex items-center justify-center gap-3 mb-2">
                 <h1 className="text-2xl font-semibold text-gray-900">
-                  {user.first_name} {user.last_name}
+                  {userData.first_name} {userData.last_name}
                 </h1>
                 <button
                   className="p-2 text-gray-600 hover:bg-gray-100 rounded-lg transition-colors"
@@ -62,7 +68,7 @@ export const Profile = function () {
                 </div>
                 <div className="flex-1">
                   <p className="text-sm text-gray-500">First Name</p>
-                  <p className="text-base font-medium text-gray-900">{user.first_name}</p>
+                  <p className="text-base font-medium text-gray-900">{userData.first_name}</p>
                 </div>
               </div>
 
@@ -73,7 +79,7 @@ export const Profile = function () {
                 </div>
                 <div className="flex-1">
                   <p className="text-sm text-gray-500">Last Name</p>
-                  <p className="text-base font-medium text-gray-900">{user.last_name}</p>
+                  <p className="text-base font-medium text-gray-900">{userData.last_name}</p>
                 </div>
               </div>
 
@@ -84,7 +90,7 @@ export const Profile = function () {
                 </div>
                 <div className="flex-1">
                   <p className="text-sm text-gray-500">Email</p>
-                  <p className="text-base font-medium text-gray-900">{user.email}</p>
+                  <p className="text-base font-medium text-gray-900">{userData.email}</p>
                 </div>
               </div>
             </div>
