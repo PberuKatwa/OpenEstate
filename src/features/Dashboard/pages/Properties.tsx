@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faImage, faXmark, faEye, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faImage, faXmark, faEye, faTrash, faEdit, faUpload } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import type { ApiResponse } from "../../../types/api.types";
 import { propertiesService } from "../../../services/properties.service";
@@ -348,20 +348,31 @@ export const Properties = function () {
             <form className="p-8 space-y-6" onSubmit={handleSubmit}>
 
               {/* Upload Area */}
-              <div className="group relative border-2 border-dashed border-gray-200 rounded-2xl p-8 transition-all hover:border-blue-500 hover:bg-blue-50/30 flex flex-col items-center justify-center cursor-pointer">
+              <div className="relative">
+                <label
+                  htmlFor="file-upload"
+                  title="Click to upload"
+                  className="cursor-pointer flex items-center gap-4 px-6 py-4 before:border-gray-400/60 hover:before:border-gray-300 group before:bg-gray-100 before:absolute before:inset-0 before:rounded-3xl before:border before:border-dashed before:transition-transform before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95"
+                >
+                  <div className="w-max relative">
+                    <FontAwesomeIcon icon={faUpload} className="text-lg" />
+                  </div>
+                  <div className="relative">
+                    <span className="block text-base font-semibold relative text-blue-900 group-hover:text-blue-500">
+                      Upload a file
+                    </span>
+                    <span className="mt-0.5 block text-sm text-gray-500">Max 2 MB</span>
+                  </div>
+                </label>
+
+                {/* Hidden input, triggered by the label above */}
                 <input
+                  id="file-upload"
                   type="file"
                   accept="image/*"
-                  className="absolute inset-0 opacity-0 cursor-pointer"
+                  className="hidden"
                   onChange={handleImageUpload}
                 />
-                <div className="bg-gray-50 p-4 rounded-full mb-3 group-hover:scale-110 transition-transform">
-                  <FontAwesomeIcon icon={faImage} className="text-gray-400 text-xl group-hover:text-blue-500" />
-                </div>
-                <p className="text-sm font-semibold text-gray-700">
-                  {data.fileId ? data.fileId : modalMode === "update" ? "Change image (optional)" : "Drop your images here"}
-                </p>
-                <p className="text-xs text-gray-400 mt-1">Supports JPG, PNG up to 10MB</p>
               </div>
 
               {/* Inputs */}
