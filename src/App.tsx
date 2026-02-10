@@ -19,7 +19,7 @@ function AppContent() {
   const navigate = useNavigate();
   useEffect(
     function () {
-      const getToken = function () { return localStorage.getItem('token') };
+      const getToken = function () { return localStorage.getItem('access_token') };
       initializeApiClient(getToken)
     },
     [navigate]

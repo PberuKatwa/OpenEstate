@@ -46,9 +46,11 @@ export const AuthProvider = function ({ children }: { children: ReactNode }) {
 
       const response: AuthUserApiResponse = await authService.login(email, password);
       if (!response.data?.access_token) throw new Error(`Error in logging in`);
-
+      const token = response.data.access_token;
       setToken(response.data.access_token);
       localStorage.setItem('access_token', JSON.stringify(token));
+      console.log("acesss token", token)
+
 
       return { success:response.success, message:response.message }
 
