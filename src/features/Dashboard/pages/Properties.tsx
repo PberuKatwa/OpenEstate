@@ -78,6 +78,18 @@ export const Properties = function () {
     }
   }
 
+  const handleCreateProperty = async function (event: React.FormEvent) {
+    try {
+      setLoading(true);
+
+    } catch (error) {
+      console.error(`Error in creating property ERROR:${error}`)
+      toast.error(`Error in creating property ERROR:${error}`)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
