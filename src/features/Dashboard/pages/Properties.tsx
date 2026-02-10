@@ -70,6 +70,7 @@ export const Properties = function () {
           }
         }
       )
+
     } catch (error) {
       console.error(`Error in handling image upload`, error)
       toast.error(`Error in uploading image:${error}`)
@@ -77,6 +78,13 @@ export const Properties = function () {
       setLoading(false);
     }
   }
+
+  const openCreateModal = () => {
+    setModalMode("create");
+    setData(initialPayload);
+    setSelectedProperty(null);
+    setIsModalOpen(true);
+  };
 
   const handleCreateProperty = async function (event: React.FormEvent) {
     try {
@@ -134,12 +142,7 @@ export const Properties = function () {
     }
   };
 
-  const openCreateModal = () => {
-    setModalMode("create");
-    setData(initialPayload);
-    setSelectedProperty(null);
-    setIsModalOpen(true);
-  };
+
 
   const openUpdateModal = (property: Property) => {
     setModalMode("update");
@@ -363,7 +366,7 @@ export const Properties = function () {
             </div>
 
             {/* MODAL BODY */}
-            <form className="p-8 space-y-6" onSubmit={handleSubmit}>
+            <form className="p-8 space-y-6" onSubmit={modalMode === "create" ? handleCreateProperty : handleSubmit }>
 
               {/* Upload Area */}
               <div className="relative">
