@@ -28,7 +28,7 @@ export interface CreatePropertyPayload {
   name: string;
   price: number;
   isRental: boolean;
-  fileId: number;
+  fileId: number|null;
   location: string;
   description: string;
 }

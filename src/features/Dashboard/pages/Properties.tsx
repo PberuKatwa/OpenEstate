@@ -81,18 +81,10 @@ export const Properties = function () {
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
 
-    if (modalMode === "create" && !data.image) {
-      alert("Please select an image");
-      return;
-    }
-
     try {
       setLoading(true)
       const formData = new FormData();
 
-      if (data.image) {
-        formData.append("image", data.image);
-      }
       formData.append("name", data.name);
       formData.append("price", String(data.price));
       formData.append("description", data.description);
@@ -105,7 +97,6 @@ export const Properties = function () {
         formData.append("isRental", String(data.isRental));
         response = await propertiesService.createProperty(formData);
       } else {
-        formData.append("id",String(data.id))
         response = await propertiesService.updateProperty(formData)
         toast.success(response.message);
         console.log("Update property ID:",response);
@@ -114,7 +105,7 @@ export const Properties = function () {
 
       toast.success(response.message)
       setIsModalOpen(false);
-      setData(initialState);
+      setData(initialPayload);
       setSelectedProperty(null);
       getAllProperties(currentPage, limit);
 
@@ -127,7 +118,7 @@ export const Properties = function () {
 
   const openCreateModal = () => {
     setModalMode("create");
-    setData(initialState);
+    setData(initialPayload);
     setSelectedProperty(null);
     setIsModalOpen(true);
   };
@@ -136,8 +127,8 @@ export const Properties = function () {
     setModalMode("update");
     setSelectedProperty(property);
     setData({
-      id:property.id,
-      image: null,
+      userId: null,
+      fileId:null,
       name: property.name,
       price: property.price,
       location: property.location,
@@ -344,7 +335,7 @@ export const Properties = function () {
               <button
                 onClick={() => {
                   setIsModalOpen(false);
-                  setData(initialState);
+                  setData(initialPayload);
                   setSelectedProperty(null);
                 }}
                 className="text-gray-400 hover:text-black hover:bg-gray-100 rounded-full w-10 h-10 flex items-center justify-center transition-all"
@@ -379,9 +370,9 @@ export const Properties = function () {
                 <div className="bg-gray-50 p-4 rounded-full mb-3 group-hover:scale-110 transition-transform">
                   <FontAwesomeIcon icon={faImage} className="text-gray-400 text-xl group-hover:text-blue-500" />
                 </div>
-                <p className="text-sm font-semibold text-gray-700">
+                {/*<p className="text-sm font-semibold text-gray-700">
                   {data.image ? data.image.name : modalMode === "update" ? "Change image (optional)" : "Drop your images here"}
-                </p>
+                </p>*/}
                 <p className="text-xs text-gray-400 mt-1">Supports JPG, PNG up to 10MB</p>
               </div>
 
@@ -476,7 +467,7 @@ export const Properties = function () {
                   type="button"
                   onClick={() => {
                     setIsModalOpen(false);
-                    setData(initialState);
+                    setData(initialPayload);
                     setSelectedProperty(null);
                   }}
                   className="flex-1 py-3.5 text-sm font-bold text-gray-500 hover:text-black hover:bg-gray-100 rounded-xl transition-all"
