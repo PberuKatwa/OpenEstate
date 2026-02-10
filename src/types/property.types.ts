@@ -1,13 +1,16 @@
-export interface Property<T = string> {
+import type { ApiResponse } from "./api.types";
+
+export interface Property {
   id: number;
   name: string;
   price: number;
   is_rental: boolean;
-  image_url: string;
+  file_url: string | null;
+  fileId: number | null;
   location: string;
   description: string;
-  signedUrl?: T;
-  status?: T;
+  signedUrl: string | null;
+  status?: string;
 }
 
 export interface PropertyPayload {
@@ -15,7 +18,7 @@ export interface PropertyPayload {
   name: string;
   price: number;
   isRental: boolean;
-  imageUrl: string;
+  fileId: number;
   location: string;
   description: string;
 }
@@ -28,3 +31,6 @@ export interface AllProperties {
     totalPages: number;
   }
 }
+
+export interface PropertyApiResponse extends ApiResponse<AllProperties> { };
+export interface SinglePropertyApiResponse extends ApiResponse<Property> { };
