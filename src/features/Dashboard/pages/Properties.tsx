@@ -82,6 +82,12 @@ export const Properties = function () {
     try {
       setLoading(true);
 
+      const response = await propertiesService.createProperty(data);
+      toast.success(response.message);
+      getAllProperties(currentPage, limit);
+      setIsModalOpen(false);
+      setData(initialPayload);
+
     } catch (error) {
       console.error(`Error in creating property ERROR:${error}`)
       toast.error(`Error in creating property ERROR:${error}`)
