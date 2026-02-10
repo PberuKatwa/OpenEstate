@@ -1,4 +1,4 @@
-import type { AuthUserApiResponse } from "../types/auth.types";
+import type { AuthUserApiResponse, ProfileApiResponse } from "../types/auth.types";
 import { apiClient, authorizedApiClient } from "./api.client";
 
 export const authService = {
@@ -21,7 +21,6 @@ export const authService = {
       const response = await apiClient.post("/auth/login", { email, password })
       const loginRes: AuthUserApiResponse = response.data;
       if (!loginRes.data?.access_token) throw new Error(`Invalid login, try agin`);
-      localStorage.setItem("token", loginRes.data.access_token)
       return loginRes;
 
     } catch (error) {
@@ -32,7 +31,8 @@ export const authService = {
   async profile() {
     try {
       const response = await authorizedApiClient.get("/auth/profile")
-      return response.data;
+      const profileData: ProfileApiResponse = response.data;
+      return profileData;
     } catch (error) {
       throw error;
     }

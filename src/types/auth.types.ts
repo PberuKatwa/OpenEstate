@@ -40,6 +40,7 @@ export interface UserProfile extends BaseUser {
 
 export interface UserApiResponse extends ApiResponse<BaseUser> { };
 export interface AuthUserApiResponse extends ApiResponse<AuthUser> { };
+export interface ProfileApiResponse extends ApiResponse<UserProfile> { };
 export type LoginUser = (email: string, password: string) => Promise<UserApiResponse>;
 
 export interface AuthContextType {
