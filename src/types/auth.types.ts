@@ -1,20 +1,48 @@
 import type { ApiResponse } from "./api.types";
 
-export interface User {
-  id: number;
+export interface BaseUser {
   first_name: string;
-  last_name: string;
-  email: string;
-  access_token?: string;
-  image_url?: string;
-  signedUrl?: string;
 }
 
-export interface LoginUserResponse extends ApiResponse<User> { };
-export type LoginUser = (email: string, password: string) => Promise<ApiResponse>;
+export interface CreateUserPayload {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
+export interface UpdateUserPayload{
+  id: number;
+  firstName: string;
+  lastName: string;
+  fileId: number | null;
+}
+
+export interface SignedUser {
+  userId: number;
+  role: string;
+  iat?: number;
+  exp?: number;
+};
+
+export interface AuthUser extends BaseUser {
+  id: number;
+  access_token: string;
+};
+
+export interface UserProfile extends BaseUser {
+  id: number;
+  last_name: string;
+  file_id: number | null;
+  file_url: string | null;
+  signed_url: string | null;
+}
+
+export interface UserApiResponse extends ApiResponse<BaseUser> { };
+export type LoginUser = (email: string, password: string) => Promise<UserApiResponse>;
 
 export interface AuthContextType {
-  user: User | null;
+  user: BaseUser | null;
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
