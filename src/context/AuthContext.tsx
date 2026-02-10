@@ -16,6 +16,16 @@ export const AuthProvider = function ({ children }: { children: ReactNode }) {
     function () {
 
       const authData = localStorage.getItem('authData');
+      const localToken = localStorage.getItem('access_token');
+      const localUser = localStorage.getItem('userProfile');
+
+      if (localToken) {
+        try {
+
+        } catch(error) {
+          console.error(`Error in fetching access token`, error)
+        }
+      }
 
       if (authData) {
         try {
@@ -39,7 +49,7 @@ export const AuthProvider = function ({ children }: { children: ReactNode }) {
       if (!response.data?.access_token) throw new Error(`Error in logging in`);
 
       setToken(response.data.access_token);
-      localStorage.setItem('acess_token', JSON.stringify(token));
+      localStorage.setItem('access_token', JSON.stringify(token));
 
       return { success:response.success, message:response.message }
 
@@ -60,7 +70,7 @@ export const AuthProvider = function ({ children }: { children: ReactNode }) {
       if (!response.data) throw new Error(`No user data was found`);
       const user = response.data;
       setUser(user);
-      localStorage.setItem('user', JSON.stringify(user));
+      localStorage.setItem('userProfile', JSON.stringify(user));
 
       return user;
     } catch (error) {
@@ -82,6 +92,7 @@ export const AuthProvider = function ({ children }: { children: ReactNode }) {
     token,
     isAuthenticated: !!token,
     login,
+    fetchProfile,
     logout,
     isLoading
   };
