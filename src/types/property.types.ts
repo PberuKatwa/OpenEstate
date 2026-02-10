@@ -23,6 +23,16 @@ export interface PropertyPayload {
   description: string;
 }
 
+export interface CreatePropertyPayload {
+  userId: number | null;
+  name: string;
+  price: number;
+  isRental: boolean;
+  fileId: number;
+  location: string;
+  description: string;
+}
+
 export interface AllProperties {
   properties: Property[];
   pagination: {
