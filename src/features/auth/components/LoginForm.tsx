@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import "./login.css"
+import { toast } from "react-toastify";
 
 const initialState = {
   email: '',
@@ -37,8 +38,8 @@ export const LoginForm = function () {
     try {
 
       setIsLoading(true)
-      const response = await login(formData.email, formData.password)
-      alert(`Successfully logged in`)
+      await login(formData.email, formData.password)
+      toast.success(`Successfully logged in`)
       navigate("/dashboard")
 
     } catch (error) {
