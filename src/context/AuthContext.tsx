@@ -8,14 +8,13 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = function ({ children }: { children: ReactNode }) {
 
-  const [user, setUser] = useState<BaseUser|null>(null);
+  const [user, setUser] = useState<UserProfile|null>(null);
   const [token, setToken] = useState<string|null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(
     function () {
 
-      const authData = localStorage.getItem('authData');
       const localToken = localStorage.getItem('access_token');
       const localUser = localStorage.getItem('userProfile');
 
@@ -28,16 +27,15 @@ export const AuthProvider = function ({ children }: { children: ReactNode }) {
         }
       }
 
-      if (authData) {
+      if (localUser) {
         try {
-          const { userData, token } = JSON.parse(authData);
-          setUser(userData)
-          setToken(token)
-        } catch (error) {
-          console.error(`Error in parsing user`,error)
+          const profile:UserProfile = JSON.parse(localUser);
+          setUser(profile);
+        } catch(error) {
+          console.error(`Error in fetching profile`, error);
         }
-
       }
+
        setIsLoading(false);
     },
     []
