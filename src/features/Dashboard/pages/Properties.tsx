@@ -353,26 +353,14 @@ export const Properties = function () {
                   type="file"
                   accept="image/*"
                   className="absolute inset-0 opacity-0 cursor-pointer"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (!file) return;
-
-                    setData(
-                      (prev) => {
-                        return {
-                          ...prev,
-                          image: file,
-                        }
-                      }
-                    );
-                  }}
+                  onChange={handleImageUpload}
                 />
                 <div className="bg-gray-50 p-4 rounded-full mb-3 group-hover:scale-110 transition-transform">
                   <FontAwesomeIcon icon={faImage} className="text-gray-400 text-xl group-hover:text-blue-500" />
                 </div>
-                {/*<p className="text-sm font-semibold text-gray-700">
-                  {data.image ? data.image.name : modalMode === "update" ? "Change image (optional)" : "Drop your images here"}
-                </p>*/}
+                <p className="text-sm font-semibold text-gray-700">
+                  {data.fileId ? data.fileId : modalMode === "update" ? "Change image (optional)" : "Drop your images here"}
+                </p>
                 <p className="text-xs text-gray-400 mt-1">Supports JPG, PNG up to 10MB</p>
               </div>
 
