@@ -14,23 +14,20 @@ export interface Property {
 }
 
 export interface PropertyPayload {
-  userId: number;
-  name: string;
-  price: number;
-  isRental: boolean;
-  fileId: number;
-  location: string;
-  description: string;
-}
-
-export interface CreatePropertyPayload {
-  userId: number | null;
   name: string;
   price: number;
   isRental: boolean;
   fileId: number|null;
   location: string;
   description: string;
+}
+
+export interface CreatePropertyPayload extends PropertyPayload {
+  userId: number | null;
+}
+
+export interface UpdatePropertyPayload extends PropertyPayload{
+  id: number;
 }
 
 export interface AllProperties {

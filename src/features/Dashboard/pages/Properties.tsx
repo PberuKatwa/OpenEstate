@@ -88,6 +88,7 @@ export const Properties = function () {
 
   const handleCreateProperty = async function (event: React.FormEvent) {
     try {
+      event.preventDefault();
       setLoading(true);
 
       const response = await propertiesService.createProperty(data);
@@ -101,6 +102,34 @@ export const Properties = function () {
       toast.error(`Error in creating property ERROR:${error}`)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const openUpdateModal = (property: Property) => {
+    setModalMode("update");
+    setSelectedProperty(property);
+    setData({
+      userId: null,
+      fileId:null,
+      name: property.name,
+      price: property.price,
+      location: property.location,
+      description: property.description,
+      isRental: property.is_rental
+    });
+    setIsModalOpen(true);
+  };
+
+  const handleUpdateProperty = async function (event: React.FormEvent) {
+    try {
+      event.preventDefault();
+      setLoading(true);
+
+    } catch (error) {
+      toast.error(`${error}`);
+      console.error(`Error in handling update property`);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -121,7 +150,7 @@ export const Properties = function () {
       if (modalMode === "create") {
         formData.append("location", data.location);
         formData.append("isRental", String(data.isRental));
-        response = await propertiesService.createProperty(formData);
+        response = await propertiesService.createProperty(data);
       } else {
         response = await propertiesService.updateProperty(formData)
         toast.success(response.message);
@@ -144,20 +173,7 @@ export const Properties = function () {
 
 
 
-  const openUpdateModal = (property: Property) => {
-    setModalMode("update");
-    setSelectedProperty(property);
-    setData({
-      userId: null,
-      fileId:null,
-      name: property.name,
-      price: property.price,
-      location: property.location,
-      description: property.description,
-      isRental: property.is_rental
-    });
-    setIsModalOpen(true);
-  };
+
 
 
   const getAllProperties = async function (currentPage:number, limit:number) {
