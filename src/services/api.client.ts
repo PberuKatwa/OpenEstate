@@ -18,7 +18,7 @@ export const setAuthTokenInterceptor = (getToken: () => string | null) => {
     (config) => {
       const token = getToken();
       if (token) {
-        config.headers["Authorization"] = `Bearer ${token}`;
+        config.headers["Authorization"] = `Bearer ${token.replace(/["']/g, '')}`;
       }
       return config;
     },
