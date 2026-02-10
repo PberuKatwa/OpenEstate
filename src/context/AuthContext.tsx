@@ -36,7 +36,6 @@ export const AuthProvider = function ({ children }: { children: ReactNode }) {
     try {
 
       const response: AuthUserApiResponse = await authService.login(email, password);
-      if (!response.data?.id) throw new Error(`Error in logging in`);
       if (!response.data?.access_token) throw new Error(`Error in logging in`);
 
       setToken(response.data.access_token);
