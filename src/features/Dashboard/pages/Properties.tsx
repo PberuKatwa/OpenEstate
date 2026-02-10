@@ -105,13 +105,13 @@ export const Properties = function () {
     }
   }
 
-  const openUpdateModal = (property: UpdatePropertyPayload) => {
+  const openUpdateModal = (property: Property) => {
     setModalMode("update");
     setSelectedProperty({
       id: property.id,
       name: property.name,
       price: property.price,
-      isRental: property.isRental,
+      isRental: property.is_rental,
       fileId: data.fileId,
       location: property.location,
       description: property.description
@@ -159,7 +159,8 @@ export const Properties = function () {
         formData.append("isRental", String(data.isRental));
         response = await propertiesService.createProperty(data);
       } else {
-        response = await propertiesService.updateProperty(formData)
+        if (!selectedProperty) throw new Error(`No property was selected`);
+        response = await propertiesService.updateProperty(selectedProperty)
         toast.success(response.message);
         console.log("Update property ID:",response);
         return;
@@ -177,11 +178,6 @@ export const Properties = function () {
       setLoading(false);
     }
   };
-
-
-
-
-
 
   const getAllProperties = async function (currentPage:number, limit:number) {
     try {
@@ -389,7 +385,7 @@ export const Properties = function () {
             </div>
 
             {/* MODAL BODY */}
-            <form className="p-8 space-y-6" onSubmit={modalMode === "create" ? handleCreateProperty : handleSubmit }>
+            <form className="p-8 space-y-6" onSubmit={modalMode === "create" ? handleCreateProperty : handleUpdateProperty }>
 
               {/* Upload Area */}
               <div className="relative">
@@ -438,7 +434,7 @@ export const Properties = function () {
                   <input
                     type="text"
                     name="name"
-                    value={data.name}
+                    value={modalMode === "create" ? data.name : selectedProperty?.name }
                     onChange={handleChange}
                     placeholder="e.g. Modern Sunset Villa"
                     className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
