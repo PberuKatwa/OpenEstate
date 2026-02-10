@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faImage, faXmark, faEye, faTrash, faEdit, faUpload } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faImage, faXmark, faEye, faTrash, faEdit, faUpload, faCircleNotch } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import type { ApiResponse } from "../../../types/api.types";
 import { propertiesService } from "../../../services/properties.service";
@@ -351,26 +351,37 @@ export const Properties = function () {
               <div className="relative">
                 <label
                   htmlFor="file-upload"
-                  title="Click to upload"
-                  className="cursor-pointer flex items-center gap-4 px-6 py-4 before:border-gray-400/60 hover:before:border-gray-300 group before:bg-gray-100 before:absolute before:inset-0 before:rounded-3xl before:border before:border-dashed before:transition-transform before:duration-300 hover:before:scale-105 active:duration-75 active:before:scale-95"
+                  className={`cursor-pointer flex items-center gap-4 px-6 py-4 before:border-gray-400/60 hover:before:border-gray-300 group before:bg-gray-100 before:absolute before:inset-0 before:rounded-3xl before:border before:border-dashed before:transition-transform before:duration-300
+                    ${loading ? "opacity-50 pointer-events-none" : "hover:before:scale-105 active:before:scale-95"}`}
                 >
-                  <div className="w-max relative">
-                    <FontAwesomeIcon icon={faUpload} className="text-lg" />
-                  </div>
-                  <div className="relative">
-                    <span className="block text-base font-semibold relative text-blue-900 group-hover:text-blue-500">
-                      Upload a file
-                    </span>
-                    <span className="mt-0.5 block text-sm text-gray-500">Max 2 MB</span>
+                  {/* Loader Overlay */}
+                  {loading && (
+                    <div className="absolute inset-0 z-10 flex items-center justify-center">
+                      <FontAwesomeIcon
+                        icon={faCircleNotch}
+                        className="text-blue-600 text-2xl animate-spin"
+                      />
+                    </div>
+                  )}
+
+                  {/* Content (Icons/Text) */}
+                  <div className={`flex items-center gap-4 transition-opacity ${loading ? 'opacity-0' : 'opacity-100'}`}>
+                    <div className="w-max relative">
+                      <FontAwesomeIcon icon={faUpload} className="text-lg" />
+                    </div>
+                    <div className="relative">
+                      <span className="block text-base font-semibold relative text-blue-900 group-hover:text-blue-500">
+                        Upload a file
+                      </span>
+                    </div>
                   </div>
                 </label>
 
-                {/* Hidden input, triggered by the label above */}
                 <input
                   id="file-upload"
                   type="file"
-                  accept="image/*"
                   className="hidden"
+                  disabled={loading} // Prevent double-uploads while loading
                   onChange={handleImageUpload}
                 />
               </div>
