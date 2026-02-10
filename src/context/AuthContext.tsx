@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
-import type { BaseUser, AuthContextType, UserApiResponse, AuthUserApiResponse, AuthUser, ProfileApiResponse } from "../types/auth.types";
+import type { BaseUser, AuthContextType, UserApiResponse, AuthUserApiResponse, AuthUser, ProfileApiResponse, UserProfile } from "../types/auth.types";
 import type { ApiResponse } from "../types/api.types";
 import { authService } from "../services/auth.service";
 
@@ -52,7 +52,7 @@ export const AuthProvider = function ({ children }: { children: ReactNode }) {
     }
   }
 
-  const fetchProfile: AuthContextType['fetchProfile'] = async function (): Promise<ProfileApiResponse> {
+  const fetchProfile: AuthContextType['fetchProfile'] = async function (): Promise<UserProfile> {
 
     try {
 
@@ -60,9 +60,12 @@ export const AuthProvider = function ({ children }: { children: ReactNode }) {
       if (!response.data) throw new Error(`No user data was found`);
       const user = response.data;
       setUser(user);
+      localStorage.setItem('user', JSON.stringify(user));
 
+      return user;
     } catch (error) {
-      console.error(`Error in fetching profile`, error)
+      console.error(`Error in fetching profile`, error);
+      throw error;
     }
 
   }
