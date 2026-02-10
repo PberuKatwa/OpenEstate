@@ -18,10 +18,20 @@ const initialPayload: CreatePropertyPayload = {
   isRental:false
 }
 
+const initialUploadPayload: UpdatePropertyPayload = {
+  id: 0,
+  fileId: null,
+  name: "",
+  price: 0,
+  location: "",
+  description: "",
+  isRental:false
+}
+
 export const Properties = function () {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"create" | "update">("create");
-  const [selectedProperty, setSelectedProperty] = useState<UpdatePropertyPayload | null>(null);
+  const [selectedProperty, setSelectedProperty] = useState<UpdatePropertyPayload>(initialUploadPayload);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(5);
   const [totalPages, setTotalPages] = useState(1);
@@ -35,6 +45,19 @@ export const Properties = function () {
       const { name, value } = event.target;
 
       setData(
+        (prev) => ({ ...prev, [name]: value })
+      );
+
+    } catch (error) {
+      console.error("error in handling change event", error)
+    }
+  }
+
+  const handleUpdateChange = function (event: React.ChangeEvent<HTMLInputElement| HTMLTextAreaElement>) {
+    try {
+      const { name, value } = event.target;
+
+      setSelectedProperty(
         (prev) => ({ ...prev, [name]: value })
       );
 
@@ -82,7 +105,7 @@ export const Properties = function () {
   const openCreateModal = () => {
     setModalMode("create");
     setData(initialPayload);
-    setSelectedProperty(null);
+    setSelectedProperty(initialUploadPayload);
     setIsModalOpen(true);
   };
 
@@ -130,7 +153,7 @@ export const Properties = function () {
       setIsModalOpen(false);
       toast.success(response.message);
       getAllProperties(currentPage, limit);
-      setSelectedProperty(null);
+      setSelectedProperty(initialUploadPayload);
 
     } catch (error) {
       toast.error(`${error}`);
@@ -169,7 +192,7 @@ export const Properties = function () {
       toast.success(response.message)
       setIsModalOpen(false);
       setData(initialPayload);
-      setSelectedProperty(null);
+      setSelectedProperty(initialUploadPayload);
       getAllProperties(currentPage, limit);
 
     } catch (error) {
@@ -376,7 +399,7 @@ export const Properties = function () {
                 onClick={() => {
                   setIsModalOpen(false);
                   setData(initialPayload);
-                  setSelectedProperty(null);
+                  setSelectedProperty(initialUploadPayload);
                 }}
                 className="text-gray-400 hover:text-black hover:bg-gray-100 rounded-full w-10 h-10 flex items-center justify-center transition-all"
               >
@@ -435,7 +458,7 @@ export const Properties = function () {
                     type="text"
                     name="name"
                     value={modalMode === "create" ? data.name : selectedProperty?.name }
-                    onChange={handleChange}
+                    onChange={modalMode === "create" ? handleChange : handleUpdateChange }
                     placeholder="e.g. Modern Sunset Villa"
                     className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
                   />
@@ -518,7 +541,7 @@ export const Properties = function () {
                   onClick={() => {
                     setIsModalOpen(false);
                     setData(initialPayload);
-                    setSelectedProperty(null);
+                    setSelectedProperty(initialUploadPayload);
                   }}
                   className="flex-1 py-3.5 text-sm font-bold text-gray-500 hover:text-black hover:bg-gray-100 rounded-xl transition-all"
                 >
