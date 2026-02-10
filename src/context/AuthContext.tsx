@@ -21,9 +21,10 @@ export const AuthProvider = function ({ children }: { children: ReactNode }) {
 
       if (localToken) {
         try {
-
+          const token = JSON.parse(localToken);
+          setToken(token);
         } catch(error) {
-          console.error(`Error in fetching access token`, error)
+          console.error(`Error in fetching access token`, error);
         }
       }
 
