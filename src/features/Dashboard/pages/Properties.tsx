@@ -6,6 +6,7 @@ import type { ApiResponse } from "../../../types/api.types";
 import { propertiesService } from "../../../services/properties.service";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
 import type { AllProperties, CreatePropertyPayload, Property} from "../../../types/property.types";
+import { fileService } from "../../../services/file.service";
 
 const initialPayload: CreatePropertyPayload = {
   userId: null,
@@ -27,7 +28,7 @@ export const Properties = function () {
   const [properties, setProperties] = useState<Property[] | []>([]);
   const [loading, setLoading] = useState(true);
 
-  const [data, setData] = useState(initialPayload);
+  const [data, setData] = useState<CreatePropertyPayload>(initialPayload);
 
   const handleChange = function (event: React.ChangeEvent<HTMLInputElement| HTMLTextAreaElement>) {
     try {
@@ -42,11 +43,33 @@ export const Properties = function () {
     }
   }
 
-  const handleImageUpload = function (event: React.FormEvent) {
+  const handleImageUpload = async function (event: React.ChangeEvent<HTMLInputElement>) {
     try {
       setLoading(true);
 
+      if (!event.target.files || event.target.files.length === 0) {
+        throw new Error("No file was uploaded");
+      }
 
+      const file = event.target.files[0];
+
+      const form = new FormData()
+      form.append("file", file);
+      const response = await fileService.uploadImage(form);
+
+      if (!response.data || response.data === undefined) throw new Error(`Error in uploading file`);
+
+      const fileId = response.data.id;
+      toast.success(response.message);
+
+      setData(
+        (prev) => {
+          return {
+            ...prev,
+            fileId: fileId,
+          }
+        }
+      )
     } catch (error) {
       console.error(`Error in handling image upload`, error)
       toast.error(`Error in uploading image:${error}`)
