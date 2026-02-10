@@ -469,8 +469,8 @@ export const Properties = function () {
                   <input
                     type="number"
                     name="price"
-                    value={data.price}
-                    onChange={handleChange}
+                    value={modalMode === "create" ? data.price : selectedProperty?.price }
+                    onChange={modalMode === "create" ? handleChange : handleUpdateChange }
                     placeholder="e.g. 100,000"
                     className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
                   />
@@ -481,8 +481,8 @@ export const Properties = function () {
                   <textarea
                     rows={3}
                     name="description"
-                    value={data.description}
-                    onChange={handleChange}
+                    value={modalMode === "create" ? data.description : selectedProperty?.description }
+                    onChange={modalMode === "create" ? handleChange : handleUpdateChange }
                     placeholder="e.g. 5 bedroom, 4 bathrooms"
                     className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
                   />
@@ -493,8 +493,8 @@ export const Properties = function () {
                   <input
                     type="text"
                     name="location"
-                    value={data.location}
-                    onChange={handleChange}
+                    value={modalMode === "create" ? data.location : selectedProperty?.location }
+                    onChange={modalMode === "create" ? handleChange : handleUpdateChange }
                     placeholder="e.g. Modern Sunset Villa"
                     className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
                   />
@@ -512,8 +512,8 @@ export const Properties = function () {
                         type="radio"
                         name="isRental"
                         value="true"
-                        checked={data.isRental === true}
-                        onChange={handleChange}
+                        checked={modalMode === "create" ? data.isRental : selectedProperty?.isRental }
+                        onChange={modalMode === "create" ? handleChange : handleUpdateChange }
                       />
                       Yes
                     </label>
@@ -523,8 +523,8 @@ export const Properties = function () {
                         type="radio"
                         name="isRental"
                         value="false"
-                        checked={data.isRental === false}
-                        onChange={handleChange}
+                        checked={modalMode === "create" ? data.isRental : selectedProperty?.isRental }
+                        onChange={modalMode === "create" ? handleChange : handleUpdateChange }
                       />
                       No
                     </label>
