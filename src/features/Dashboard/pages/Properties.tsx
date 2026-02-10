@@ -5,11 +5,11 @@ import { toast } from "react-toastify";
 import type { ApiResponse } from "../../../types/api.types";
 import { propertiesService } from "../../../services/properties.service";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
-import type { AllProperties, Property, PropertyPayload } from "../../../types/property.types";
+import type { AllProperties, CreatePropertyPayload, Property} from "../../../types/property.types";
 
-const initialState:PropertyPayload = {
-  id:0,
-  image: null as File | null,
+const initialPayload: CreatePropertyPayload = {
+  userId: null,
+  fileId: 0,
   name: "",
   price: 0,
   location: "",
@@ -27,7 +27,7 @@ export const Properties = function () {
   const [properties, setProperties] = useState<Property[] | []>([]);
   const [loading, setLoading] = useState(true);
 
-  const [data, setData] = useState(initialState);
+  const [data, setData] = useState(initialPayload);
 
   const handleChange = function (event: React.ChangeEvent<HTMLInputElement| HTMLTextAreaElement>) {
     try {
@@ -39,6 +39,19 @@ export const Properties = function () {
 
     } catch (error) {
       console.error("error in handling change event", error)
+    }
+  }
+
+  const handleImageUpload = function (event: React.FormEvent) {
+    try {
+      setLoading(true);
+
+
+    } catch (error) {
+      console.error(`Error in handling image upload`, error)
+      toast.error(`Error in uploading image:${error}`)
+    } finally {
+      setLoading(false);
     }
   }
 
