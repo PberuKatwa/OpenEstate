@@ -124,6 +124,14 @@ export const Properties = function () {
       event.preventDefault();
       setLoading(true);
 
+      if (!selectedProperty) throw new Error(`No property was selected`);
+      const response = await propertiesService.updateProperty(selectedProperty);
+
+      setIsModalOpen(false);
+      toast.success(response.message);
+      getAllProperties(currentPage, limit);
+      setSelectedProperty(null);
+
     } catch (error) {
       toast.error(`${error}`);
       console.error(`Error in handling update property`);
