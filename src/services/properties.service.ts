@@ -1,6 +1,6 @@
 import { authorizedApiClient } from "./api.client";
 import type { ApiResponse } from "../types/api.types";
-import type { CreatePropertyPayload } from "../types/property.types";
+import type { CreatePropertyPayload, UpdatePropertyPayload } from "../types/property.types";
 
 export const propertiesService = {
 
@@ -16,7 +16,6 @@ export const propertiesService = {
 
   async createProperty(payload:CreatePropertyPayload):Promise<ApiResponse> {
     try {
-      console.log("payloaddd", payload)
       const response = await authorizedApiClient.post("/properties", payload);
 
       const propertyRes: ApiResponse = response.data;
@@ -39,15 +38,10 @@ export const propertiesService = {
     }
   },
 
-  async updateProperty(payload: FormData):Promise<ApiResponse> {
+  async updateProperty(payload: UpdatePropertyPayload):Promise<ApiResponse> {
     try {
 
-      const response = await authorizedApiClient.post(
-        "/properties/update",
-        payload,
-        { headers: { "Content-Type": "multipart/form-data", }}
-      )
-
+      const response = await authorizedApiClient.post("/properties/update", payload);
       const propertyRes: ApiResponse = response.data;
       return propertyRes;
 

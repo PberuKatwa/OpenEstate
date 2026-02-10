@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import type { ApiResponse } from "../../../types/api.types";
 import { propertiesService } from "../../../services/properties.service";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
-import type { AllProperties, CreatePropertyPayload, Property} from "../../../types/property.types";
+import type { AllProperties, CreatePropertyPayload, Property, UpdatePropertyPayload} from "../../../types/property.types";
 import { fileService } from "../../../services/file.service";
 
 const initialPayload: CreatePropertyPayload = {
@@ -21,7 +21,7 @@ const initialPayload: CreatePropertyPayload = {
 export const Properties = function () {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"create" | "update">("create");
-  const [selectedProperty, setSelectedProperty] = useState<Property | null>(null);
+  const [selectedProperty, setSelectedProperty] = useState<UpdatePropertyPayload | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(5);
   const [totalPages, setTotalPages] = useState(1);
@@ -105,17 +105,16 @@ export const Properties = function () {
     }
   }
 
-  const openUpdateModal = (property: Property) => {
+  const openUpdateModal = (property: UpdatePropertyPayload) => {
     setModalMode("update");
-    setSelectedProperty(property);
-    setData({
-      userId: null,
-      fileId:null,
+    setSelectedProperty({
+      id: property.id,
       name: property.name,
       price: property.price,
+      isRental: property.isRental,
+      fileId: data.fileId,
       location: property.location,
-      description: property.description,
-      isRental: property.is_rental
+      description: property.description
     });
     setIsModalOpen(true);
   };
