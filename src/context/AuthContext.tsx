@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 import type { ReactNode } from "react";
-import type { User, AuthContextType, LoginUserResponse } from "../types/auth.types";
+import type { BaseUser, AuthContextType, UserApiResponse, AuthUserApiResponse, AuthUser } from "../types/auth.types";
 import type { ApiResponse } from "../types/api.types";
 import { authService } from "../services/auth.service";
 
@@ -8,7 +8,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = function ({ children }: { children: ReactNode }) {
 
-  const [user, setUser] = useState<User|null>(null);
+  const [user, setUser] = useState<BaseUser|null>(null);
   const [token, setToken] = useState<string|null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -35,21 +35,12 @@ export const AuthProvider = function ({ children }: { children: ReactNode }) {
   const login: AuthContextType['login'] = async function (email:string,password:string):Promise<ApiResponse> {
     try {
 
-      const response: LoginUserResponse = await authService.login(email, password);
+      const response: AuthUserApiResponse = await authService.login(email, password);
       if (!response.data?.id) throw new Error(`Error in logging in`);
       if (!response.data?.access_token) throw new Error(`Error in logging in`);
 
-      const userData: User = {
-        id: response.data?.id,
-        email: response.data.email,
-        first_name: response.data.first_name,
-        last_name: response.data.last_name,
-        signedUrl: response.data.signedUrl
-      };
-
-      setUser(userData);
       setToken(response.data.access_token);
-      localStorage.setItem('authData', JSON.stringify({userData,token}))
+      localStorage.setItem('acess_token', JSON.stringify(token));
 
       return { success:response.success, message:response.message }
 
