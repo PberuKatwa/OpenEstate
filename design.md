@@ -10,9 +10,6 @@ The palette is extracted directly from the Ardhitech Consulting logo and extende
 ```css
 :root {
   /* — Core Brand — */
-  --color-noir:        #0D0D0D;   /* near-black from logo background */
-  --color-charcoal:    #1A1A1A;   /* card / panel surfaces */
-  --color-graphite:    #2C2C2C;   /* secondary surfaces, borders */
   --color-crimson:     #C0182A;   /* primary brand red (logo) */
   --color-crimson-dim: #8C1020;   /* darker red for hover/depth */
   --color-blush:       #E8354A;   /* lighter red for highlights */
@@ -23,18 +20,28 @@ The palette is extracted directly from the Ardhitech Consulting logo and extende
   --color-danger:      #EF4444;   /* red — delete, archive, destructive */
   --color-danger-dim:  #DC2626;   /* darker on hover */
 
-  /* — Neutrals — */
-  --color-smoke:       #F5F5F4;   /* light text on dark */
-  --color-ash:         #A8A29E;   /* muted / secondary text */
-  --color-border:      rgba(255,255,255,0.06);
+  /* — Backgrounds & Surfaces — */
+  --color-bg:          #FFFFFF;   /* page background — always white */
+  --color-surface:     #FFFFFF;   /* card / panel surfaces — white */
+  --color-surface-alt: #F9FAFB;   /* subtle off-white for alternating rows, inner sections */
+  --color-nav-bg:      #FFFFFF;   /* navigation rail background — white */
+
+  /* — Borders & Dividers — */
+  --color-border:      #E5E7EB;   /* light grey border */
+  --color-border-dark: #D1D5DB;   /* slightly stronger divider */
+
+  /* — Text — */
+  --color-text:        #111827;   /* primary text — near black */
+  --color-text-muted:  #6B7280;   /* secondary / muted text */
+  --color-text-faint:  #9CA3AF;   /* captions, placeholders */
 
   /* — AI Accent — */
   --color-ai:          #6366F1;   /* indigo — AI-powered features */
-  --color-ai-glow:     rgba(99,102,241,0.15);
+  --color-ai-glow:     rgba(99,102,241,0.08);
 }
 ```
 
-**Theme:** Dark-first. The dashboard lives on near-black (`--color-noir`) with the crimson brand color used for active states, section accents, and the navigation spine. Green and red are reserved exclusively for action semantics — never decorative.
+**Theme:** Light / white-first. The entire dashboard sits on a clean white (`--color-bg: #FFFFFF`) base — pages, cards, panels, and the navigation rail are all white. Depth and hierarchy are created through subtle borders (`--color-border`), soft shadows, and the crimson brand accent rather than dark backgrounds. Green and red are reserved exclusively for action semantics — never decorative.
 
 ---
 
@@ -42,15 +49,22 @@ The palette is extracted directly from the Ardhitech Consulting logo and extende
 
 | Role | Font | Weight | Notes |
 |---|---|---|---|
-| Display / Headings | **Syne** | 700–800 | Geometric, architectural — echoes the house icon in the logo |
-| Body / UI Labels | **DM Sans** | 400–500 | Clean, legible, professional |
-| Data / Numbers | **JetBrains Mono** | 400–600 | Monospaced for prices, stats, metrics |
-| AI Annotations | **DM Sans** Italic | 400 | Subtle differentiation for AI-generated content |
+| Display / Headings | **Poppins** | 600–700 | Bold geometric — confident, modern, professional |
+| Body / UI Labels | **Poppins** | 400–500 | Consistent typeface across the entire UI |
+| Data / Numbers | **Poppins** | 500–600 | Semi-bold for prices, stats, metrics |
+| AI Annotations | **Poppins** Italic | 400 | Italic variant for AI-generated content |
 
 **Import:**
 ```html
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+```
+
+```css
+body {
+  font-family: 'Poppins', sans-serif;
+}
 ```
 
 **Scale (rem):**
@@ -104,10 +118,10 @@ xl:   1.25   — section headers
 ## 4. Navigation Rail
 
 - **Width:** 72px collapsed / 240px expanded (hover or toggle)
-- **Background:** `--color-charcoal` with a 1px right border in `--color-border`
+- **Background:** `--color-nav-bg` (white) with a 1px right border in `--color-border`
 - **Logo:** Full logo mark at top; collapses to icon-only
 - **Active state:** 3px left accent bar in `--color-crimson`, icon tints to crimson, label visible
-- **Hover:** subtle `--color-graphite` background pill on icon
+- **Hover:** soft `--color-surface-alt` background pill on icon
 - **Transition:** `200ms ease` expand/collapse
 
 ---
@@ -128,9 +142,9 @@ Used in the Overview dashboard.
 └────────────────────────────────┘
 ```
 
-- Background: `--color-charcoal`
-- Border: 1px `--color-border`, `border-radius: 12px`
-- Large number: `font-family: Syne`, `4xl`, `--color-smoke`
+- Background: `--color-surface` (white) with `--color-border` border
+- Border: 1px `--color-border`, `border-radius: 12px`, subtle `shadow-sm`
+- Large number: `font-family: Poppins`, `4xl`, `font-weight: 700`, `--color-text`
 - Delta positive: `--color-action` with up-arrow icon
 - Delta negative: `--color-danger` with down-arrow icon
 - AI badge: indigo dot + italic label when AI-derived
@@ -155,11 +169,11 @@ Used in the Overview dashboard.
 └────────────────────────────────┘
 ```
 
-- Card bg: `--color-charcoal`, hover lifts with `box-shadow: 0 8px 32px rgba(0,0,0,0.4)` + `translateY(-2px)`
-- AI estimate line: indigo color, small icon prefix `✦`
+- Card bg: `--color-surface` (white), border: 1px `--color-border`, hover lifts with `box-shadow: 0 8px 32px rgba(0,0,0,0.1)` + `translateY(-2px)`
+- AI estimate line: indigo color, small Font Awesome icon prefix `fa-wand-magic-sparkles`
 - **Edit button:** ghost button, green border + text (`--color-action`)
 - **View button:** filled crimson (`--color-crimson`)
-- **Delete button:** icon-only, dimmed until hover → red (`--color-danger`)
+- **Delete button:** icon-only (`fa-trash`), muted `--color-text-faint` until hover → red (`--color-danger`)
 - Status pill: green dot for occupied, amber for partial, red for vacant
 
 ---
@@ -200,9 +214,9 @@ Slides in as a right-side drawer (480px) rather than navigating away.
 └─────────────────────────────────────────────────────┘
 ```
 
-- Border: 1px `--color-ai` with a soft `--color-ai-glow` background tint
+- Background: white (`--color-surface`) with 1px `--color-ai` border and a very soft `--color-ai-glow` background tint
 - `[Apply AI Price]` button: green (this is a create/update action)
-- Confidence bar: filled with `--color-ai`, track in `--color-graphite`
+- Confidence bar: filled with `--color-ai`, track in `--color-border`
 - Refresh triggers a loading shimmer state
 
 ---
@@ -213,10 +227,10 @@ Slides in as a right-side drawer (480px) rather than navigating away.
 |---|---|---|---|---|---|---|---|
 | 1 | Westlands Plaza | Nairobi | 3/3 | 100% | KES 2.55M | ● Active | ✎ ⚠ |
 
-- Header: sticky, `--color-graphite` bg
-- Alternating rows: transparent / `rgba(255,255,255,0.02)`
-- Sortable columns: arrow icon, crimson when active
-- Inline action icons: edit = green on hover, delete = red on hover
+- Header: sticky, `--color-surface-alt` bg, `font-weight: 600`, `--color-text-muted`
+- Alternating rows: white / `--color-surface-alt`
+- Sortable columns: Font Awesome `fa-sort` / `fa-sort-up` / `fa-sort-down`, crimson when active
+- Inline action icons: edit (`fa-pen`) = green on hover, delete (`fa-trash`) = red on hover
 - Pagination: page numbers, crimson active page
 
 ---
@@ -264,8 +278,8 @@ Layout: magazine-style editorial grid.
 **Article Card:**
 - Image with a crimson gradient overlay on hover
 - Tag badge: colored by category (AI = indigo, Legal = amber, Market = crimson, Investment = green)
-- Title: `Syne` font
-- Read time + date in `--color-ash`
+- Title: `Poppins`, `font-weight: 600`
+- Read time + date in `--color-text-faint`
 
 **Blog Detail Page:**
 - Max-width 720px centered prose
@@ -287,8 +301,8 @@ All AI-powered features share a consistent visual language: **indigo accent (`--
 | Vacancy Risk Score | Property overview | KPI card |
 | Comparable Listings | AI Insights page | Property selector |
 
-**Loading state:** Shimmer skeleton in charcoal tones, with a pulsing indigo dot in the corner.  
-**Error state:** Muted message in `--color-ash` — "AI estimate unavailable. Using market average."
+**Loading state:** Shimmer skeleton using `#F3F4F6` → `#E5E7EB` gradient, with a pulsing indigo dot in the corner.  
+**Error state:** Muted message in `--color-text-muted` — "AI estimate unavailable. Using market average."
 
 ---
 
@@ -368,20 +382,34 @@ Public view: clean editorial grid as described in §5.7.
 
 ## 9. Iconography
 
-Library: **FontAwesome Icons** (consistent weight: `regular` for nav, `bold` for actions)
+Library: **Font Awesome 6** (Free tier covers all required icons)
 
-| Icon | Context |
+**Import:**
+```html
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+```
+
+**Usage style:** `fa-regular` for nav and passive icons, `fa-solid` for active states and action buttons.
+
+| FA Icon Class | Context |
 |---|---|
-| `House` | Properties nav, property type |
-| `ChartLine` | Analytics |
-| `Sparkle` | All AI features |
-| `Article` | Blog |
-| `PencilSimple` | Edit (green on hover) |
-| `Trash` | Delete (red on hover) |
-| `Plus` | Create actions |
-| `ArrowRight` | Navigate / view |
-| `Warning` | Alerts, vacancy risk |
-| `CheckCircle` | Success states |
+| `fa-house` | Properties nav, property type |
+| `fa-chart-line` | Analytics nav + charts |
+| `fa-wand-magic-sparkles` | All AI features |
+| `fa-newspaper` | Blog nav |
+| `fa-pen-to-square` | Edit (green on hover) |
+| `fa-trash` | Delete (red on hover) |
+| `fa-plus` | Create actions |
+| `fa-arrow-right` | Navigate / view |
+| `fa-triangle-exclamation` | Alerts, vacancy risk |
+| `fa-circle-check` | Success states |
+| `fa-gauge-high` | Overview / dashboard |
+| `fa-gear` | Settings |
+| `fa-bell` | Notifications |
+| `fa-magnifying-glass` | Search |
+| `fa-sort` / `fa-sort-up` / `fa-sort-down` | Table sorting |
+| `fa-rotate` | Refresh AI estimate |
+| `fa-xmark` | Dismiss / close |
 
 ---
 
@@ -397,11 +425,11 @@ Library: **FontAwesome Icons** (consistent weight: `regular` for nav, `bold` for
 
 ## 11. Empty & Loading States
 
-**Empty Properties:** Centered illustration (house outline in charcoal), heading "No properties yet", subtext, `[+ Add Your First Property]` green CTA.
+**Empty Properties:** Centered illustration (house outline in light grey `#E5E7EB`), heading "No properties yet" in `--color-text`, subtext in `--color-text-muted`, `[+ Add Your First Property]` green CTA.
 
-**Loading Skeletons:** Charcoal-based shimmer rectangles matching the exact shape of the content they replace. No spinners.
+**Loading Skeletons:** Light grey (`#F3F4F6` → `#E5E7EB`) shimmer rectangles matching the exact shape of the content they replace. No spinners.
 
-**Error States:** Red-tinted banner at top of content area. Retry button in ghost style.
+**Error States:** Soft red-tinted banner (`#FEF2F2` bg, `--color-danger` left border) at top of content area. Retry button in ghost style.
 
 ---
 
@@ -424,10 +452,10 @@ border-radius-md:   12px
 border-radius-lg:   16px
 border-radius-full: 9999px
 
-shadow-sm:  0 1px 3px rgba(0,0,0,0.3)
-shadow-md:  0 4px 16px rgba(0,0,0,0.4)
-shadow-lg:  0 8px 32px rgba(0,0,0,0.5)
-shadow-ai:  0 0 20px rgba(99,102,241,0.2)
+shadow-sm:  0 1px 3px rgba(0,0,0,0.08)
+shadow-md:  0 4px 16px rgba(0,0,0,0.10)
+shadow-lg:  0 8px 32px rgba(0,0,0,0.12)
+shadow-ai:  0 0 20px rgba(99,102,241,0.15)
 
 transition-fast:    150ms ease
 transition-base:    200ms ease
@@ -445,14 +473,17 @@ z-toast:   400
 
 | Layer | Technology |
 |---|---|
-| Framework | React |
-| Styling | Tailwind CSS  |
+| Framework | Next.js 14 (App Router) |
+| Styling | Tailwind CSS + CSS Variables for brand tokens |
 | Charts | Recharts or Tremor |
 | Maps | Mapbox GL JS |
-| Icons | FontAwesome |
+| Icons | Font Awesome 6 (Free CDN) |
 | Animation | Framer Motion |
 | AI Pricing | OpenAI / Anthropic API + property data pipeline |
+| Auth | Clerk or NextAuth |
+| Database | Supabase (Postgres) |
+| Blog CMS | Sanity.io or Contentlayer (MDX) |
 
 ---
 
-*Design System v1.0 — Ardhitech Consulting Property Management Platform*
+*Design System v1.1 — Ardhitech Consulting Property Management Platform*
