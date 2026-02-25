@@ -6,9 +6,9 @@ import {
   faCircleNotch,
 } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
-import { propertiesService } from "../../services/properties.service";
-import { fileService } from "../../services/file.service";
-import type { CreatePropertyPayload } from "../../types/property.types";
+import { propertiesService } from "../../../services/properties.service";
+import { fileService } from "../../../services/file.service";
+import type { CreatePropertyPayload } from "../../../types/property.types";
 
 const initialPayload: CreatePropertyPayload = {
   userId: null,
@@ -26,7 +26,11 @@ interface CreatePropertyModalProps {
   onSuccess: () => void;
 }
 
-export const CreatePropertyModal = function ({ isOpen,onClose, onSuccess }: CreatePropertyModalProps) {
+export const CreatePropertyModal = function ({
+  isOpen,
+  onClose,
+  onSuccess,
+}: CreatePropertyModalProps) {
   const [data, setData] = useState<CreatePropertyPayload>(initialPayload);
   const [loading, setLoading] = useState(false);
 
@@ -53,8 +57,7 @@ export const CreatePropertyModal = function ({ isOpen,onClose, onSuccess }: Crea
       if (!response.data) throw new Error("Error uploading file");
 
       toast.success(response.message);
-      const fileId = response.data.id
-      setData((prev) => ({ ...prev, fileId }));
+      setData((prev) => ({ ...prev, fileId: response.data.id }));
     } catch {
       toast.error("Invalid format, only images are allowed.");
     } finally {
@@ -86,22 +89,23 @@ export const CreatePropertyModal = function ({ isOpen,onClose, onSuccess }: Crea
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-6">
-      <div className="bg-white w-full max-w-lg max-h-[90vh] rounded-3xl shadow-2xl overflow-y-auto">
+    <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/50 backdrop-blur-sm p-6">
+      <div className="bg-white w-full max-w-lg max-h-[90vh] rounded-xl shadow-lg overflow-y-auto border border-[#E5E7EB]">
 
         {/* HEADER */}
-        <div className="sticky top-0 bg-white/80 backdrop-blur-md z-10 flex items-center justify-between px-8 py-6 border-b border-gray-100">
+        <div className="sticky top-0 bg-white z-10 flex items-center justify-between px-8 py-5 border-b border-[#E5E7EB]">
           <div>
-            <h3 className="text-xl font-bold text-gray-900 tracking-tight">
+            <h3 className="text-xl font-semibold text-[#111827]" style={{ fontFamily: 'Poppins, sans-serif' }}>
               New Property
             </h3>
-            <p className="text-xs text-gray-500 mt-0.5">
+            <p className="text-xs text-[#6B7280] mt-1" style={{ fontFamily: 'Poppins, sans-serif' }}>
               List your space in seconds.
             </p>
           </div>
           <button
             onClick={handleClose}
-            className="text-gray-400 hover:text-black hover:bg-gray-100 rounded-full w-10 h-10 flex items-center justify-center transition-all"
+            className="text-[#9CA3AF] hover:text-[#111827] hover:bg-[#F9FAFB] rounded-lg w-9 h-9 flex items-center justify-center transition-all duration-150"
+            aria-label="Close modal"
           >
             <FontAwesomeIcon icon={faXmark} className="text-lg" />
           </button>
@@ -114,27 +118,39 @@ export const CreatePropertyModal = function ({ isOpen,onClose, onSuccess }: Crea
           <div className="relative">
             <label
               htmlFor="create-file-upload"
-              className={`cursor-pointer flex items-center gap-4 px-6 py-4 before:border-gray-400/60 hover:before:border-gray-300 group before:bg-gray-100 before:absolute before:inset-0 before:rounded-3xl before:border before:border-dashed before:transition-transform before:duration-300
-                ${loading ? "opacity-50 pointer-events-none" : "hover:before:scale-105 active:before:scale-95"}`}
+              className={`cursor-pointer flex flex-col items-center justify-center px-6 py-8 border-2 border-dashed border-[#E5E7EB] rounded-xl bg-[#F9FAFB] hover:border-[#C0182A] hover:bg-[#C0182A]/5 transition-all duration-200 group
+                ${loading ? "opacity-50 pointer-events-none" : ""}`}
             >
-              {loading && (
-                <div className="absolute inset-0 z-10 flex items-center justify-center">
+              {loading ? (
+                <div className="flex flex-col items-center gap-3">
                   <FontAwesomeIcon
                     icon={faCircleNotch}
-                    className="text-blue-600 text-2xl animate-spin"
+                    className="text-[#C0182A] text-3xl animate-spin"
                   />
+                  <span className="text-sm font-medium text-[#6B7280]" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                    Uploading...
+                  </span>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center gap-3">
+                  <div className="w-12 h-12 rounded-full bg-white border border-[#E5E7EB] flex items-center justify-center group-hover:border-[#C0182A] group-hover:bg-white transition-all">
+                    <FontAwesomeIcon icon={faUpload} className="text-[#6B7280] text-lg group-hover:text-[#C0182A]" />
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm font-semibold text-[#111827] group-hover:text-[#C0182A]" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                      Drop your images here
+                    </p>
+                    <p className="text-xs text-[#9CA3AF] mt-1" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                      Supports JPG, PNG up to 10MB
+                    </p>
+                  </div>
                 </div>
               )}
-              <div className={`flex items-center gap-4 transition-opacity ${loading ? "opacity-0" : "opacity-100"}`}>
-                <FontAwesomeIcon icon={faUpload} className="text-lg" />
-                <span className="block text-base font-semibold relative text-blue-900 group-hover:text-blue-500">
-                  Upload a file
-                </span>
-              </div>
             </label>
             <input
               id="create-file-upload"
               type="file"
+              accept="image/*"
               className="hidden"
               disabled={loading}
               onChange={handleImageUpload}
@@ -142,9 +158,9 @@ export const CreatePropertyModal = function ({ isOpen,onClose, onSuccess }: Crea
           </div>
 
           {/* Fields */}
-          <div className="space-y-4">
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+          <div className="space-y-5">
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-[#6B7280] uppercase tracking-wider" style={{ fontFamily: 'Poppins, sans-serif' }}>
                 Property Name
               </label>
               <input
@@ -152,41 +168,31 @@ export const CreatePropertyModal = function ({ isOpen,onClose, onSuccess }: Crea
                 name="name"
                 value={data.name}
                 onChange={handleChange}
-                placeholder="e.g. Modern Sunset Villa"
-                className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
+                placeholder="e.g. Westlands Plaza"
+                required
+                className="w-full px-4 py-2.5 rounded-lg border border-[#E5E7EB] bg-white focus:bg-white focus:border-[#C0182A] focus:ring-1 focus:ring-[#C0182A] outline-none transition-all text-[#111827] placeholder:text-[#9CA3AF] text-sm"
+                style={{ fontFamily: 'Poppins, sans-serif' }}
               />
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
-                Price
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-[#6B7280] uppercase tracking-wider" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                Price (KES)
               </label>
               <input
                 type="number"
                 name="price"
                 value={data.price}
                 onChange={handleChange}
-                placeholder="e.g. 100,000"
-                className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
+                placeholder="e.g. 2,400,000"
+                required
+                className="w-full px-4 py-2.5 rounded-lg border border-[#E5E7EB] bg-white focus:bg-white focus:border-[#C0182A] focus:ring-1 focus:ring-[#C0182A] outline-none transition-all text-[#111827] placeholder:text-[#9CA3AF] text-sm font-medium"
+                style={{ fontFamily: 'Poppins, sans-serif' }}
               />
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
-                Description
-              </label>
-              <textarea
-                rows={3}
-                name="description"
-                value={data.description}
-                onChange={handleChange}
-                placeholder="e.g. 5 bedrooms, 4 bathrooms"
-                className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-[#6B7280] uppercase tracking-wider" style={{ fontFamily: 'Poppins, sans-serif' }}>
                 Location
               </label>
               <input
@@ -195,52 +201,78 @@ export const CreatePropertyModal = function ({ isOpen,onClose, onSuccess }: Crea
                 value={data.location}
                 onChange={handleChange}
                 placeholder="e.g. Westlands, Nairobi"
-                className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
+                required
+                className="w-full px-4 py-2.5 rounded-lg border border-[#E5E7EB] bg-white focus:bg-white focus:border-[#C0182A] focus:ring-1 focus:ring-[#C0182A] outline-none transition-all text-[#111827] placeholder:text-[#9CA3AF] text-sm"
+                style={{ fontFamily: 'Poppins, sans-serif' }}
               />
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">
-                Is Property A Rental
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-[#6B7280] uppercase tracking-wider" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                Description
               </label>
-              <div className="flex gap-4 mt-2">
-                <label className="flex items-center gap-2 cursor-pointer">
+              <textarea
+                rows={3}
+                name="description"
+                value={data.description}
+                onChange={handleChange}
+                placeholder="e.g. 5 bedrooms, 4 bathrooms, modern finishes"
+                required
+                className="w-full px-4 py-2.5 rounded-lg border border-[#E5E7EB] bg-white focus:bg-white focus:border-[#C0182A] focus:ring-1 focus:ring-[#C0182A] outline-none transition-all text-[#111827] placeholder:text-[#9CA3AF] text-sm resize-none"
+                style={{ fontFamily: 'Poppins, sans-serif' }}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <label className="text-xs font-semibold text-[#6B7280] uppercase tracking-wider" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                Property Type
+              </label>
+              <div className="flex gap-4">
+                <label className="flex items-center gap-2 cursor-pointer group">
                   <input
                     type="radio"
                     name="isRental"
                     value="true"
                     checked={data.isRental === true}
                     onChange={() => setData((prev) => ({ ...prev, isRental: true }))}
+                    className="w-4 h-4 text-[#C0182A] border-[#D1D5DB] focus:ring-[#C0182A] focus:ring-2"
                   />
-                  Yes
+                  <span className="text-sm text-[#111827] group-hover:text-[#C0182A] transition-colors" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                    Rental
+                  </span>
                 </label>
-                <label className="flex items-center gap-2 cursor-pointer">
+                <label className="flex items-center gap-2 cursor-pointer group">
                   <input
                     type="radio"
                     name="isRental"
                     value="false"
                     checked={data.isRental === false}
                     onChange={() => setData((prev) => ({ ...prev, isRental: false }))}
+                    className="w-4 h-4 text-[#C0182A] border-[#D1D5DB] focus:ring-[#C0182A] focus:ring-2"
                   />
-                  No
+                  <span className="text-sm text-[#111827] group-hover:text-[#C0182A] transition-colors" style={{ fontFamily: 'Poppins, sans-serif' }}>
+                    For Sale
+                  </span>
                 </label>
               </div>
             </div>
           </div>
 
           {/* ACTIONS */}
-          <div className="flex items-center gap-4 pt-4">
+          <div className="flex items-center gap-3 pt-4 border-t border-[#E5E7EB]">
             <button
               type="button"
               onClick={handleClose}
-              className="flex-1 py-3.5 text-sm font-bold text-gray-500 hover:text-black hover:bg-gray-100 rounded-xl transition-all"
+              className="flex-1 py-2.5 text-sm font-medium text-[#6B7280] hover:text-[#111827] hover:bg-[#F9FAFB] rounded-lg transition-all duration-150 border border-[#E5E7EB]"
+              style={{ fontFamily: 'Poppins, sans-serif' }}
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={loading}
-              className="flex-[2] py-3.5 bg-black text-white text-sm font-bold rounded-xl hover:shadow-xl hover:shadow-black/20 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex-[2] py-2.5 bg-[#22C55E] text-white text-sm font-semibold rounded-lg hover:bg-[#16A34A] hover:shadow-md active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
+              style={{ fontFamily: 'Poppins, sans-serif' }}
             >
               {loading ? "Publishing..." : "Publish Listing"}
             </button>
