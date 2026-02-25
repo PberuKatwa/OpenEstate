@@ -21,6 +21,7 @@ export const authService = {
       const response = await apiClient.post("/auth/login", { email, password })
       const loginRes: AuthUserApiResponse = response.data;
       if (!loginRes.data?.access_token) throw new Error(`Invalid login, try agin`);
+      console.log("login res", loginRes)
       return loginRes;
 
     } catch (error) {

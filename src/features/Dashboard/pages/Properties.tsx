@@ -96,7 +96,8 @@ export const Properties = function () {
 
     } catch (error) {
       console.error(`Error in handling image upload`, error)
-      toast.error(`Error in uploading image:${error}`)
+      toast.error(`Invalid format, only images are allowed.`)
+
     } finally {
       setLoading(false);
     }
