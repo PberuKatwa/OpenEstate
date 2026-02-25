@@ -115,9 +115,10 @@ export const CreatePropertyModal = function ({
             type="button"
             onClick={handleClose}
             className="w-9 h-9 flex items-center justify-center rounded-lg
-                       bg-red-50 text-red-600
-                       hover:bg-red-100 hover:text-red-700
-                       transition-colors duration-200"
+                       text-red-600
+                       hover:bg-red-600 hover:text-white
+                       active:bg-red-700
+                       transition-colors duration-150"
           >
             <FontAwesomeIcon icon={faXmark} />
           </button>
@@ -245,13 +246,18 @@ export const CreatePropertyModal = function ({
             always produces a string, breaking boolean comparison. We replace with
             <button type="button"> that sets the exact boolean via onClick.
           */}
-          <div className="flex flex-col gap-1.5">
-            <span className={labelClass}>Property Type</span>
-            <div className="grid grid-cols-2 gap-3">
-              {([
-                { label: "For Sale", value: false },
-                { label: "Rental",   value: true  },
-              ] as const).map(({ label, value }) => {
+          {/* Property Type */}
+          <div>
+            <label className="block text-sm font-semibold text-gray-700 mb-2">
+              Property Type
+            </label>
+            <div className="flex gap-2">
+              {(
+                [
+                  { label: "For Sale", value: false },
+                  { label: "Rental", value: true },
+                ] as const
+              ).map(({ label, value }) => {
                 const active = data.isRental === value;
                 return (
                   <button
@@ -261,19 +267,19 @@ export const CreatePropertyModal = function ({
                     className={[
                       "flex items-center gap-2.5 px-3 py-2.5 rounded-lg border text-sm font-medium transition-colors duration-150 text-left",
                       active
-                        ? "border-crimson bg-red-50 text-crimson"
+                        ? "border-blue-500 bg-blue-50 text-blue-600"
                         : "border-gray-200 bg-gray-50 text-gray-500 hover:border-gray-300 hover:bg-white",
                     ].join(" ")}
                   >
                     {/* custom radio indicator */}
                     <span
                       className={[
-                        "w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors duration-150",
-                        active ? "border-crimson" : "border-gray-300",
+                        "w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors duration-150",
+                        active ? "border-blue-500" : "border-gray-300",
                       ].join(" ")}
                     >
                       {active && (
-                        <span className="w-2 h-2 rounded-full bg-crimson block" />
+                        <span className="w-2 h-2 rounded-full bg-blue-500 block" />
                       )}
                     </span>
                     {label}
@@ -291,7 +297,7 @@ export const CreatePropertyModal = function ({
             <button
               type="button"
               onClick={handleClose}
-              className="flex-1 border border-gray-200 hover:bg-gray-50 text-gray-700 text-sm font-medium px-4 py-2.5 rounded-lg transition-colors duration-150"
+              className="flex-1 border border-gray-200 text-gray-500 text-sm font-medium px-4 py-2.5 rounded-lg transition-colors duration-150 hover:border-red-300 hover:bg-red-50 hover:text-red-600 active:bg-red-100 active:border-red-400 active:text-red-700"
             >
               Cancel
             </button>
