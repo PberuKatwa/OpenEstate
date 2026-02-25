@@ -50,7 +50,7 @@ export const CreatePropertyModal = function ({
       const response = await fileService.uploadImage(form);
       if (!response.data) throw new Error("Upload failed");
       toast.success(response.message);
-      const fileId = response.data.id;
+      const fileId = response.data.id
       setData((prev) => ({ ...prev, fileId }));
       setImageUploaded(true);
     } catch {
@@ -98,7 +98,7 @@ export const CreatePropertyModal = function ({
       <div className="relative z-[310] w-full max-w-[500px] max-h-[92vh] flex flex-col bg-white rounded-xl shadow-xl overflow-hidden">
 
         {/* ── HEADER ── */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 shrink-0">
+        <div className="flex items-center justify-between px-6 py-3 border-b border-gray-200 shrink-0">
           <div className="flex items-center gap-3">
             {/* crimson icon badge */}
             <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-red-50 border border-red-100">
@@ -114,7 +114,10 @@ export const CreatePropertyModal = function ({
           <button
             type="button"
             onClick={handleClose}
-            className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-colors"
+            className="w-9 h-9 flex items-center justify-center rounded-lg
+                       bg-red-50 text-red-600
+                       hover:bg-red-100 hover:text-red-700
+                       transition-colors duration-200"
           >
             <FontAwesomeIcon icon={faXmark} />
           </button>

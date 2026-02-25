@@ -53,10 +53,10 @@ body {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.form-group input:focus {
+/*.form-group input:focus {
   border-color: #4f46e5;
   box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.15);
-}
+}*/
 
 /* Error */
 .login-container p {
@@ -65,7 +65,7 @@ body {
 }
 
 /* Button */
-button {
+/*button {
   width: 100%;
   padding: 10px;
   font-size: 0.95rem;
@@ -76,13 +76,13 @@ button {
   background: #4f46e5;
   color: white;
   transition: background 0.2s, opacity 0.2s;
-}
+}*/
 
-button:hover:not(:disabled) {
+/*button:hover:not(:disabled) {
   background: #4338ca;
-}
+}*/
 
-button:disabled {
+/*button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
-}
+}*/
