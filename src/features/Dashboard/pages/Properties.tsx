@@ -8,6 +8,7 @@ import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496
 import type { AllProperties, CreatePropertyPayload, Property, UpdatePropertyPayload} from "../../../types/property.types";
 import { fileService } from "../../../services/file.service";
 import { CreatePropertyModal } from "../../../components/properties/CreateProperties";
+import { UpdatePropertyModal } from "../../../components/properties/UpdateProperties";
 
 const initialPayload: CreatePropertyPayload = {
   userId: null,
@@ -32,6 +33,7 @@ const initialUploadPayload: UpdatePropertyPayload = {
 export const Properties = function () {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"create" | "update">("create");
   const [selectedProperty, setSelectedProperty] = useState<UpdatePropertyPayload>(initialUploadPayload);
   const [currentPage, setCurrentPage] = useState(1);
@@ -144,6 +146,14 @@ export const Properties = function () {
     });
     setIsModalOpen(true);
   };
+
+  const openUpdateModal2 = (property: Property) => {
+    setSelectedProperty({
+      ...property,
+      isRental: property.is_rental
+    });
+    setIsUpdateOpen(true);
+  }
 
   const handleUpdateProperty = async function (event: React.FormEvent) {
     try {
