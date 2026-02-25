@@ -7,6 +7,7 @@ import { propertiesService } from "../../../services/properties.service";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
 import type { AllProperties, CreatePropertyPayload, Property, UpdatePropertyPayload} from "../../../types/property.types";
 import { fileService } from "../../../services/file.service";
+import { CreatePropertyModal } from "../../../components/properties/CreateProperties";
 
 const initialPayload: CreatePropertyPayload = {
   userId: null,
@@ -30,6 +31,7 @@ const initialUploadPayload: UpdatePropertyPayload = {
 
 export const Properties = function () {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [modalMode, setModalMode] = useState<"create" | "update">("create");
   const [selectedProperty, setSelectedProperty] = useState<UpdatePropertyPayload>(initialUploadPayload);
   const [currentPage, setCurrentPage] = useState(1);
@@ -247,7 +249,7 @@ export const Properties = function () {
       <div className="mb-6">
         <button
           type="button"
-          onClick={openCreateModal}
+          onClick={() => setIsCreateOpen(true)}
           className="inline-flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full hover:bg-gray-800 transition-all text-sm font-medium shadow-sm"
         >
           <FontAwesomeIcon icon={faPlus} />
@@ -379,6 +381,13 @@ export const Properties = function () {
 
         </div>
       )}
+
+      {/* MODALS */}
+      <CreatePropertyModal
+        isOpen={isCreateOpen}
+        onClose={() => setIsCreateOpen(false)}
+        onSuccess={() => getAllProperties(currentPage, limit)}
+      />
 
       {/* MODAL OVERLAY */}
       {isModalOpen && (
