@@ -4,11 +4,13 @@ import {
   faXmark,
   faUpload,
   faCircleNotch,
+  faHouse,
+  faCircleCheck,
 } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
-import { propertiesService } from "../../../services/properties.service";
-import { fileService } from "../../../services/file.service";
-import type { CreatePropertyPayload } from "../../../types/property.types";
+import { propertiesService } from "../../services/properties.service";
+import { fileService } from "../../services/file.service";
+import type { CreatePropertyPayload } from "../../types/property.types";
 
 const initialPayload: CreatePropertyPayload = {
   userId: null,
@@ -33,31 +35,24 @@ export const CreatePropertyModal = function ({
 }: CreatePropertyModalProps) {
   const [data, setData] = useState<CreatePropertyPayload>(initialPayload);
   const [loading, setLoading] = useState(false);
+  const [imageUploaded, setImageUploaded] = useState(false);
 
-  const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = event.target;
-    setData((prev) => ({ ...prev, [name]: value }));
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleImageUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     try {
       setLoading(true);
-      if (!event.target.files || event.target.files.length === 0)
-        throw new Error("No file was uploaded");
-
-      const file = event.target.files[0];
+      if (!e.target.files?.length) throw new Error("No file selected");
       const form = new FormData();
-      form.append("file", file);
-
+      form.append("file", e.target.files[0]);
       const response = await fileService.uploadImage(form);
-      if (!response.data) throw new Error("Error uploading file");
-
+      if (!response.data) throw new Error("Upload failed");
       toast.success(response.message);
-      setData((prev) => ({ ...prev, fileId: response.data.id }));
+      const fileId = response.data.id;
+      setData((prev) => ({ ...prev, fileId }));
+      setImageUploaded(true);
     } catch {
       toast.error("Invalid format, only images are allowed.");
     } finally {
@@ -65,13 +60,14 @@ export const CreatePropertyModal = function ({
     }
   };
 
-  const handleSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     try {
       setLoading(true);
       const response = await propertiesService.createProperty(data);
       toast.success(response.message);
       setData(initialPayload);
+      setImageUploaded(false);
       onSuccess();
       onClose();
     } catch (error) {
@@ -83,68 +79,85 @@ export const CreatePropertyModal = function ({
 
   const handleClose = () => {
     setData(initialPayload);
+    setImageUploaded(false);
     onClose();
   };
 
   if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/50 backdrop-blur-sm p-6">
-      <div className="bg-white w-full max-w-lg max-h-[90vh] rounded-xl shadow-lg overflow-y-auto border border-[#E5E7EB]">
+  // Shared input classes per design system §6.7
+  const inputClass =
+    "w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 outline-none bg-white focus:border-crimson focus:ring-2 focus:ring-crimson/20 transition-colors duration-150";
 
-        {/* HEADER */}
-        <div className="sticky top-0 bg-white z-10 flex items-center justify-between px-8 py-5 border-b border-[#E5E7EB]">
-          <div>
-            <h3 className="text-xl font-semibold text-[#111827]" style={{ fontFamily: 'Poppins, sans-serif' }}>
-              New Property
-            </h3>
-            <p className="text-xs text-[#6B7280] mt-1" style={{ fontFamily: 'Poppins, sans-serif' }}>
-              List your space in seconds.
-            </p>
+  const labelClass = "text-sm font-medium text-gray-700";
+
+  return (
+    // Overlay — z-[300] per z-index stack §12
+    <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/30 p-4 sm:p-6 transition-opacity duration-200">
+      {/* Modal panel — z-[310] */}
+      <div className="relative z-[310] w-full max-w-[500px] max-h-[92vh] flex flex-col bg-white rounded-xl shadow-xl overflow-hidden">
+
+        {/* ── HEADER ── */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 shrink-0">
+          <div className="flex items-center gap-3">
+            {/* crimson icon badge */}
+            <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-red-50 border border-red-100">
+              <FontAwesomeIcon icon={faHouse} className="text-crimson text-sm" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900">New Property</h3>
+              <p className="text-xs text-gray-400">List your space on Ardhitech</p>
+            </div>
           </div>
+
+          {/* close — icon-only button per §6.6 */}
           <button
+            type="button"
             onClick={handleClose}
-            className="text-[#9CA3AF] hover:text-[#111827] hover:bg-[#F9FAFB] rounded-lg w-9 h-9 flex items-center justify-center transition-all duration-150"
-            aria-label="Close modal"
+            className="w-9 h-9 flex items-center justify-center rounded-lg text-gray-400 hover:bg-gray-100 hover:text-gray-700 transition-colors"
           >
-            <FontAwesomeIcon icon={faXmark} className="text-lg" />
+            <FontAwesomeIcon icon={faXmark} />
           </button>
         </div>
 
-        {/* FORM */}
-        <form className="p-8 space-y-6" onSubmit={handleSubmit}>
-
-          {/* Image Upload */}
-          <div className="relative">
+        {/* ── SCROLLABLE FORM ── */}
+        <form
+          className="overflow-y-auto flex-1 px-6 py-5 flex flex-col gap-5"
+          onSubmit={handleSubmit}
+        >
+          {/* IMAGE UPLOAD */}
+          <div className="flex flex-col gap-1.5">
+            <span className={labelClass}>Property Image</span>
             <label
               htmlFor="create-file-upload"
-              className={`cursor-pointer flex flex-col items-center justify-center px-6 py-8 border-2 border-dashed border-[#E5E7EB] rounded-xl bg-[#F9FAFB] hover:border-[#C0182A] hover:bg-[#C0182A]/5 transition-all duration-200 group
-                ${loading ? "opacity-50 pointer-events-none" : ""}`}
+              className={[
+                "flex items-center gap-4 px-4 py-4 rounded-lg border border-dashed cursor-pointer transition-colors duration-150",
+                imageUploaded
+                  ? "border-green-400 bg-green-50"
+                  : "border-gray-300 bg-gray-50 hover:border-crimson hover:bg-red-50",
+                loading ? "opacity-60 pointer-events-none" : "",
+              ].join(" ")}
             >
               {loading ? (
-                <div className="flex flex-col items-center gap-3">
-                  <FontAwesomeIcon
-                    icon={faCircleNotch}
-                    className="text-[#C0182A] text-3xl animate-spin"
-                  />
-                  <span className="text-sm font-medium text-[#6B7280]" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                    Uploading...
-                  </span>
-                </div>
+                <>
+                  <FontAwesomeIcon icon={faCircleNotch} className="text-crimson text-lg animate-spin flex-shrink-0" />
+                  <span className="text-sm text-gray-500">Uploading...</span>
+                </>
+              ) : imageUploaded ? (
+                <>
+                  <FontAwesomeIcon icon={faCircleCheck} className="text-green-500 text-lg flex-shrink-0" />
+                  <span className="text-sm font-medium text-green-600">Image uploaded successfully</span>
+                </>
               ) : (
-                <div className="flex flex-col items-center gap-3">
-                  <div className="w-12 h-12 rounded-full bg-white border border-[#E5E7EB] flex items-center justify-center group-hover:border-[#C0182A] group-hover:bg-white transition-all">
-                    <FontAwesomeIcon icon={faUpload} className="text-[#6B7280] text-lg group-hover:text-[#C0182A]" />
+                <>
+                  <div className="w-9 h-9 flex items-center justify-center rounded-lg bg-gray-200 flex-shrink-0">
+                    <FontAwesomeIcon icon={faUpload} className="text-gray-500 text-sm" />
                   </div>
-                  <div className="text-center">
-                    <p className="text-sm font-semibold text-[#111827] group-hover:text-[#C0182A]" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                      Drop your images here
-                    </p>
-                    <p className="text-xs text-[#9CA3AF] mt-1" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                      Supports JPG, PNG up to 10MB
-                    </p>
+                  <div>
+                    <span className="block text-sm font-medium text-gray-700">Upload property image</span>
+                    <span className="text-xs text-gray-400">JPG, PNG, WEBP</span>
                   </div>
-                </div>
+                </>
               )}
             </label>
             <input
@@ -157,123 +170,135 @@ export const CreatePropertyModal = function ({
             />
           </div>
 
-          {/* Fields */}
-          <div className="space-y-5">
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-[#6B7280] uppercase tracking-wider" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                Property Name
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={data.name}
-                onChange={handleChange}
-                placeholder="e.g. Westlands Plaza"
-                required
-                className="w-full px-4 py-2.5 rounded-lg border border-[#E5E7EB] bg-white focus:bg-white focus:border-[#C0182A] focus:ring-1 focus:ring-[#C0182A] outline-none transition-all text-[#111827] placeholder:text-[#9CA3AF] text-sm"
-                style={{ fontFamily: 'Poppins, sans-serif' }}
-              />
-            </div>
+          <hr className="border-gray-100" />
 
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-[#6B7280] uppercase tracking-wider" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                Price (KES)
-              </label>
+          {/* PROPERTY NAME */}
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="create-name" className={labelClass}>Property Name</label>
+            <input
+              id="create-name"
+              type="text"
+              name="name"
+              value={data.name}
+              onChange={handleChange}
+              placeholder="e.g. Westlands Plaza"
+              required
+              className={inputClass}
+            />
+          </div>
+
+          {/* PRICE */}
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="create-price" className={labelClass}>Price (KES)</label>
+            <div className="relative">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-gray-400 pointer-events-none select-none">
+                KES
+              </span>
               <input
+                id="create-price"
                 type="number"
                 name="price"
-                value={data.price}
+                value={data.price || ""}
                 onChange={handleChange}
-                placeholder="e.g. 2,400,000"
+                placeholder="0"
                 required
-                className="w-full px-4 py-2.5 rounded-lg border border-[#E5E7EB] bg-white focus:bg-white focus:border-[#C0182A] focus:ring-1 focus:ring-[#C0182A] outline-none transition-all text-[#111827] placeholder:text-[#9CA3AF] text-sm font-medium"
-                style={{ fontFamily: 'Poppins, sans-serif' }}
+                className={inputClass + " pl-12 font-medium"}
               />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-[#6B7280] uppercase tracking-wider" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                Location
-              </label>
-              <input
-                type="text"
-                name="location"
-                value={data.location}
-                onChange={handleChange}
-                placeholder="e.g. Westlands, Nairobi"
-                required
-                className="w-full px-4 py-2.5 rounded-lg border border-[#E5E7EB] bg-white focus:bg-white focus:border-[#C0182A] focus:ring-1 focus:ring-[#C0182A] outline-none transition-all text-[#111827] placeholder:text-[#9CA3AF] text-sm"
-                style={{ fontFamily: 'Poppins, sans-serif' }}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-[#6B7280] uppercase tracking-wider" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                Description
-              </label>
-              <textarea
-                rows={3}
-                name="description"
-                value={data.description}
-                onChange={handleChange}
-                placeholder="e.g. 5 bedrooms, 4 bathrooms, modern finishes"
-                required
-                className="w-full px-4 py-2.5 rounded-lg border border-[#E5E7EB] bg-white focus:bg-white focus:border-[#C0182A] focus:ring-1 focus:ring-[#C0182A] outline-none transition-all text-[#111827] placeholder:text-[#9CA3AF] text-sm resize-none"
-                style={{ fontFamily: 'Poppins, sans-serif' }}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <label className="text-xs font-semibold text-[#6B7280] uppercase tracking-wider" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                Property Type
-              </label>
-              <div className="flex gap-4">
-                <label className="flex items-center gap-2 cursor-pointer group">
-                  <input
-                    type="radio"
-                    name="isRental"
-                    value="true"
-                    checked={data.isRental === true}
-                    onChange={() => setData((prev) => ({ ...prev, isRental: true }))}
-                    className="w-4 h-4 text-[#C0182A] border-[#D1D5DB] focus:ring-[#C0182A] focus:ring-2"
-                  />
-                  <span className="text-sm text-[#111827] group-hover:text-[#C0182A] transition-colors" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                    Rental
-                  </span>
-                </label>
-                <label className="flex items-center gap-2 cursor-pointer group">
-                  <input
-                    type="radio"
-                    name="isRental"
-                    value="false"
-                    checked={data.isRental === false}
-                    onChange={() => setData((prev) => ({ ...prev, isRental: false }))}
-                    className="w-4 h-4 text-[#C0182A] border-[#D1D5DB] focus:ring-[#C0182A] focus:ring-2"
-                  />
-                  <span className="text-sm text-[#111827] group-hover:text-[#C0182A] transition-colors" style={{ fontFamily: 'Poppins, sans-serif' }}>
-                    For Sale
-                  </span>
-                </label>
-              </div>
             </div>
           </div>
 
+          {/* LOCATION */}
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="create-location" className={labelClass}>Location</label>
+            <input
+              id="create-location"
+              type="text"
+              name="location"
+              value={data.location}
+              onChange={handleChange}
+              placeholder="e.g. Westlands, Nairobi"
+              required
+              className={inputClass}
+            />
+          </div>
+
+          {/* DESCRIPTION */}
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="create-description" className={labelClass}>Description</label>
+            <textarea
+              id="create-description"
+              rows={3}
+              name="description"
+              value={data.description}
+              onChange={handleChange}
+              placeholder="e.g. 5 bedrooms, 4 bathrooms, pool..."
+              className={inputClass + " resize-none"}
+            />
+          </div>
+
+          {/* PROPERTY TYPE — custom button toggles, correct boolean state */}
+          {/*
+            Root cause of the radio bug: native <input type="radio"> with value="true"/"false"
+            always produces a string, breaking boolean comparison. We replace with
+            <button type="button"> that sets the exact boolean via onClick.
+          */}
+          <div className="flex flex-col gap-1.5">
+            <span className={labelClass}>Property Type</span>
+            <div className="grid grid-cols-2 gap-3">
+              {([
+                { label: "For Sale", value: false },
+                { label: "Rental",   value: true  },
+              ] as const).map(({ label, value }) => {
+                const active = data.isRental === value;
+                return (
+                  <button
+                    key={label}
+                    type="button"
+                    onClick={() => setData((prev) => ({ ...prev, isRental: value }))}
+                    className={[
+                      "flex items-center gap-2.5 px-3 py-2.5 rounded-lg border text-sm font-medium transition-colors duration-150 text-left",
+                      active
+                        ? "border-crimson bg-red-50 text-crimson"
+                        : "border-gray-200 bg-gray-50 text-gray-500 hover:border-gray-300 hover:bg-white",
+                    ].join(" ")}
+                  >
+                    {/* custom radio indicator */}
+                    <span
+                      className={[
+                        "w-4 h-4 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors duration-150",
+                        active ? "border-crimson" : "border-gray-300",
+                      ].join(" ")}
+                    >
+                      {active && (
+                        <span className="w-2 h-2 rounded-full bg-crimson block" />
+                      )}
+                    </span>
+                    {label}
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          <hr className="border-gray-100" />
+
           {/* ACTIONS */}
-          <div className="flex items-center gap-3 pt-4 border-t border-[#E5E7EB]">
+          <div className="flex items-center gap-3 pb-1">
+            {/* Ghost neutral cancel */}
             <button
               type="button"
               onClick={handleClose}
-              className="flex-1 py-2.5 text-sm font-medium text-[#6B7280] hover:text-[#111827] hover:bg-[#F9FAFB] rounded-lg transition-all duration-150 border border-[#E5E7EB]"
-              style={{ fontFamily: 'Poppins, sans-serif' }}
+              className="flex-1 border border-gray-200 hover:bg-gray-50 text-gray-700 text-sm font-medium px-4 py-2.5 rounded-lg transition-colors duration-150"
             >
               Cancel
             </button>
+            {/* Create / Update green — per §6.6 */}
             <button
               type="submit"
               disabled={loading}
-              className="flex-[2] py-2.5 bg-[#22C55E] text-white text-sm font-semibold rounded-lg hover:bg-[#16A34A] hover:shadow-md active:scale-[0.98] transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed"
-              style={{ fontFamily: 'Poppins, sans-serif' }}
+              className="flex-[2] flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-4 py-2.5 rounded-lg transition-colors duration-150 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
             >
+              {loading && <FontAwesomeIcon icon={faCircleNotch} className="animate-spin" />}
               {loading ? "Publishing..." : "Publish Listing"}
             </button>
           </div>
