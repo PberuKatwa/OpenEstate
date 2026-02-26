@@ -7,6 +7,7 @@ export interface Property {
   is_rental: boolean;
   file_url: string | null;
   fileId: number | null;
+  file_id: number | null;
   location: string;
   description: string;
   signedUrl: string | null;

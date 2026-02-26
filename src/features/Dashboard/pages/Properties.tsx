@@ -5,24 +5,28 @@ import { toast } from "react-toastify";
 import type { ApiResponse } from "../../../types/api.types";
 import { propertiesService } from "../../../services/properties.service";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
-import type { AllProperties, Property, UpdatePropertyPayload} from "../../../types/property.types";
+import type { AllProperties, Property } from "../../../types/property.types";
 import { CreatePropertyModal } from "../../../components/properties/CreateProperties";
 import { UpdatePropertyModal } from "../../../components/properties/UpdateProperties";
 
-const initialUploadPayload: UpdatePropertyPayload = {
+const initialUploadPayload: Property = {
   id: 0,
-  fileId: null,
   name: "",
   price: 0,
+  is_rental: false,
+  file_url: "",
+  fileId: 0,
   location: "",
   description: "",
-  isRental:false
+  signedUrl: "",
+  status: "",
+  file_id:0
 }
 
 export const Properties = function () {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
-  const [selectedProperty, setSelectedProperty] = useState<UpdatePropertyPayload>(initialUploadPayload);
+  const [selectedProperty, setSelectedProperty] = useState<Property>(initialUploadPayload);
   const [currentPage, setCurrentPage] = useState(1);
   const [limit, setLimit] = useState(5);
   const [totalPages, setTotalPages] = useState(1);
@@ -30,10 +34,7 @@ export const Properties = function () {
   const [loading, setLoading] = useState(true);
 
   const openUpdateModal = (property: Property) => {
-    setSelectedProperty({
-      ...property,
-      isRental: property.is_rental
-    });
+    setSelectedProperty(property);
     setIsUpdateOpen(true);
   }
 
@@ -65,27 +66,6 @@ export const Properties = function () {
     } catch (error) {
       toast.error(`${error}`)
       console.error(`Error in handling delete`, error)
-    }
-  }
-
-  const buildSelectedProperty = async function(){
-    try {
-
-      const currentProperty: UpdatePropertyPayload = {
-        id: selectedProperty.id,
-        name: selectedProperty.name,
-        price: selectedProperty.price,
-        isRental: selectedProperty.isRental,
-        fileId: selectedProperty.fileId,
-        location: selectedProperty.location,
-        description: selectedProperty.description
-      }
-
-      console.log("current property")
-
-      return currentProperty;
-    } catch (error) {
-      console.error("error in building selected property", error)
     }
   }
 
@@ -243,7 +223,7 @@ export const Properties = function () {
 
       <UpdatePropertyModal
         isOpen={isUpdateOpen}
-        property={{ ...selectedProperty, is_rental: selectedProperty.isRental,fileId:selectedProperty.fileId, file_url: "", signedUrl: "" }}
+        property={selectedProperty}
         onClose={() => setIsUpdateOpen(false)}
         onSuccess={() => getAllProperties(currentPage, limit)}
       />

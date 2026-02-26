@@ -24,7 +24,7 @@ const initialState: UpdatePropertyPayload = {
 
 interface UpdatePropertyModalProps {
   isOpen: boolean;
-  property: Property | null;
+  property: Property;
   onClose: () => void;
   onSuccess: () => void;
 }
@@ -44,7 +44,7 @@ export const UpdatePropertyModal = function ({
       console.log("propertyy", property)
       setData({
         id: property.id,
-        fileId: property.fileId,
+        fileId: property.file_id,
         name: property.name,
         price: property.price,
         location: property.location,
