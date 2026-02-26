@@ -41,7 +41,6 @@ export const UpdatePropertyModal = function ({
 
   useEffect(() => {
     if (property) {
-      console.log("propertyy", property)
       setData({
         id: property.id,
         fileId: property.file_id,
@@ -92,7 +91,6 @@ export const UpdatePropertyModal = function ({
     event.preventDefault();
     try {
       setLoading(true);
-      console.log("dataaa", data)
       const response = await propertiesService.updateProperty(data);
       toast.success(response.message);
       onSuccess();
