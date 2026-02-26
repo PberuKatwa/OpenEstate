@@ -81,7 +81,7 @@ export const UpdatePropertyModal = function ({
       setData((prev) => ({ ...prev, fileId }));
       setImageUploaded(true);
     } catch {
-      toast.error("Invalid format, only imagees are allowed.");
+      toast.error("Invalid format, only images are allowed.");
     } finally {
       setLoading(false);
     }
