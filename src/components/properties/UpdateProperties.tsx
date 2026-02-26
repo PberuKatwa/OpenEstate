@@ -43,7 +43,7 @@ export const UpdatePropertyModal = function ({
     if (property) {
       setData({
         id: property.id,
-        fileId: null,
+        fileId: property.fileId,
         name: property.name,
         price: property.price,
         location: property.location,
@@ -81,7 +81,7 @@ export const UpdatePropertyModal = function ({
       setData((prev) => ({ ...prev, fileId }));
       setImageUploaded(true);
     } catch {
-      toast.error("Invalid format, only images are allowed.");
+      toast.error("Invalid format, only imagees are allowed.");
     } finally {
       setLoading(false);
     }
@@ -91,6 +91,7 @@ export const UpdatePropertyModal = function ({
     event.preventDefault();
     try {
       setLoading(true);
+      console.log("dataaa", data)
       const response = await propertiesService.updateProperty(data);
       toast.success(response.message);
       onSuccess();
@@ -265,6 +266,7 @@ export const UpdatePropertyModal = function ({
             <label className="block text-sm font-semibold text-gray-700 mb-2">
               Property Type
             </label>
+
             <div className="flex gap-2">
               {(
                 [
@@ -300,6 +302,7 @@ export const UpdatePropertyModal = function ({
                 );
               })}
             </div>
+
           </div>
 
           <hr className="border-gray-100" />
