@@ -1,24 +1,13 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faImage, faXmark, faEye, faTrash, faEdit, faUpload, faCircleNotch } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faEye, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import type { ApiResponse } from "../../../types/api.types";
 import { propertiesService } from "../../../services/properties.service";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
-import type { AllProperties, CreatePropertyPayload, Property, UpdatePropertyPayload} from "../../../types/property.types";
-import { fileService } from "../../../services/file.service";
+import type { AllProperties, Property, UpdatePropertyPayload} from "../../../types/property.types";
 import { CreatePropertyModal } from "../../../components/properties/CreateProperties";
 import { UpdatePropertyModal } from "../../../components/properties/UpdateProperties";
-
-const initialPayload: CreatePropertyPayload = {
-  userId: null,
-  fileId: 0,
-  name: "",
-  price: 0,
-  location: "",
-  description: "",
-  isRental:false
-}
 
 const initialUploadPayload: UpdatePropertyPayload = {
   id: 0,
@@ -76,6 +65,27 @@ export const Properties = function () {
     } catch (error) {
       toast.error(`${error}`)
       console.error(`Error in handling delete`, error)
+    }
+  }
+
+  const buildSelectedProperty = async function(){
+    try {
+
+      const currentProperty: UpdatePropertyPayload = {
+        id: selectedProperty.id,
+        name: selectedProperty.name,
+        price: selectedProperty.price,
+        isRental: selectedProperty.isRental,
+        fileId: selectedProperty.fileId,
+        location: selectedProperty.location,
+        description: selectedProperty.description
+      }
+
+      console.log("current property")
+
+      return currentProperty;
+    } catch (error) {
+      console.error("error in building selected property", error)
     }
   }
 
@@ -233,7 +243,7 @@ export const Properties = function () {
 
       <UpdatePropertyModal
         isOpen={isUpdateOpen}
-        property={{ ...selectedProperty, is_rental: selectedProperty.isRental, file_url: "", signedUrl: "" }}
+        property={{ ...selectedProperty, is_rental: selectedProperty.isRental,fileId:selectedProperty.fileId, file_url: "", signedUrl: "" }}
         onClose={() => setIsUpdateOpen(false)}
         onSuccess={() => getAllProperties(currentPage, limit)}
       />

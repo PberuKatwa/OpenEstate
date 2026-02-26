@@ -41,6 +41,7 @@ export const UpdatePropertyModal = function ({
 
   useEffect(() => {
     if (property) {
+      console.log("propertyy", property)
       setData({
         id: property.id,
         fileId: property.fileId,
