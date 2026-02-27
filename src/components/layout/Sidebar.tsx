@@ -33,8 +33,8 @@ export const Sidebar = () => {
       {/* Logo / Brand */}
       <div className="relative z-10 p-3">
         <div className="flex items-center gap-3">
-          <div className=" w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0">
-            <img src={ardhiLogo} alt="Ardhitech Logo" className="absolute inset-0 w-36" />
+          <div className=" w-6 h-6 rounded-lg flex items-center justify-center flex-shrink-0">
+            <img src={ardhiLogo} alt="Ardhitech Logo" className="p-2 absolute inset-0 w-32" />
           </div>
         </div>
       </div>
