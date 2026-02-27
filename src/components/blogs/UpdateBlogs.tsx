@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck, faCircleNotch, faFilePen, faUpload, faXmark } from "@fortawesome/free-solid-svg-icons"; import type { BlogPayload, FullBlog, UpdateBlogPayload } from "../../types/blog.types";
+import { faCircleCheck, faCircleNotch, faFilePen, faUpload, faXmark } from "@fortawesome/free-solid-svg-icons";
+import type { FullBlog, UpdateBlogPayload } from "../../types/blog.types";
 import { toast } from "react-toastify";
 import { fileService } from "../../services/file.service";
 import { blogsService } from "../../services/blogs.service";
@@ -171,7 +172,7 @@ export const CreateBlogModal = function (props: CreateBlogModalProps) {
               ) : imageUploaded ? (
                 <>
                   <FontAwesomeIcon icon={faCircleCheck} className="text-green-500 text-lg flex-shrink-0" />
-                  <span className="text-sm font-medium text-green-600">Image uploaded successfully</span>
+                  <span className="text-sm font-medium text-green-600">Image replaced successfully</span>
                 </>
               ) : (
                 <>
@@ -179,7 +180,7 @@ export const CreateBlogModal = function (props: CreateBlogModalProps) {
                     <FontAwesomeIcon icon={faUpload} className="text-gray-500 text-sm" />
                   </div>
                   <div>
-                    <span className="block text-sm font-medium text-gray-700">Upload Blog image</span>
+                    <span className="block text-sm font-medium text-gray-700">Replace Blog image</span>
                     <span className="text-xs text-gray-400">JPG, PNG, WEBP</span>
                   </div>
                 </>
@@ -245,7 +246,7 @@ export const CreateBlogModal = function (props: CreateBlogModalProps) {
               className="flex-[2] flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-4 py-2.5 rounded-lg transition-colors duration-150 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading && <FontAwesomeIcon icon={faCircleNotch} className="animate-spin" />}
-              {loading ? "Publishing..." : "Publish Blog"}
+              {loading ? "Updating ....." : "Update Blog"}
             </button>
           </div>
         </form>
