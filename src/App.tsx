@@ -8,7 +8,7 @@ import { Blogs } from "./features/Dashboard/pages/Blogs";
 import { Home } from "./features/Dashboard/pages/Home";
 import { Properties } from "./features/Dashboard/pages/Properties";
 import { Profile } from "./features/Dashboard/pages/Profile";
-import { Sidebar } from "./components/Sidebar";
+import { Sidebar } from "./components/layout/Sidebar";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthProvider } from "./context/AuthContext";

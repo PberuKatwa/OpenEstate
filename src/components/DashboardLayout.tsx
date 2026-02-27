@@ -1,6 +1,6 @@
 // src/components/layout/DashboardLayout.tsx
 import { Outlet } from "react-router-dom";
-import { Sidebar } from "./Sidebar";
+import { Sidebar } from "./layout/Sidebar";
 
 export const DashboardLayout = () => {
   return (
