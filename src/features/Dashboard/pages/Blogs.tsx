@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus,faXmark, faEye, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
-import type { AllBlogsApiResponse, BlogPayload, Blog, SingleBlogApiResponse, FullBlog } from "../../../types/blog.types"
+import { faPlus, faEye, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
+import type { AllBlogsApiResponse, Blog, SingleBlogApiResponse, FullBlog } from "../../../types/blog.types"
 import { toast } from "react-toastify";
 import { blogsService } from "../../../services/blogs.service";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
@@ -14,6 +14,7 @@ export const Blogs = function () {
   const [limit, setLimit] = useState<number>(5);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [blogs, setBlogs] = useState<FullBlog[] | []>([]);
+  const [selectedBlog, setSelectedBlog] = useState<FullBlog>();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
 
   const getAllBlogs = async function (page: number, limit: number) {
@@ -21,7 +22,6 @@ export const Blogs = function () {
 
       setIsLoading(true);
       const response: AllBlogsApiResponse = await blogsService.getAllBlogs(page, limit);
-      console.log("respnseeee", response)
       if (!response.data) throw new Error(`No blog response data`);
       setCurrentPage(response.data?.pagination.currentPage);
       setTotalPages(response.data.pagination.totalPages);
@@ -37,7 +37,8 @@ export const Blogs = function () {
     }
   }
 
-  const openUpdateModal = (blog: Blog) => {
+  const openUpdateModal = (blog: FullBlog) => {
+    setSelectedBlog(blog);
     toast.success(`Open updateee`)
   };
 
