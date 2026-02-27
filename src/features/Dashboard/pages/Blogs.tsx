@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus,faXmark, faEye, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
-import type { AllBlogsApiResponse, BlogPayload, Blog, SingleBlogApiResponse } from "../../../types/blog.types"
+import type { AllBlogsApiResponse, BlogPayload, Blog, SingleBlogApiResponse, FullBlog } from "../../../types/blog.types"
 import { toast } from "react-toastify";
 import { blogsService } from "../../../services/blogs.service";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
@@ -20,7 +20,7 @@ export const Blogs = function () {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [limit, setLimit] = useState<number>(5);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [blogs, setBlogs] = useState<Blog[] | []>([]);
+  const [blogs, setBlogs] = useState<FullBlog[] | []>([]);
   const [modalMode, setModalMode] = useState<"create" | "update">("create");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -177,8 +177,8 @@ export const Blogs = function () {
               className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-all"
             >
               <img
-                src={blog.image_url
-                  ? `${blog.image_url}`
+                src={blog.signed_url
+                  ? `${blog.signed_url}`
                   : propertyImg
                 }
                 alt={blog.title}

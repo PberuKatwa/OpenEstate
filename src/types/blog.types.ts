@@ -3,20 +3,32 @@ import type { ApiResponse } from "./api.types";
 export interface Blog{
   id: number;
   title: string;
+}
+
+export interface FullBlog extends Blog{
   author_id: number;
   content: string;
-  image_url: string;
+  file_id: number | null;
+  file_url: string | null;
+  signed_url: string | null;
 }
 
 export interface BlogPayload{
-  id?:number|null;
   title: string;
-  authorId?: number|null;
   content: string;
+  fileId: number;
+}
+
+export interface CreateBlogPayload extends BlogPayload{
+  authorId: number;
+}
+
+export interface UpdateBlogPayload extends BlogPayload{
+  id: number;
 }
 
 export interface AllBlogs {
-  blogs: Blog[];
+  blogs: FullBlog[];
   pagination: {
     totalCount: number;
     currentPage: number;
@@ -25,4 +37,5 @@ export interface AllBlogs {
 }
 
 export interface AllBlogsApiResponse extends ApiResponse<AllBlogs> { };
-export interface SingleBlogApiResponse extends ApiResponse<Blog> { };
+export interface SingleBlogApiResponse extends ApiResponse<FullBlog> { };
+export interface SingleBlogMinimalApiResponse extends ApiResponse<Blog> { };
