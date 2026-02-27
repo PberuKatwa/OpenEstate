@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { blogsService } from "../../../services/blogs.service";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
 import { CreateBlogModal } from "../../../components/blogs/CreateBlogs";
+import { UpdateBlogModal } from "../../../components/blogs/UpdateBlogs";
 
 export const Blogs = function () {
 
@@ -16,6 +17,7 @@ export const Blogs = function () {
   const [blogs, setBlogs] = useState<FullBlog[] | []>([]);
   const [selectedBlog, setSelectedBlog] = useState<FullBlog>();
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [isUpdateOpen, setIsUpdateOpen] = useState(false);
 
   const getAllBlogs = async function (page: number, limit: number) {
     try {
@@ -39,6 +41,8 @@ export const Blogs = function () {
 
   const openUpdateModal = (blog: FullBlog) => {
     setSelectedBlog(blog);
+    setIsUpdateOpen(true);
+
     toast.success(`Open updateee`)
   };
 

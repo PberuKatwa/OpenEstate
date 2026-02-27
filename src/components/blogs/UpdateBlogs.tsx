@@ -14,14 +14,14 @@ const initialPayload: UpdateBlogPayload = {
   fileId:0
 }
 
-interface CreateBlogModalProps {
+interface UpdateBlogModalProps {
   isOpen: boolean,
   blog:FullBlog,
   onClose: () => void,
   onSuccess:() => void
 }
 
-export const CreateBlogModal = function (props: CreateBlogModalProps) {
+export const UpdateBlogModal = function (props: UpdateBlogModalProps) {
 
   const { isOpen, blog, onClose, onSuccess } = props;
 
