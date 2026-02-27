@@ -71,4 +71,10 @@ export const CreateBlogModal = function (props: CreateBlogModalProps) {
     }
   }
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setData(
+      (prev) => ({ ...prev, [e.target.name]: e.target.value })
+    );
+  };
+
 }
