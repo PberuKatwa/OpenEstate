@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
+import ardhiLogo from "../../../../public/ardhitech_logo.png"
 import { toast } from "react-toastify";
 
 const initialState = {
@@ -146,21 +147,14 @@ export const LoginForm = function () {
             <div className="flex items-center gap-3">
               {/* Logo mark */}
               <div
-                className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                style={{ background: "#C0182A" }}
-              >
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <path d="M10 2L17 6V14L10 18L3 14V6L10 2Z" stroke="white" strokeWidth="1.5" fill="none" />
-                  <path d="M10 6L14 8.5V13.5L10 16L6 13.5V8.5L10 6Z" fill="white" fillOpacity="0.3" />
-                </svg>
-              </div>
-              <div>
-                <div className="text-base font-700 leading-tight" style={{ color: "#111827", fontWeight: 700 }}>
-                  Ardhitech
-                </div>
-                <div className="text-xs" style={{ color: "#6B7280", fontWeight: 400 }}>
-                  Consulting
-                </div>
+                className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0">
+
+                <img
+                  src={ardhiLogo}
+                  alt="Property"
+                  className="absolute inset-0 w-36"
+                />
+
               </div>
             </div>
           </div>
