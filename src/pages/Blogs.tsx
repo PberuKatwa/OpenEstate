@@ -4,7 +4,7 @@ import { faPlus, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 import type { AllBlogsApiResponse, SingleBlogApiResponse, FullBlog } from "../types/blog.types"
 import { toast } from "react-toastify";
 import { blogsService } from "../services/blogs.service";
-import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
+import propertyImg from "../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
 import { CreateBlogModal } from "../components/blogs/CreateBlogs";
 import { UpdateBlogModal } from "../components/blogs/UpdateBlogs";
 import { useAuth } from "../context/AuthContext";

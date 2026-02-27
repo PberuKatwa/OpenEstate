@@ -4,7 +4,7 @@ import { faPlus, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
 import { toast } from "react-toastify";
 import type { ApiResponse } from "../types/api.types";
 import { propertiesService } from "../services/properties.service";
-import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
+import propertyImg from "../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
 import type { AllProperties, Property } from "../types/property.types";
 import { CreatePropertyModal } from "../components/properties/CreateProperties";
 import { UpdatePropertyModal } from "../components/properties/UpdateProperties";
