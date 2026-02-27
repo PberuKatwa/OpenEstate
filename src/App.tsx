@@ -1,8 +1,6 @@
-// App.tsx
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import { SignupForm } from './features/auth/components/SignUpForm';
+import { BrowserRouter, Routes, Route} from "react-router-dom";
+import { SignupForm } from './pages/SignUpForm';
 import { LoginForm } from './pages/LoginForm';
-import { ProductsModule } from './features/Dashboard/components/ProductsModule';
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 import { Blogs } from "./pages/Blogs";
 import { Home } from "./pages/Home";
@@ -30,7 +28,6 @@ function AppContent() {
       <Routes>
         <Route path="/sign-up" element={<SignupForm />} />
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/dashboard22" element={<ProductsModule />} />
         <Route path="/sidebar" element={<Sidebar />} />
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route index element={<Home />} />
