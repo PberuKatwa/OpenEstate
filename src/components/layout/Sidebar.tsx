@@ -26,7 +26,7 @@ export const Sidebar = () => {
 
   return (
     <aside
-      className="h-screen flex flex-col flex-shrink-0
+      className="sticky top-0 h-screen flex flex-col flex-shrink-0
       bg-gradient-to-b
       from-slate-950
       via-slate-900
