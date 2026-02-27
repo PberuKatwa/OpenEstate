@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilePen } from "@fortawesome/free-solid-svg-icons"; import type { BlogPayload } from "../../types/blog.types";
+import { faCircleCheck, faCircleNotch, faFilePen, faUpload, faXmark } from "@fortawesome/free-solid-svg-icons"; import type { BlogPayload } from "../../types/blog.types";
 import { toast } from "react-toastify";
 import { fileService } from "../../services/file.service";
 import { blogsService } from "../../services/blogs.service";
@@ -78,11 +78,21 @@ export const CreateBlogModal = function (props: CreateBlogModalProps) {
     );
   };
 
+  const handleSubmit = async function (event:React.FormEvent) {
+    event.preventDefault();
+    await createBlog();
+  }
+
   const handleClose = () => {
     setData(initialPayload);
     setImageUploaded(false);
     onClose();
   }
+
+  const inputClass =
+    "w-full border border-gray-200 rounded-lg px-3 py-2.5 text-sm text-gray-900 placeholder-gray-400 outline-none bg-white focus:border-crimson focus:ring-2 focus:ring-crimson/20 transition-colors duration-150";
+
+  const labelClass = "text-sm font-medium text-gray-700";
 
   return (
     // Overlay — z-[300] per z-index stack §12
@@ -171,49 +181,14 @@ export const CreateBlogModal = function (props: CreateBlogModalProps) {
 
           {/* PROPERTY NAME */}
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="create-name" className={labelClass}>Property Name</label>
+            <label htmlFor="create-name" className={labelClass}>Blog Title</label>
             <input
               id="create-name"
               type="text"
-              name="name"
-              value={data.name}
+              name="title"
+              value={data.title}
               onChange={handleChange}
-              placeholder="e.g. Westlands Plaza"
-              required
-              className={inputClass}
-            />
-          </div>
-
-          {/* PRICE */}
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="create-price" className={labelClass}>Price (KES)</label>
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-gray-400 pointer-events-none select-none">
-                KES
-              </span>
-              <input
-                id="create-price"
-                type="number"
-                name="price"
-                value={data.price || ""}
-                onChange={handleChange}
-                placeholder="0"
-                required
-                className={inputClass + " pl-12 font-medium"}
-              />
-            </div>
-          </div>
-
-          {/* LOCATION */}
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="create-location" className={labelClass}>Location</label>
-            <input
-              id="create-location"
-              type="text"
-              name="location"
-              value={data.location}
-              onChange={handleChange}
-              placeholder="e.g. Westlands, Nairobi"
+              placeholder="e.g. New Building Regulations"
               required
               className={inputClass}
             />
@@ -224,62 +199,13 @@ export const CreateBlogModal = function (props: CreateBlogModalProps) {
             <label htmlFor="create-description" className={labelClass}>Description</label>
             <textarea
               id="create-description"
-              rows={3}
-              name="description"
-              value={data.description}
+              rows={4}
+              name="content"
+              value={data.content}
               onChange={handleChange}
-              placeholder="e.g. 5 bedrooms, 4 bathrooms, pool..."
+              placeholder="e.g. THe property market is rapidly changing ....."
               className={inputClass + " resize-none"}
             />
-          </div>
-
-          {/* PROPERTY TYPE — custom button toggles, correct boolean state */}
-          {/*
-            Root cause of the radio bug: native <input type="radio"> with value="true"/"false"
-            always produces a string, breaking boolean comparison. We replace with
-            <button type="button"> that sets the exact boolean via onClick.
-          */}
-          {/* Property Type */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Property Type
-            </label>
-            <div className="flex gap-2">
-              {(
-                [
-                  { label: "For Sale", value: false },
-                  { label: "Rental", value: true },
-                ] as const
-              ).map(({ label, value }) => {
-                const active = data.isRental === value;
-                return (
-                  <button
-                    key={label}
-                    type="button"
-                    onClick={() => setData((prev) => ({ ...prev, isRental: value }))}
-                    className={[
-                      "flex items-center gap-2.5 px-3 py-2.5 rounded-lg border text-sm font-medium transition-colors duration-150 text-left",
-                      active
-                        ? "border-blue-500 bg-blue-50 text-blue-600"
-                        : "border-gray-200 bg-gray-50 text-gray-500 hover:border-gray-300 hover:bg-white",
-                    ].join(" ")}
-                  >
-                    {/* custom radio indicator */}
-                    <span
-                      className={[
-                        "w-4 h-4 rounded-full border-2 flex items-center justify-center transition-colors duration-150",
-                        active ? "border-blue-500" : "border-gray-300",
-                      ].join(" ")}
-                    >
-                      {active && (
-                        <span className="w-2 h-2 rounded-full bg-blue-500 block" />
-                      )}
-                    </span>
-                    {label}
-                  </button>
-                );
-              })}
-            </div>
           </div>
 
           <hr className="border-gray-100" />
@@ -301,7 +227,7 @@ export const CreateBlogModal = function (props: CreateBlogModalProps) {
               className="flex-[2] flex items-center justify-center gap-2 bg-green-500 hover:bg-green-600 text-white text-sm font-medium px-4 py-2.5 rounded-lg transition-colors duration-150 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading && <FontAwesomeIcon icon={faCircleNotch} className="animate-spin" />}
-              {loading ? "Publishing..." : "Publish Listing"}
+              {loading ? "Publishing..." : "Publish Blog"}
             </button>
           </div>
         </form>
