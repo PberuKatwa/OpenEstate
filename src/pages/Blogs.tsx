@@ -75,7 +75,7 @@ export const Blogs = function () {
   }, [currentPage, limit, context.isAuthenticated, context.isLoading]);
 
   return (
-    <div className="min-h-screen bg-white px-8 py-8 font-[Poppins]">
+    <div className="min-h-screen bg-white px-3 py-8 font-[Poppins]">
 
       {/* ── Page Header ── */}
       <div className="flex items-center justify-between mb-10">
