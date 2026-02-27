@@ -26,21 +26,21 @@ export const Sidebar = () => {
 
   return (
     <aside
-      className="sticky top-0 h-screen flex flex-col flex-shrink-0
-      bg-gradient-to-b
-      from-slate-950
-      via-slate-900
-      to-blue-950"
-      style={{ width: 220, fontFamily: "'Poppins', sans-serif" }}
+      className="sticky top-0 h-screen w-[220px] flex flex-col flex-shrink-0 font-[Poppins]
+      bg-gradient-to-b from-slate-950 via-slate-900 to-blue-950"
     >
       {/* Logo */}
       <div className="px-5 pt-6 pb-5 border-b border-white/10">
-        <img src={ardhiLogo} alt="Ardhitech" className="h-10 w-auto object-contain brightness-0 invert" />
+        <img
+          src={ardhiLogo}
+          alt="Ardhitech"
+          className="h-10 w-auto object-contain brightness-0 invert"
+        />
       </div>
 
       {/* Nav */}
       <nav className="flex-1 px-3 pt-4 space-y-0.5">
-        <p className="px-3 pb-3 text-white/25 uppercase tracking-widest" style={{ fontSize: 9, fontWeight: 600 }}>
+        <p className="px-3 pb-3 text-[9px] font-semibold uppercase tracking-widest text-white/25">
           Menu
         </p>
 
@@ -49,23 +49,22 @@ export const Sidebar = () => {
             key={item.path}
             to={item.path}
             end={item.end}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-150"
-            style={({ isActive }) =>
-              isActive
-                ? {
-                    background: "rgba(192,24,42,0.25)",
-                    border: "1px solid rgba(192,24,42,0.35)",
-                    color: "#fca5a5",
-                    fontWeight: 600,
-                  }
-                : {
-                    border: "1px solid transparent",
-                    color: "rgba(255,255,255,0.40)",
-                    fontWeight: 400,
-                  }
+            className={({ isActive }) =>
+              `
+              flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm
+              transition-all duration-150 border
+              ${
+                isActive
+                  ? "bg-[rgba(192,24,42,0.25)] border-[rgba(192,24,42,0.35)] text-red-300 font-semibold"
+                  : "border-transparent text-white/40 font-normal"
+              }
+              `
             }
           >
-            <FontAwesomeIcon icon={item.icon} className="w-3.5 h-3.5 flex-shrink-0" />
+            <FontAwesomeIcon
+              icon={item.icon}
+              className="w-3.5 h-3.5 flex-shrink-0"
+            />
             <span>{item.label}</span>
           </NavLink>
         ))}
@@ -77,10 +76,14 @@ export const Sidebar = () => {
       {/* Logout */}
       <button
         onClick={handleLogout}
-        className="flex items-center gap-3 mx-3 my-4 px-3 py-2.5 rounded-lg text-sm text-white/40 hover:bg-white/5 hover:text-white/70 transition-all duration-150 border border-transparent"
-        style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 400 }}
+        className="flex items-center gap-3 mx-3 my-4 px-3 py-2.5 rounded-lg text-sm
+        text-white/40 hover:bg-white/5 hover:text-white/70
+        transition-all duration-150 border border-transparent font-normal"
       >
-        <FontAwesomeIcon icon={faRightFromBracket} className="w-3.5 h-3.5 flex-shrink-0" />
+        <FontAwesomeIcon
+          icon={faRightFromBracket}
+          className="w-3.5 h-3.5 flex-shrink-0"
+        />
         <span>Logout</span>
       </button>
     </aside>
