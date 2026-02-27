@@ -5,24 +5,16 @@ import type { AllBlogsApiResponse, BlogPayload, Blog, SingleBlogApiResponse, Ful
 import { toast } from "react-toastify";
 import { blogsService } from "../../../services/blogs.service";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
-
-const initialState:BlogPayload = {
-  id: null,
-  authorId: null,
-  title: "",
-  content:""
-}
+import { CreateBlogModal } from "../../../components/blogs/CreateBlogs";
 
 export const Blogs = function () {
 
-  const [payloadData, setPayloadData] = useState<BlogPayload>(initialState);
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [limit, setLimit] = useState<number>(5);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [blogs, setBlogs] = useState<FullBlog[] | []>([]);
-  const [modalMode, setModalMode] = useState<"create" | "update">("create");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
 
   const getAllBlogs = async function (page: number, limit: number) {
     try {
@@ -45,85 +37,9 @@ export const Blogs = function () {
     }
   }
 
-  const openCreateModal = () => {
-    setModalMode("create");
-    setPayloadData(initialState);
-    setIsModalOpen(true);
-  };
-
   const openUpdateModal = (blog: Blog) => {
-    setModalMode("update");
-    setPayloadData({
-      id:blog.id,
-      title: blog.title,
-      content:blog.content
-    });
-    setIsModalOpen(true);
+    toast.success(`Open updateee`)
   };
-
-  const handleChange = function (event: React.ChangeEvent<HTMLInputElement| HTMLTextAreaElement>) {
-    try {
-      const { name, value } = event.target;
-
-      setPayloadData(
-        (prev) => ({ ...prev, [name]: value })
-      );
-
-    } catch (error) {
-      console.error("error in handling change event", error)
-    }
-  }
-
-  const handleCreateBlog = async function (event: React.FormEvent) {
-    try {
-
-      event.preventDefault();
-      setIsLoading(true);
-
-      const payload: BlogPayload = {
-        title: payloadData.title,
-        content:payloadData.content
-      }
-
-      const response: SingleBlogApiResponse = await blogsService.createBlog(payload);
-      if (!response.data) throw new Error(`No blog response data`);
-      toast.success(response.message);
-      getAllBlogs(currentPage, limit);
-      setIsModalOpen(false);
-
-    } catch (error) {
-      console.error(`Error in handling submit`, error);
-      toast.error(`${error}`);
-    } finally {
-      toast.success(false);
-    }
-  }
-
-  const handleUpdateBlog = async function (event:React.FormEvent) {
-    try {
-
-      event.preventDefault();
-      setIsLoading(true);
-
-      const payload: BlogPayload = {
-        id: payloadData.id,
-        title: payloadData.title,
-        content: payloadData.content
-      }
-
-      const response = await blogsService.updateBlog(payload);
-      if (!response.data) throw new Error(`Error in handling blog update`);
-      toast.success(response.message);
-      getAllBlogs(currentPage, limit);
-      setIsModalOpen(false);
-
-    } catch (error) {
-      console.error(`Error in handling update blog`, error)
-      toast.error(`${error}`)
-    } finally {
-      setIsLoading(false);
-    }
-  }
 
   const handleDelete = async function (id: number) {
     try {
@@ -157,7 +73,7 @@ export const Blogs = function () {
       <div className="mb-6">
         <button
           type="button"
-          onClick={openCreateModal}
+          onClick={()=>setOpenCreate(true)}
           className="inline-flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full hover:bg-gray-800 transition-all text-sm font-medium shadow-sm"
         >
           <FontAwesomeIcon icon={faPlus} />
@@ -285,97 +201,6 @@ export const Blogs = function () {
             </select>
           </div>
 
-        </div>
-      )}
-
-      {/* MODAL OVERLAY */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-6">
-          {/* MODAL CONTAINER - This is what adds the 'space' between edges */}
-          <div className="bg-white w-full max-w-lg max-h-[90vh] rounded-3xl shadow-2xl overflow-y-auto animate-in fade-in zoom-in duration-300">
-
-            {/* MODAL HEADER */}
-            <div className="sticky top-0 bg-white/80 backdrop-blur-md z-10 flex items-center justify-between px-8 py-6 border-b border-gray-100">
-              <div>
-                <h3 className="text-xl font-bold text-gray-900 tracking-tight">
-                  {modalMode === "create" ? "New Blog" : "Update Blog"}
-                </h3>
-                <p className="text-xs text-gray-500 mt-0.5">
-                  {modalMode === "create" ? "Write your blog in seconds." : "Update blog details."}
-                </p>
-              </div>
-              <button
-                onClick={() => {
-                  setIsModalOpen(false);
-                  setPayloadData(initialState);
-                }}
-                className="text-gray-400 hover:text-black hover:bg-gray-100 rounded-full w-10 h-10 flex items-center justify-center transition-all"
-              >
-                <FontAwesomeIcon icon={faXmark} className="text-lg" />
-              </button>
-            </div>
-
-            {/* MODAL BODY */}
-            <form className="p-8 space-y-6" onSubmit={ modalMode === "create"? handleCreateBlog : handleUpdateBlog}>
-
-              {/* Inputs */}
-              <div className="space-y-4">
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Blog Title</label>
-                  <input
-                    type="text"
-                    name="title"
-                    value={payloadData.title}
-                    onChange={handleChange}
-                    placeholder="e.g. New Property Law"
-                    className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white
-                    focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
-                  />
-                </div>
-
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-gray-400 uppercase tracking-widest ml-1">Content</label>
-                  <textarea
-                    rows={4}
-                    name="content"
-                    value={payloadData.content}
-                    onChange={handleChange}
-                    placeholder="e.g. This is a groundbreaking discovery"
-                    className="w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50/50 focus:bg-white
-                    focus:border-black focus:ring-0 outline-none transition-all text-gray-900 placeholder:text-gray-300"
-                  />
-                </div>
-
-              </div>
-
-              {/* FOOTER ACTIONS */}
-              <div className="flex items-center gap-4 pt-4">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setIsModalOpen(false);
-                    setPayloadData(initialState);
-                  }}
-                  className="flex-1 py-3.5 text-sm font-bold text-gray-500 hover:text-black hover:bg-gray-100 rounded-xl transition-all"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="flex-[2] py-3.5 bg-black text-white text-sm font-bold rounded-xl hover:shadow-xl
-                  hover:shadow-black/20 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {isLoading
-                    ? (modalMode === "create" ? "Publishing Blog..." : "Updating Blog...")
-                    : (modalMode === "create" ? "Publish Listing" : "Update Property")
-                  }
-                </button>
-              </div>
-            </form>
-
-          </div>
         </div>
       )}
 
