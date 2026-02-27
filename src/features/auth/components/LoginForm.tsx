@@ -31,11 +31,14 @@ export const LoginForm = function () {
     setError(null);
     try {
       setIsLoading(true);
-      await login(formData.email, formData.password);
+      const result = await login(formData.email, formData.password);
+      console.log("resultt", result)
+      if (!result.success) throw new Error(`Invalid login, retry with valid password or email.`);
       toast.success(`Successfully logged in`);
       navigate("/dashboard/blogs");
     } catch (error) {
       console.error(`Error in handling submit`, error);
+      toast.error(`${error}`)
       setError(`${error}`);
     } finally {
       setIsLoading(false);
