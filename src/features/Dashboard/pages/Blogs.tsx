@@ -8,6 +8,16 @@ import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496
 import { CreateBlogModal } from "../../../components/blogs/CreateBlogs";
 import { UpdateBlogModal } from "../../../components/blogs/UpdateBlogs";
 
+const initialBlog: FullBlog = {
+  id: 0,
+  author_id: 0,
+  content: "",
+  file_id: 0,
+  file_url: "",
+  signed_url: "",
+  title:""
+}
+
 export const Blogs = function () {
 
   const [currentPage, setCurrentPage] = useState<number>(1);
@@ -42,8 +52,6 @@ export const Blogs = function () {
   const openUpdateModal = (blog: FullBlog) => {
     setSelectedBlog(blog);
     setIsUpdateOpen(true);
-
-    toast.success(`Open updateee`)
   };
 
   const handleDelete = async function (id: number) {
@@ -214,6 +222,11 @@ export const Blogs = function () {
         isOpen={isCreateOpen}
         onClose={() => setIsCreateOpen(false)}
         onSuccess={()=>getAllBlogs(currentPage,limit)}
+      />
+
+      <UpdateBlogModal
+        isOpen={isUpdateOpen}
+        blog={selectedBlog}
       />
 
     </div>
