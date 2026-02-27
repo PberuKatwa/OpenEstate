@@ -25,7 +25,7 @@ export const Blogs = function () {
   const [limit, setLimit] = useState<number>(5);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [blogs, setBlogs] = useState<FullBlog[] | []>([]);
-  const [selectedBlog, setSelectedBlog] = useState<FullBlog>();
+  const [selectedBlog, setSelectedBlog] = useState<FullBlog>(initialBlog);
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
 
@@ -227,6 +227,8 @@ export const Blogs = function () {
       <UpdateBlogModal
         isOpen={isUpdateOpen}
         blog={selectedBlog}
+        onClose={() => setIsUpdateOpen(false)}
+        onSuccess={() => getAllBlogs(currentPage, limit)}
       />
 
     </div>
