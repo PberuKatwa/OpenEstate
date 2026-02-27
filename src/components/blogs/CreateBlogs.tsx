@@ -2,6 +2,7 @@ import { useState } from "react";
 import type { BlogPayload } from "../../types/blog.types";
 import { toast } from "react-toastify";
 import { fileService } from "../../services/file.service";
+import { blogsService } from "../../services/blogs.service";
 
 
 const initialPayload: BlogPayload = {
@@ -46,6 +47,27 @@ export const CreateBlogModal = function (props: CreateBlogModalProps) {
       toast.error(`Invalid format , only images are allowed.`)
     } finally {
       setLoading(false);
+    }
+  }
+
+  const createBlog = async function () {
+    try {
+
+      setLoading(true);
+
+      const response = await blogsService.createBlog(data);
+
+      if (response.data) throw new Error(`No blog was created`)
+      toast.success(response.message)
+      setData(initialPayload);
+      onSuccess();
+      onClose();
+
+    } catch (error) {
+      console.error(`Error in creating blog`, error)
+      toast.error(`${error}`)
+    } finally {
+      setLoading(false)
     }
   }
 

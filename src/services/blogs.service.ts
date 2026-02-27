@@ -21,9 +21,10 @@ export const blogsService = {
         `/blogs`,
         {
           title: payload.title,
+          fileId: payload.fileId,
           content: payload.content
         }
-      )
+      );
 
       const blogRes: SingleBlogApiResponse = response.data;
       return blogRes;
