@@ -7,6 +7,7 @@ import { blogsService } from "../../../services/blogs.service";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
 import { CreateBlogModal } from "../../../components/blogs/CreateBlogs";
 import { UpdateBlogModal } from "../../../components/blogs/UpdateBlogs";
+import { useAuth } from "../../../context/AuthContext";
 
 const initialBlog: FullBlog = {
   id: 0,
@@ -29,12 +30,15 @@ export const Blogs = function () {
   const [isCreateOpen, setIsCreateOpen] = useState(false);
   const [isUpdateOpen, setIsUpdateOpen] = useState(false);
 
+  const context = useAuth();
+
   const getAllBlogs = async function (page: number, limit: number) {
     try {
 
       setIsLoading(true);
       const response: AllBlogsApiResponse = await blogsService.getAllBlogs(page, limit);
       if (!response.data) throw new Error(`No blog response data`);
+            console.log("responseee", response)
       setCurrentPage(response.data?.pagination.currentPage);
       setTotalPages(response.data.pagination.totalPages);
       setLimit(limit);
@@ -61,6 +65,7 @@ export const Blogs = function () {
 
       const response: SingleBlogApiResponse = await blogsService.trashProperty(id);
       if (!response.message) throw new Error(`No blog response data`);
+
       toast.success(response.message);
       getAllBlogs(currentPage, limit);
 
@@ -74,10 +79,14 @@ export const Blogs = function () {
 
   useEffect(
     function () {
-      getAllBlogs(currentPage,limit)
+      // Don't fetch until auth is initialized
+      if (!context.isAuthenticated || context.isLoading) return;
+
+      getAllBlogs(currentPage, limit);
     },
-    [currentPage,limit]
-  )
+    [currentPage, limit, context.isAuthenticated, context.isLoading]
+  );
+
 
   return (
     <div className="flex flex-col min-h-screen p-8 bg-gray-50">
