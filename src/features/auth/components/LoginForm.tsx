@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
-import ardhiLogo from "../../../../public/ardhitech_logo.png"
+import ardhiLogo from "../../../assets/ardhitech_logo.png"
 import { toast } from "react-toastify";
 
 const initialState = {
@@ -33,7 +33,7 @@ export const LoginForm = function () {
       setIsLoading(true);
       await login(formData.email, formData.password);
       toast.success(`Successfully logged in`);
-      navigate("/dashboard");
+      navigate("/dashboard/blogs");
     } catch (error) {
       console.error(`Error in handling submit`, error);
       setError(`${error}`);
