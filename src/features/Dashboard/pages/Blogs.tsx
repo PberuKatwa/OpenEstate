@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faEye, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
-import type { AllBlogsApiResponse, Blog, SingleBlogApiResponse, FullBlog } from "../../../types/blog.types"
+import { faPlus, faTrash, faEdit } from "@fortawesome/free-solid-svg-icons";
+import type { AllBlogsApiResponse, SingleBlogApiResponse, FullBlog } from "../../../types/blog.types"
 import { toast } from "react-toastify";
 import { blogsService } from "../../../services/blogs.service";
 import propertyImg from "../../../assets/pexels-mukula-igavinchi-443985808-15496495.jpg";
@@ -123,12 +123,14 @@ export const Blogs = function () {
 
                 {/* ACTION BUTTONS */}
                 <div className="flex gap-2 pt-3 border-t border-gray-100">
-                  <button
+
+                  {/*<button
                     className="flex-1 px-3 py-2 text-blue-600 hover:bg-blue-90 rounded-lg transition-colors bg-white/90"
                     aria-label="View property"
                   >
                     <FontAwesomeIcon icon={faEye} className="text-lg" />
-                  </button>
+                  </button>*/}
+
                   <button
                     onClick={() => openUpdateModal(blog)}
                     className="flex-1 px-3 py-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors bg-white/90"
