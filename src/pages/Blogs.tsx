@@ -75,24 +75,35 @@ export const Blogs = function () {
   }, [currentPage, limit, context.isAuthenticated, context.isLoading]);
 
   return (
-    <div className="min-h-screen bg-white px-8 py-8" style={{ fontFamily: "'Poppins', sans-serif" }}>
+    <div className="min-h-screen bg-white px-3 py-8 font-[Poppins]">
 
       {/* ── Page Header ── */}
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex items-center justify-between mb-10">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <FontAwesomeIcon icon={faNewspaper} className="w-4 h-4 text-rose-700" />
-            <span className="text-xs font-semibold text-rose-700 uppercase tracking-widest">Content</span>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-7 h-7 rounded-lg bg-rose-50 flex items-center justify-center shadow-sm">
+              <FontAwesomeIcon icon={faNewspaper} className="w-3.5 h-3.5 text-rose-600" />
+            </div>
+            <span className="text-[10px] font-semibold text-rose-600 uppercase tracking-[0.2em]">
+              Content
+            </span>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">Blog Posts</h1>
-          <p className="text-sm text-gray-400 mt-0.5">Manage and publish your articles</p>
+
+          <h1 className="text-2xl font-semibold text-gray-900 tracking-tight">
+            Blog Posts
+          </h1>
+          <p className="text-sm text-gray-400 mt-1">
+            Manage and publish your articles
+          </p>
         </div>
 
         <button
           type="button"
           onClick={() => setIsCreateOpen(true)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-150 hover:opacity-90 active:scale-95"
-          style={{ background: "#C0182A" }}
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white
+          bg-rose-700 shadow-sm shadow-rose-700/20
+          hover:bg-rose-800 hover:shadow-md hover:shadow-rose-700/30
+          active:scale-95 transition-all duration-200"
         >
           <FontAwesomeIcon icon={faPlus} className="w-3.5 h-3.5" />
           New Post
@@ -100,7 +111,7 @@ export const Blogs = function () {
       </div>
 
       {/* ── Divider ── */}
-      <div className="border-t border-gray-100 mb-8" />
+      <div className="border-t border-gray-100/80 mb-10" />
 
       {/* ── Loading ── */}
       {isLoading && (
@@ -127,24 +138,28 @@ export const Blogs = function () {
           {blogs.map((blog) => (
             <div
               key={blog.id}
-              className="group bg-white border border-gray-100 rounded-2xl overflow-hidden hover:border-gray-200 hover:shadow-md transition-all duration-200"
+              className="group bg-white border border-gray-100 rounded-2xl overflow-hidden
+              shadow-sm shadow-gray-200/60
+              hover:shadow-lg hover:shadow-gray-200/70
+              hover:-translate-y-[2px]
+              transition-all duration-300"
             >
               {/* Image */}
-              <div className="relative overflow-hidden h-48">
+              <div className="relative overflow-hidden h-48 rounded-t-2xl">
                 <img
                   src={blog.signed_url ? blog.signed_url : propertyImg}
                   alt={blog.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/10 to-transparent opacity-80" />
               </div>
 
               {/* Body */}
-              <div className="p-5">
-                <h5 className="text-sm font-semibold text-gray-900 mb-1.5 line-clamp-1">
+              <div className="p-5 space-y-2">
+                <h5 className="text-sm font-semibold text-gray-900 leading-snug line-clamp-1">
                   {blog.title}
                 </h5>
-                <p className="text-xs text-gray-400 leading-relaxed line-clamp-3">
+                <p className="text-xs text-gray-500 leading-relaxed line-clamp-3">
                   {blog.content}
                 </p>
               </div>
@@ -153,15 +168,19 @@ export const Blogs = function () {
               <div className="px-5 pb-5 flex gap-2">
                 <button
                   onClick={() => openUpdateModal(blog)}
-                  className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-medium rounded-lg border border-gray-100 text-gray-500 hover:border-emerald-200 hover:bg-emerald-50 hover:text-emerald-700 transition-all duration-150"
-                >
+                  className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-medium rounded-lg
+                  border border-gray-200 text-gray-500
+                  hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700
+                  hover:shadow-sm transition-all duration-200"                >
                   <FontAwesomeIcon icon={faEdit} className="w-3 h-3" />
                   Edit
                 </button>
                 <button
                   onClick={() => handleDelete(blog.id)}
-                  className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-medium rounded-lg border border-gray-100 text-gray-500 hover:border-red-200 hover:bg-red-50 hover:text-red-600 transition-all duration-150"
-                >
+                  className="flex-1 flex items-center justify-center gap-2 py-2 text-xs font-medium rounded-lg
+                  border border-gray-200 text-gray-500
+                  hover:border-red-300 hover:bg-red-50 hover:text-red-600
+                  hover:shadow-sm transition-all duration-200"                >
                   <FontAwesomeIcon icon={faTrash} className="w-3 h-3" />
                   Delete
                 </button>
