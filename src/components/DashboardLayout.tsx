@@ -11,7 +11,7 @@ export const DashboardLayout = () => {
       </div>
 
       {/* Main content */}
-      <main className="flex-1 bg-gray-50 p-6">
+      <main className="flex-1 bg-gray-50 p-1">
         <Outlet />
       </main>
     </div>
