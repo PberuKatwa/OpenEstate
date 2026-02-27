@@ -10,7 +10,7 @@ import {
 import ardhiLogo from "../../assets/ardhitech_logo.png";
 
 const navItems = [
-  { path: "/dashboard", label: "Home", icon: faHouse, end: true },
+  // { path: "/dashboard", label: "Home", icon: faHouse, end: true },
   { path: "/dashboard/blogs", label: "Blogs", icon: faNewspaper, end: false },
   { path: "/dashboard/properties", label: "Properties", icon: faBuilding, end: false },
   { path: "/dashboard/profile", label: "Profile", icon: faUser, end: false },
