@@ -76,8 +76,7 @@ export const UpdateBlogModal = function (props: UpdateBlogModalProps) {
       setLoading(true);
 
       const response = await blogsService.updateBlog(data);
-
-      if (!response.data) throw new Error(`THe blog was updated`)
+      if (!response.message) throw new Error(`The blog was not updated`);
       toast.success(response.message)
       setData(initialPayload);
       onSuccess();

@@ -17,15 +17,7 @@ export const blogsService = {
 
   async createBlog(payload:BlogPayload):Promise<SingleBlogApiResponse> {
     try {
-      const response = await authorizedApiClient.post(
-        `/blogs`,
-        {
-          title: payload.title,
-          fileId: payload.fileId,
-          content: payload.content
-        }
-      );
-
+      const response = await authorizedApiClient.post(`/blogs`, payload);
       const blogRes: SingleBlogApiResponse = response.data;
       return blogRes;
 
@@ -49,8 +41,7 @@ export const blogsService = {
   async updateBlog(payload:UpdateBlogPayload):Promise<SingleBlogApiResponse> {
     try {
 
-      const { id, title, content } = payload;
-      const response = await authorizedApiClient.post("/blogs/update", { id, title, content })
+      const response = await authorizedApiClient.post("/blogs/update", payload)
       const blogRes: SingleBlogApiResponse = response.data;
       return blogRes;
 
