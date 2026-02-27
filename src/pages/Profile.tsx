@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 const mockUser: UserProfile = {
   id: 1,
-  first_name: "John",
+  first_name: "Johhn",
   last_name: "Doe",
   file_id: 0,
   file_url: "",
