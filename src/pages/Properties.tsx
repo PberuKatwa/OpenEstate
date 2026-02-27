@@ -76,147 +76,183 @@ export const Properties = function () {
   )
 
   return (
-    <div className="flex flex-col min-h-screen p-8 bg-gray-50">
-      {/* ACTION BUTTONS */}
-      <div className="mb-6">
+    <div className="min-h-screen bg-white px-8 py-8 font-[Poppins]">
+
+      {/* ── Page Header ── */}
+      <div className="flex items-center justify-between mb-10">
+        <div>
+          <div className="flex items-center gap-2 mb-2">
+            <div className="w-7 h-7 rounded-lg bg-rose-50 flex items-center justify-center">
+              <FontAwesomeIcon icon={faPlus} className="w-3.5 h-3.5 text-rose-700" />
+            </div>
+            <span className="text-[10px] font-semibold text-rose-700 uppercase tracking-[0.2em]">
+              Listings
+            </span>
+          </div>
+          <h1 className="text-2xl font-semibold text-gray-900 tracking-tight">Properties</h1>
+          <p className="text-sm text-gray-400 mt-1">Manage your property listings</p>
+        </div>
+
         <button
           type="button"
           onClick={() => setIsCreateOpen(true)}
-          className="inline-flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full hover:bg-gray-800 transition-all text-sm font-medium shadow-sm"
+          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white
+            bg-rose-700 shadow-sm shadow-rose-700/20
+            hover:bg-rose-800 hover:shadow-md hover:shadow-rose-700/30
+            active:scale-95 transition-all duration-200"
         >
-          <FontAwesomeIcon icon={faPlus} />
-          Create Property
+          <FontAwesomeIcon icon={faPlus} className="w-3.5 h-3.5" />
+          New Property
         </button>
       </div>
 
-      {/* PROPERTIES GRID */}
-      {loading ? (
-        <p className="text-gray-400">Loading properties...</p>
-      ) : (
+      <div className="border-t border-gray-100 mb-10" />
+
+      {/* ── Loading ── */}
+      {loading && (
+        <div className="flex items-center gap-3 py-16 justify-center">
+          <div className="w-5 h-5 border-2 border-gray-200 border-t-rose-700 rounded-full animate-spin" />
+          <span className="text-sm text-gray-400">Loading properties…</span>
+        </div>
+      )}
+
+      {/* ── Empty State ── */}
+      {!loading && properties.length === 0 && (
+        <div className="flex flex-col items-center justify-center py-24 text-center">
+          <div className="w-12 h-12 rounded-2xl bg-gray-50 border border-gray-200 flex items-center justify-center mb-4">
+            <FontAwesomeIcon icon={faPlus} className="w-5 h-5 text-gray-300" />
+          </div>
+          <p className="text-sm font-medium text-gray-400">No properties yet</p>
+          <p className="text-xs text-gray-300 mt-1">Create your first listing to get started</p>
+        </div>
+      )}
+
+      {/* ── Grid ── */}
+      {!loading && properties.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {properties.map((property) => (
             <div
               key={property.id}
-              className="bg-white border border-gray-100 rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition-all"
+              className="group flex flex-col bg-stone-50 border border-stone-200 rounded-2xl overflow-hidden
+                shadow-[0_2px_8px_rgba(0,0,0,0.06)]
+                hover:shadow-[0_8px_24px_rgba(0,0,0,0.10)]
+                hover:-translate-y-0.5
+                transition-all duration-300"
             >
-              <img
-                src={property.signedUrl
-                  ? `${property.signedUrl}`
-                  : propertyImg
-                }
-                alt={property.name}
-                className="w-full h-52 object-cover"
-              />
-              <div className="p-6">
-                <h5 className="mb-1 text-lg font-bold text-gray-900">
+              {/* Image */}
+              <div className="relative overflow-hidden h-48">
+                <img
+                  src={property.signedUrl ? property.signedUrl : propertyImg}
+                  alt={property.name}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+              </div>
+
+              {/* Body */}
+              <div className="flex-1 p-5 space-y-2 border-b border-stone-200">
+                <h5 className="text-sm font-semibold text-gray-900 leading-snug line-clamp-1">
                   {property.name}
                 </h5>
-                <p className="text-sm text-gray-500 mb-3">
+
+                <p className="text-xs text-gray-500">
                   {property.is_rental ? "Rental Property" : "For Sale"}
                 </p>
-                <p className="text-sm font-semibold text-gray-900 mb-4">
+
+                <p className="text-sm font-semibold text-gray-900">
                   KES {Number(property.price).toLocaleString()}
                 </p>
+              </div>
 
-                {/* ACTION BUTTONS */}
-                <div className="flex gap-2 pt-3 border-t border-gray-100">
+              {/* Actions */}
+              <div className="px-5 py-3.5 flex gap-2 bg-stone-50">
+                <button
+                  onClick={() => openUpdateModal(property)}
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg
+                    border border-stone-200 text-gray-500 bg-white
+                    hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-700
+                    transition-all duration-150"
+                >
+                  <FontAwesomeIcon icon={faEdit} className="w-3 h-3" />
+                  Edit
+                </button>
 
-                  {/*<button
-                    className="flex-1 px-3 py-2 text-blue-600 hover:bg-blue-90 rounded-lg transition-colors bg-white/90"
-                    aria-label="View property"
-                  >
-                    <FontAwesomeIcon icon={faEye} className="text-lg" />
-                  </button>*/}
-
-                  <button
-                    onClick={()=>openUpdateModal(property)}
-                    className="flex-1 px-3 py-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors bg-white/90"
-                    aria-label="Edit property"
-                  >
-                    <FontAwesomeIcon icon={faEdit} className="text-lg" />
-                  </button>
-                  <button
-                    onClick={()=> handleDelete(property.id)}
-                    className="flex-1 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors bg-white/90"
-                    aria-label="Delete property"
-                  >
-                    <FontAwesomeIcon icon={faTrash} className="text-lg" />
-                  </button>
-                </div>
+                <button
+                  onClick={() => handleDelete(property.id)}
+                  className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs font-medium rounded-lg
+                    border border-stone-200 text-gray-500 bg-white
+                    hover:border-red-300 hover:bg-red-50 hover:text-red-600
+                    transition-all duration-150"
+                >
+                  <FontAwesomeIcon icon={faTrash} className="w-3 h-3" />
+                  Delete
+                </button>
               </div>
             </div>
           ))}
         </div>
       )}
 
-
-      {!loading && properties.length === 0 && (
-        <p className="text-gray-400">No properties found.</p>
-      )}
-
-      {/* PAGINATION CONTROLS */}
+      {/* ── Pagination ── */}
       {!loading && properties.length > 0 && (
-        <div className="mt-8 flex items-center justify-between">
-          <div className="text-sm text-gray-600">
-            Page <span className="font-semibold">{currentPage}</span> of <span className="font-semibold">{totalPages}</span>
-          </div>
+        <div className="mt-10 pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
 
-          <div className="flex items-center gap-2">
+          <p className="text-xs text-gray-400">
+            Page <span className="font-semibold text-gray-600">{currentPage}</span> of <span className="font-semibold text-gray-600">{totalPages}</span>
+          </p>
+
+          <div className="flex items-center gap-1.5">
             <button
               onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
               disabled={currentPage === 1}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50
-              disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="px-3.5 py-2 text-xs font-medium text-gray-600 bg-white border border-gray-200 rounded-lg
+                hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
             >
               Previous
             </button>
 
-            <div className="flex items-center gap-1">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
-                <button
-                  key={page}
-                  onClick={() => setCurrentPage(page)}
-                  className={`w-10 h-10 text-sm font-medium rounded-lg transition-all ${
-                    currentPage === page
-                      ? "bg-black text-white"
-                      : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
-                  }`}
-                >
-                  {page}
-                </button>
-              ))}
-            </div>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                onClick={() => setCurrentPage(page)}
+                className={`w-9 h-9 text-xs font-medium rounded-lg transition-all ${
+                  currentPage === page
+                    ? "bg-rose-700 text-white border border-transparent shadow-sm shadow-rose-700/30"
+                    : "bg-white text-gray-500 border border-gray-200 hover:bg-gray-50"
+                }`}
+              >
+                {page}
+              </button>
+            ))}
 
             <button
               onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
               disabled={currentPage === totalPages}
-              className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg
-              hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+              className="px-3.5 py-2 text-xs font-medium text-gray-600 bg-white border border-gray-200 rounded-lg
+                hover:bg-gray-50 disabled:opacity-40 disabled:cursor-not-allowed transition-all"
             >
               Next
             </button>
           </div>
 
-          <div className="text-sm text-gray-600">
-            <select
-              value={limit}
-              onChange={(e) => {
-                setLimit(Number(e.target.value));
-                setCurrentPage(1);
-              }}
-              className="px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 text-sm font-medium hover:bg-gray-50 cursor-pointer"
-            >
-              <option value={5}>5 per page</option>
-              <option value={10}>10 per page</option>
-              <option value={20}>20 per page</option>
-              <option value={50}>50 per page</option>
-            </select>
-          </div>
-
+          <select
+            value={limit}
+            onChange={(e) => {
+              setLimit(Number(e.target.value));
+              setCurrentPage(1);
+            }}
+            className="px-3 py-2 text-xs font-medium text-gray-600 bg-white border border-gray-200 rounded-lg
+              hover:bg-gray-50 cursor-pointer outline-none"
+          >
+            <option value={5}>5 per page</option>
+            <option value={10}>10 per page</option>
+            <option value={20}>20 per page</option>
+            <option value={50}>50 per page</option>
+          </select>
         </div>
       )}
 
-      {/* MODALS */}
+      {/* ── Modals ── */}
       <CreatePropertyModal
         isOpen={isCreateOpen}
         onClose={() => setIsCreateOpen(false)}
