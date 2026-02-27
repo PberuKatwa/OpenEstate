@@ -20,11 +20,13 @@ interface CreateBlogModalProps {
 
 export const CreateBlogModal = function (props: CreateBlogModalProps) {
 
+  const { isOpen, onClose, onSuccess } = props;
+
+  if (!isOpen) return null;
+
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<BlogPayload>(initialPayload)
   const [imageUploaded, setImageUploaded] = useState(false);
-
-  const { isOpen, onClose, onSuccess } = props;
 
   const handleImageUpload = async function (event:React.ChangeEvent<HTMLInputElement>) {
     try {
@@ -58,7 +60,7 @@ export const CreateBlogModal = function (props: CreateBlogModalProps) {
 
       const response = await blogsService.createBlog(data);
 
-      if (response.data) throw new Error(`No blog was created`)
+      if (!response.data) throw new Error(`No blog was created`)
       toast.success(response.message)
       setData(initialPayload);
       onSuccess();
@@ -98,7 +100,7 @@ export const CreateBlogModal = function (props: CreateBlogModalProps) {
     // Overlay — z-[300] per z-index stack §12
     <div className="fixed inset-0 z-[300] flex items-center justify-center bg-black/30 p-4 sm:p-6 transition-opacity duration-200">
       {/* Modal panel — z-[310] */}
-      <div className="relative z-[310] w-full max-w-[500px] max-h-[92vh] flex flex-col bg-white rounded-xl shadow-xl overflow-hidden">
+      <div className="relative z-[310] w-full max-w-[60vw] max-h-[92vh] flex flex-col bg-white rounded-xl shadow-xl overflow-hidden">
 
         {/* ── HEADER ── */}
         <div className="flex items-center justify-between px-6 py-3 border-b border-gray-200 shrink-0">
@@ -134,7 +136,7 @@ export const CreateBlogModal = function (props: CreateBlogModalProps) {
         >
           {/* IMAGE UPLOAD */}
           <div className="flex flex-col gap-1.5">
-            <span className={labelClass}>Property Image</span>
+            <span className={labelClass}>Blog Image</span>
             <label
               htmlFor="create-file-upload"
               className={[
@@ -161,7 +163,7 @@ export const CreateBlogModal = function (props: CreateBlogModalProps) {
                     <FontAwesomeIcon icon={faUpload} className="text-gray-500 text-sm" />
                   </div>
                   <div>
-                    <span className="block text-sm font-medium text-gray-700">Upload property image</span>
+                    <span className="block text-sm font-medium text-gray-700">Upload Blog image</span>
                     <span className="text-xs text-gray-400">JPG, PNG, WEBP</span>
                   </div>
                 </>
@@ -196,10 +198,10 @@ export const CreateBlogModal = function (props: CreateBlogModalProps) {
 
           {/* DESCRIPTION */}
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="create-description" className={labelClass}>Description</label>
+            <label htmlFor="create-description" className={labelClass}>Blog Content</label>
             <textarea
               id="create-description"
-              rows={4}
+              rows={15}
               name="content"
               value={data.content}
               onChange={handleChange}

@@ -47,7 +47,7 @@ export const Blogs = function () {
       setIsLoading(true);
 
       const response: SingleBlogApiResponse = await blogsService.trashProperty(id);
-      if (!response.data) throw new Error(`No blog response data`);
+      if (!response.message) throw new Error(`No blog response data`);
       toast.success(response.message);
       getAllBlogs(currentPage, limit);
 
