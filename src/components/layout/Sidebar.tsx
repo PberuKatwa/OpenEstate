@@ -26,7 +26,11 @@ export const Sidebar = () => {
 
   return (
     <aside
-      className="h-screen flex flex-col flex-shrink-0 bg-gradient-to-b from-stone-900 via-red-950 to-stone-950"
+      className="h-screen flex flex-col flex-shrink-0
+      bg-gradient-to-b
+      from-slate-950
+      via-slate-900
+      to-blue-950"
       style={{ width: 220, fontFamily: "'Poppins', sans-serif" }}
     >
       {/* Logo */}
