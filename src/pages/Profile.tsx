@@ -1,22 +1,23 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faEnvelope, faEdit, faCamera, faIdCard } from "@fortawesome/free-solid-svg-icons";
-import type { User } from "../../../types/auth.types";
-import { useAuth } from "../../../context/AuthContext";
+import type { UserProfile } from "../types/auth.types";
+import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 
-const mockUser: User = {
+const mockUser: UserProfile = {
   id: 1,
   first_name: "John",
   last_name: "Doe",
-  email: "john.doe@example.com",
-  image_url: "https://via.placeholder.com/150",
+  file_id: 0,
+  file_url: "",
+  signed_url:""
 }
 
 export const Profile = function () {
   const { user } = useAuth();
   console.log("userrr", user)
-  const [userData, setUserData] = useState<User>(user ? user : mockUser);
+  const [userData, setUserData] = useState<UserProfile>(user ? user : mockUser);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
@@ -73,9 +74,9 @@ export const Profile = function () {
                 <div className="flex flex-col sm:flex-row sm:items-end gap-6">
                   {/* Avatar with Upload Button */}
                   <div className="relative group">
-                    {userData.image_url || userData.signedUrl ? (
+                    { userData.signed_url ? (
                       <img
-                        src={userData.signedUrl || userData.image_url}
+                        src={userData.signed_url}
                         alt={`${userData.first_name} ${userData.last_name}`}
                         className="w-32 h-32 sm:w-36 sm:h-36 rounded-2xl border-4 border-white object-cover shadow-2xl"
                       />
@@ -98,10 +99,6 @@ export const Profile = function () {
                     <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-1">
                       {userData.first_name} {userData.last_name}
                     </h2>
-                    <p className="text-slate-600 flex items-center gap-2">
-                      <FontAwesomeIcon icon={faEnvelope} className="text-sm" />
-                      {userData.email}
-                    </p>
                   </div>
                 </div>
 

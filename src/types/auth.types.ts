@@ -44,7 +44,7 @@ export interface ProfileApiResponse extends ApiResponse<UserProfile> { };
 export type LoginUser = (email: string, password: string) => Promise<UserApiResponse>;
 
 export interface AuthContextType {
-  user: BaseUser | null;
+  user: UserProfile | null;
   token: string | null;
   isAuthenticated: boolean;
   isLoading: boolean;
