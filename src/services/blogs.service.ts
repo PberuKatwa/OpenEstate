@@ -1,4 +1,4 @@
-import type { AllBlogsApiResponse, BlogPayload, SingleBlogApiResponse } from "../types/blog.types";
+import type { AllBlogsApiResponse, BlogPayload, SingleBlogApiResponse, UpdateBlogPayload } from "../types/blog.types";
 import { authorizedApiClient } from "./api.client";
 
 export const blogsService = {
@@ -46,7 +46,7 @@ export const blogsService = {
     }
   },
 
-  async updateBlog(payload:BlogPayload):Promise<SingleBlogApiResponse> {
+  async updateBlog(payload:UpdateBlogPayload):Promise<SingleBlogApiResponse> {
     try {
 
       const { id, title, content } = payload;
