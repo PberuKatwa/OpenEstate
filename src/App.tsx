@@ -1,9 +1,9 @@
 // App.tsx
 import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { SignupForm } from './features/auth/components/SignUpForm';
-import { LoginForm } from './features/auth/components/LoginForm';
+import { LoginForm } from './pages/LoginForm';
 import { ProductsModule } from './features/Dashboard/components/ProductsModule';
-import { DashboardLayout } from "./components/DashboardLayout";
+import { DashboardLayout } from "./components/layout/DashboardLayout";
 import { Blogs } from "./features/Dashboard/pages/Blogs";
 import { Home } from "./features/Dashboard/pages/Home";
 import { Properties } from "./features/Dashboard/pages/Properties";
