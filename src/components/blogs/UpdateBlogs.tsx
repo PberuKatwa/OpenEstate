@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck, faCircleNotch, faFilePen, faUpload, faXmark } from "@fortawesome/free-solid-svg-icons"; import type { BlogPayload } from "../../types/blog.types";
+import { faCircleCheck, faCircleNotch, faFilePen, faUpload, faXmark } from "@fortawesome/free-solid-svg-icons"; import type { BlogPayload, FullBlog, UpdateBlogPayload } from "../../types/blog.types";
 import { toast } from "react-toastify";
 import { fileService } from "../../services/file.service";
 import { blogsService } from "../../services/blogs.service";
 
 
-const initialPayload: BlogPayload = {
+const initialPayload: UpdateBlogPayload = {
+  id:0,
   title: "",
   content: "",
   fileId:0
@@ -14,19 +15,34 @@ const initialPayload: BlogPayload = {
 
 interface CreateBlogModalProps {
   isOpen: boolean,
+  blog:FullBlog,
   onClose: () => void,
   onSuccess:() => void
 }
 
 export const CreateBlogModal = function (props: CreateBlogModalProps) {
 
-  const { isOpen, onClose, onSuccess } = props;
+  const { isOpen, blog, onClose, onSuccess } = props;
 
   if (!isOpen) return null;
 
   const [loading, setLoading] = useState(false);
-  const [data, setData] = useState<BlogPayload>(initialPayload)
+  const [data, setData] = useState<UpdateBlogPayload>(initialPayload)
   const [imageUploaded, setImageUploaded] = useState(false);
+
+  useEffect(
+    () => {
+      if (blog) {
+        setData({
+          id: blog.id,
+          fileId: blog.file_id || 0,
+          title: blog.title,
+          content:blog.content
+        })
+      }
+      setImageUploaded(false);
+    },[blog]
+  )
 
   const handleImageUpload = async function (event:React.ChangeEvent<HTMLInputElement>) {
     try {
