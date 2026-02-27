@@ -14,7 +14,7 @@ export const Blogs = function () {
   const [limit, setLimit] = useState<number>(5);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [blogs, setBlogs] = useState<FullBlog[] | []>([]);
-  const [openCreate, setOpenCreate] = useState(false);
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
 
   const getAllBlogs = async function (page: number, limit: number) {
     try {
@@ -73,7 +73,7 @@ export const Blogs = function () {
       <div className="mb-6">
         <button
           type="button"
-          onClick={()=>setOpenCreate(true)}
+          onClick={()=>setIsCreateOpen(true)}
           className="inline-flex items-center gap-2 bg-black text-white px-5 py-2.5 rounded-full hover:bg-gray-800 transition-all text-sm font-medium shadow-sm"
         >
           <FontAwesomeIcon icon={faPlus} />
@@ -203,6 +203,13 @@ export const Blogs = function () {
 
         </div>
       )}
+
+      {/* MODALS */}
+      <CreateBlogModal
+        isOpen={isCreateOpen}
+        onClose={() => setIsCreateOpen(false)}
+        onSuccess={()=>getAllBlogs(currentPage,limit)}
+      />
 
     </div>
   )
