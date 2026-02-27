@@ -69,21 +69,21 @@ export const CreateBlogModal = function (props: CreateBlogModalProps) {
     }
   }
 
-  const createBlog = async function () {
+  const updateBlog = async function () {
     try {
 
       setLoading(true);
 
-      const response = await blogsService.createBlog(data);
+      const response = await blogsService.updateBlog(data);
 
-      if (!response.data) throw new Error(`No blog was created`)
+      if (!response.data) throw new Error(`THe blog was updated`)
       toast.success(response.message)
       setData(initialPayload);
       onSuccess();
       onClose();
 
     } catch (error) {
-      console.error(`Error in creating blog`, error)
+      console.error(`Error in updating blog`, error)
       toast.error(`${error}`)
     } finally {
       setLoading(false)
@@ -98,7 +98,7 @@ export const CreateBlogModal = function (props: CreateBlogModalProps) {
 
   const handleSubmit = async function (event:React.FormEvent) {
     event.preventDefault();
-    await createBlog();
+    await updateBlog();
   }
 
   const handleClose = () => {
