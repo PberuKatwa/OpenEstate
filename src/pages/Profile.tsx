@@ -164,7 +164,7 @@ export const Profile = function () {
                       </div>
                       <input
                         type="email"
-                        value={userData.email}
+                        value={userData.first_name}
                         readOnly
                         className="w-full pl-12 pr-4 py-3 border border-slate-300 rounded-lg bg-slate-50 text-slate-900 font-medium cursor-not-allowed focus:outline-none"
                       />
