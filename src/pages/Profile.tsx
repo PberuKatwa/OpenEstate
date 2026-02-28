@@ -16,10 +16,25 @@ const mockUser: UserProfile = {
 }
 
 export const Profile = async function () {
+  const [userData, setUserData] = useState<UserProfile>(mockUser);
+  const [loading, setLoading] = useState(false);
+
+  const fetchProfile = async function () {
+    try {
+      setLoading(true)
+      const response = await authService.profile();
+      if(!response.data) throw new Error()
+
+    } catch (error) {
+      console.error(`Error in fethcing profile`, error)
+      toast.error(`Error infetching profile`)
+    } finally {
+      setLoading(false)
+    }
+  }
   const response = await authService.profile()
   const user = response.data;
   console.log("userrr", user)
-  const [userData, setUserData] = useState<UserProfile>(user ? user : mockUser);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
