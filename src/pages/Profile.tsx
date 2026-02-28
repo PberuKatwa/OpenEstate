@@ -54,39 +54,6 @@ export const Profile = function () {
           </p>
         </div>
 
-        {/* ── Account Stats ── */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
-
-          <div className="bg-white border border-gray-200 rounded-2xl p-6
-            shadow-[0_2px_6px_rgba(0,0,0,0.05)]">
-
-            <p className="text-xs text-gray-400 mb-1">Account Status</p>
-            <p className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-              Active
-            </p>
-          </div>
-
-          <div className="bg-white border border-gray-200 rounded-2xl p-6
-            shadow-[0_2px_6px_rgba(0,0,0,0.05)]">
-
-            <p className="text-xs text-gray-400 mb-1">Member Since</p>
-            <p className="text-lg font-semibold text-gray-900">
-              2024
-            </p>
-          </div>
-
-          <div className="bg-white border border-gray-200 rounded-2xl p-6
-            shadow-[0_2px_6px_rgba(0,0,0,0.05)]">
-
-            <p className="text-xs text-gray-400 mb-1">Profile Complete</p>
-            <p className="text-lg font-semibold text-gray-900">
-              85%
-            </p>
-          </div>
-
-        </div>
-
         {/* ── Profile Card ── */}
         <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden
           shadow-[0_6px_20px_rgba(0,0,0,0.06)]">
