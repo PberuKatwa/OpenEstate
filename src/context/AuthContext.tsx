@@ -65,6 +65,7 @@ export const AuthProvider = function ({ children }: { children: ReactNode }) {
     try {
 
       const response = await authService.profile();
+      console.log("response", response)
       if (!response.data) throw new Error(`No user data was found`);
       const user = response.data;
       setUser(user);

@@ -4,6 +4,7 @@ import type { UserProfile } from "../types/auth.types";
 import { useAuth } from "../context/AuthContext";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
+import { authService } from "../services/auth.service";
 
 const mockUser: UserProfile = {
   id: 1,
@@ -14,8 +15,9 @@ const mockUser: UserProfile = {
   signed_url:""
 }
 
-export const Profile = function () {
-  const { user } = useAuth();
+export const Profile = async function () {
+  const response = await authService.profile()
+  const user = response.data;
   console.log("userrr", user)
   const [userData, setUserData] = useState<UserProfile>(user ? user : mockUser);
 
