@@ -15,7 +15,7 @@ const mockUser: UserProfile = {
   signed_url:""
 }
 
-export const Profile = async function () {
+export const Profile = function () {
   const [userData, setUserData] = useState<UserProfile>(mockUser);
   const [loading, setLoading] = useState(false);
 
@@ -23,7 +23,9 @@ export const Profile = async function () {
     try {
       setLoading(true)
       const response = await authService.profile();
-      if(!response.data) throw new Error()
+      if (!response.data) throw new Error(`No profile was fetched`);
+      toast.success(response.message)
+      setUserData(response.data);
 
     } catch (error) {
       console.error(`Error in fethcing profile`, error)
@@ -32,9 +34,10 @@ export const Profile = async function () {
       setLoading(false)
     }
   }
-  const response = await authService.profile()
-  const user = response.data;
-  console.log("userrr", user)
+
+  useEffect(
+    () => { fetchProfile() }, []
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
@@ -164,24 +167,6 @@ export const Profile = async function () {
                       <input
                         type="text"
                         value={userData.last_name}
-                        readOnly
-                        className="w-full pl-12 pr-4 py-3 border border-slate-300 rounded-lg bg-slate-50 text-slate-900 font-medium cursor-not-allowed focus:outline-none"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Email - Full Width */}
-                  <div className="md:col-span-2 group">
-                    <label className="block text-sm font-medium text-slate-700 mb-2">
-                      Email Address
-                    </label>
-                    <div className="relative">
-                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                        <FontAwesomeIcon icon={faEnvelope} className="text-slate-400" />
-                      </div>
-                      <input
-                        type="email"
-                        value={userData.first_name}
                         readOnly
                         className="w-full pl-12 pr-4 py-3 border border-slate-300 rounded-lg bg-slate-50 text-slate-900 font-medium cursor-not-allowed focus:outline-none"
                       />
