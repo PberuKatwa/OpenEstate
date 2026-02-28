@@ -12,7 +12,8 @@ const mockUser: UserProfile = {
   last_name: "Doe",
   file_id: 0,
   file_url: "",
-  signed_url:""
+  signed_url: "",
+  email:""
 }
 
 export const Profile = function () {
@@ -167,6 +168,24 @@ export const Profile = function () {
                       <input
                         type="text"
                         value={userData.last_name}
+                        readOnly
+                        className="w-full pl-12 pr-4 py-3 border border-slate-300 rounded-lg bg-slate-50 text-slate-900 font-medium cursor-not-allowed focus:outline-none"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Email - Full Width */}
+                  <div className="md:col-span-2 group">
+                    <label className="block text-sm font-medium text-slate-700 mb-2">
+                      Email Address
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <FontAwesomeIcon icon={faEnvelope} className="text-slate-400" />
+                      </div>
+                      <input
+                        type="email"
+                        value={userData.email}
                         readOnly
                         className="w-full pl-12 pr-4 py-3 border border-slate-300 rounded-lg bg-slate-50 text-slate-900 font-medium cursor-not-allowed focus:outline-none"
                       />
