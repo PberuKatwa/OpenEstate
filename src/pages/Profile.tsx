@@ -95,14 +95,14 @@ export const Profile = function () {
               </div>
 
               {/* Edit Button */}
-              <button className="px-5 py-2.5 rounded-xl text-sm font-semibold text-white
+              {/*<button className="px-5 py-2.5 rounded-xl text-sm font-semibold text-white
                 bg-[#C0182A] shadow-sm shadow-[#C0182A]/20
                 hover:bg-[#8C1020] hover:shadow-md hover:shadow-[#C0182A]/30
                 active:scale-95 transition-all duration-200 flex items-center gap-2">
 
                 <FontAwesomeIcon icon={faEdit} className="w-3.5 h-3.5" />
                 Edit Profile
-              </button>
+              </button>*/}
 
             </div>
 
@@ -184,7 +184,7 @@ export const Profile = function () {
             </div>
 
             {/* Actions */}
-            <div className="mt-8 pt-6 border-t border-gray-200 flex flex-col sm:flex-row gap-4">
+            {/*<div className="mt-8 pt-6 border-t border-gray-200 flex flex-col sm:flex-row gap-4">
 
               <button className="flex-1 px-5 py-2.5 rounded-xl text-sm font-medium
                 border border-gray-200 text-gray-600
@@ -198,7 +198,7 @@ export const Profile = function () {
                 Delete Account
               </button>
 
-            </div>
+            </div>*/}
 
           </div>
         </div>
