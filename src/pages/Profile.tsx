@@ -29,7 +29,7 @@ export const Profile = function () {
       setUserData(response.data);
 
     } catch (error) {
-      console.error(`Error in fetcing profile`, error)
+      console.error(`Error in fetching profile`, error)
       toast.error(`Error infetching profile`)
     } finally {
       setLoading(false)
